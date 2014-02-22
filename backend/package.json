@@ -1,0 +1,12 @@
+{
+  "name": "node-scada-backend",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "socket.io": "~0.9.16",
+    "async": "~0.2.10",
+    "lodash": "~2.4.1",
+    "express": "~3.4.8"
+  },
+  "devDependencies": {}
+}

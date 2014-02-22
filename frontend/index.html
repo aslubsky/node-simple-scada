@@ -1,0 +1,19 @@
+<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+<script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+<script src="/socket.io.min.js"></script>
+<script>
+  var socket = io.connect('http://localhost:8085');
+  socket.on(function (d) {
+    console.log(d);
+  });
+  socket.on('onDataRead', function (data) {
+    //console.log(data);
+    $('#'+data.name).text(data.value);
+  });
+</script>
+<div id="gpio0"></div>
+<div id="gpio3"></div>
+<div id="gpio4"></div>
+<div id="gpio5"></div>
+<div id="gpio6"></div>
+<div id="modbus"></div>
