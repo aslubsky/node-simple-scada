@@ -1,3 +1,5 @@
+var exec = require('child_process').exec;
+
 module.exports = GPIO;
 
 function GPIO(pin, time) {
@@ -13,9 +15,10 @@ function GPIO(pin, time) {
     this.read = function(cb) {
         var str = this.BIN_PATH +' read '+this.pin;
         var self = this;
-        // console.log(__dirname + str);
-        exec(__dirname + str, function(err, stdout, stderr) {
-            cb(err, self, stdout === '1');
+//        console.log(str);
+        exec(str, function(err, stdout, stderr) {
+//console.log(str, parseInt(stdout, 10) == 0);
+            cb(err, self, parseInt(stdout, 10) == 0);
         });
     }
 }

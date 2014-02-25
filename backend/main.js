@@ -15,7 +15,7 @@ dataSourcesList.push(new GPIO(3, 1000));
 dataSourcesList.push(new GPIO(4, 1000));
 dataSourcesList.push(new GPIO(5, 1000));
 dataSourcesList.push(new GPIO(6, 1000));
-dataSourcesList.push(new ModBus(null, 1000));
+//dataSourcesList.push(new ModBus(null, 1000));
 
 
 var DataSources = {
