@@ -1,0 +1,1 @@
+gcc ./modbus-rtu-client.c -o ./modbus-rtu-client -I/usr/include/modbus  -L/usr/lib -lmodbus
