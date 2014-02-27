@@ -6,7 +6,10 @@
     "socket.io": "~0.9.16",
     "async": "~0.2.10",
     "lodash": "~2.4.1",
-    "express": "~3.4.8"
+    "express": "~3.4.8",
+    "moment": "~2.5.1",
+    "mysql": "~2.1.0",
+    "stdio": "~0.1.5"
   },
   "devDependencies": {}
 }
