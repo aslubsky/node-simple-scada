@@ -491,16 +491,16 @@ $(document).ready(function(){
                 mEl.removeClass('m-red');
                 mEl.removeClass('m-green');
                 if(data.value == true) {
-                    el.addClass('yn-y');
-                    mEl.addClass('m-green');
+                    mEl.addClass('m-red');
                     mEl.text('On');
                 } else {
-                    mEl.addClass('m-red');
+                    mEl.addClass('m-green');
+                    el.addClass('yn-y');
                     mEl.text('Off');
                 }
             break;
             case 'trm1':
-                var updateOpts = {'minVal':0, 'maxVal': 100, 'newVal': data.value};
+                var updateOpts = {'minVal':0, 'maxVal': 100, 'newVal': Math.round(data.value)};
                 gaugeUpdate('cf-gauge-1', updateOpts);
                 
                 if(window.sparkData.trm1.length > 20) {
