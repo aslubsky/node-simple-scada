@@ -29,6 +29,18 @@ int main(int argc, char *argv[])
     uint16_t tab_reg[32];
     int rc;
     int i;
+    int rn;
+    
+    if (argc > 1) {
+        if (strcmp(argv[1], "-r") == 0) {
+            rn = atoi(argv[2]);
+        }
+    } else {
+        printf("Usage:\n  %s -r %%d - Modbus client for TRM (in RTU mode). %%d - register number\n\n", argv[0]);
+        exit(1);
+    }
+    
+    // printf("R: %d\n\n", rn);
 
     mb = modbus_new_rtu("/dev/ttyUSB0", 115200, 'N', 8, 2);
     if (mb == NULL) {
@@ -49,7 +61,7 @@ int main(int argc, char *argv[])
     }
 
     /* Read 5 registers from the address 0 */
-    rc = modbus_read_registers(mb, 3, 1, tab_reg);
+    rc = modbus_read_registers(mb, rn, 1, tab_reg);
     
     if (rc == -1) {
         fprintf(stderr, "%s\n", modbus_strerror(errno));
@@ -57,7 +69,7 @@ int main(int argc, char *argv[])
     }
 
     for (i=0; i < rc; i++) {
-        //printf("reg[%d]=%d (0x%X)\n", i, tab_reg[i], tab_reg[i]);
+        // printf("reg[%d]=%d (0x%X)\n", i, tab_reg[i], tab_reg[i]);
         printf("%d\n", tab_reg[i]);
     }
 
