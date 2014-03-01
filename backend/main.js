@@ -10,7 +10,8 @@ var io = require('socket.io')
 var stdio = require('stdio')
     
 var opts = stdio.getopt({
-    'emulate': {args: 1, key: 'emulate', description: 'Emulate data source'}
+    'emulate': {args: 1, key: 'e', description: 'Emulate data source'},
+    'archive': {args: 1, key: 'a', mandatory: true, description: 'Archive all data in to DB'}
 });
     
 var MysqlArchive = require('./archives/mysql.js');
@@ -29,10 +30,12 @@ var DataSources = {
                 name: ds.getName(),
                 value: value
             });
-            if(ds.cfg.wrtite_ratio == undefined) {
-                archive.save(ds, value);
-            } else if(ds.canWrite() === true) {
-                archive.save(ds, ds.getAvgValue());
+            if(opts['archive'] && opts['archive'] == 1) {
+                if(ds.cfg.wrtite_ratio == undefined) {
+                    archive.save(ds, value);
+                } else if(ds.canWrite() === true) {
+                    archive.save(ds, ds.getAvgValue());
+                }
             }
         } else {
         }

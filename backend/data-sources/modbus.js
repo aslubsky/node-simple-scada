@@ -60,7 +60,7 @@ function ModBus(cfg) {
             return;
         }
 
-        var str = __dirname + this.BIN_PATH;
+        var str = __dirname + this.BIN_PATH +' -r '+this.cfg.register;
         var self = this;
         var val = 0;
         // console.log(str);
