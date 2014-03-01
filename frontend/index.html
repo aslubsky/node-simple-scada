@@ -1,19 +1,235 @@
-<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
-<script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
-<script src="/socket.io.min.js"></script>
-<script>
-  var socket = io.connect('http://localhost:8085');
-  socket.on(function (d) {
-    console.log(d);
-  });
-  socket.on('onDataRead', function (data) {
-    //console.log(data);
-    $('#'+data.name).text(data.value);
-  });
-</script>
-<div id="gpio0"></div>
-<div id="gpio3"></div>
-<div id="gpio4"></div>
-<div id="gpio5"></div>
-<div id="gpio6"></div>
-<div id="modbus"></div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <title>Controlfrog - Meaningful Metrics</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="/css/bootstrap.css" rel="stylesheet">
+    <link href="/css/controlfrog.css" rel="stylesheet" media="screen">   
+    <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    
+    
+    <script src="/socket.io.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.9.1.min.js"></script>    
+    <script src="/js/moment.js"></script>    
+    <script src="/js/easypiechart.js"></script>
+    <script src="/js/gauge.js"></script>    
+    <script src="/js/chart.js"></script>
+    <script src="/js/jquery.sparklines.js"></script>            
+    <script src="/js/bootstrap.js"></script>
+    <script src="/js/controlfrog-plugins.js"></script>
+    
+    <!--[if lt IE 9]>
+        <script src="/js/respond.min.js"></script>
+        <script src="/js/excanvas.min.js"></script>
+    <![endif]-->
+    
+    <script>
+        var themeColour = 'black';
+    </script>
+    <script src="/js/controlfrog.js"></script>
+</head>
+<body class="black">
+    <div class="cf-nav cf-nav-state-min">
+        <a href="" class="cf-nav-toggle">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </a>
+        
+        <ul>
+            <li class="current cf-nav-shortcut">
+                <a href="layout-1.html" class="current active">
+                    <span class="cf-nav-min">1</span>
+                    <span class="cf-nav-max">Layout 1</span>
+                </a>
+                <!--
+                <ul>
+                    <li><a href="">Sub menu</a></li>
+                    <li><a href="">Sub menu</a></li>
+                    <li><a href="">Sub menu</a></li>                                        
+                </ul>
+                -->
+            </li>
+            <li class="cf-nav-shortcut">
+                <a href="layout-2.html">
+                    <span class="cf-nav-min">2</span>
+                    <span class="cf-nav-max">Layout 2</span>
+                </a>
+            </li>
+            <li class="cf-nav-shortcut">
+                <a href="layout-3.html">
+                    <span class="cf-nav-min">3</span>
+                    <span class="cf-nav-max">Layout 3</span>
+                </a>
+            </li>
+            <li class="cf-nav-shortcut">
+                <a href="layout-4.html">
+                    <span class="cf-nav-min">4</span>
+                    <span class="cf-nav-max">Layout 4</span>
+                </a>
+            </li>
+            <li>
+                <a href="layout-4.html">
+                    <span class="cf-nav-min">&bull;</span>                
+                    <span class="cf-nav-max">Example with no shortcut</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    
+    <div class="cf-container cf-nav-active">
+        <div class="row">
+            <div class="col-sm-6 cf-item">
+                <div class="inner">
+                    <header>
+                        <p><span></span>Температура (вход)</p>
+                    </header>
+                    <div class="content cf-gauge" id="cf-gauge-1">
+                        <div class="val-current">
+                            <div class="metric" id="cf-gauge-1-m">0</div>
+                        </div>
+                        <div class="canvas">
+                            <canvas id="cf-gauge-1-g"></canvas>
+                        </div>
+                        <div class="val-min">
+                            <div class="metric-small">0</div>
+                        </div>
+                        <div class="val-max">
+                            <div class="metric-small">0</div>                        
+                        </div>
+                    </div>
+                </div> <!-- //end inner -->
+            </div> <!-- //end col -->
+            <div class="col-sm-6 cf-item">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="row">
+                            <div class="col-sm-6 cf-item">
+                                <header>
+                                    <p><span></span>Графики</p>
+                                </header>
+                                <div class="content">
+                                    <div class="cf-svmc-sparkline">
+                                        <div class="cf-sparkline clearfix">
+                                            <div class="sparkline-value">
+                                                Температура (вход) <div class="metric-small">0</div>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                            <div id="spark-1" class="sparkline"></div>
+                                        </div>
+                                    </div>
+                                    <div class="cf-svmc-sparkline">
+                                        <div class="cf-sparkline clearfix">
+                                            <div class="sparkline-value">
+                                                Температура (выход) <div class="metric-small">0</div>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                            <div id="spark-2" class="sparkline"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> <!-- //end cf-item -->
+                            <div class="col-sm-6 cf-item">
+                                <header>
+                                    <p><span></span>Вода</p>
+                                </header>
+                                <div class="content">
+                                    <div class="cf-ph">
+                                        <div class="row">
+                                            <div class="col-sm-3 color"></div>
+                                            <div class="col-sm-4 value"><p>pH</p></div>
+                                        </div>
+                                    </div>
+                                    <div class="cf-orp">
+                                        <div class="row">
+                                            <div class="col-sm-3 color"></div>
+                                            <div class="col-sm-4 value"><p>ORP</p></div>
+                                        </div>
+                                    </div>
+                                    <div class="cf-svmc-sparkline">
+                                        <div class="cf-sparkline clearfix">
+                                            <div class="sparkline-value">
+                                                pH <div class="metric-small">0</div>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                            <div id="spark-3" class="sparkline"></div>
+                                        </div>
+                                    </div>
+                                    <div class="cf-svmc-sparkline">
+                                        <div class="cf-sparkline clearfix">
+                                            <div class="sparkline-value">
+                                                ORP (RedOx) <div class="metric-small">0</div>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                            <div id="spark-4" class="sparkline"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> <!-- //end cf-item -->
+                        </div> <!-- //end row -->
+                    </div> <!-- //end col -->
+                </div> <!-- //end row -->
+            </div> <!-- //end col -->
+        </div> <!-- //end container -->
+        
+        
+        <div class="row">
+            <div class="col-sm-3 col-md-2 cf-item">
+                <header>
+                    <p><span></span>Реле 1</p>
+                </header>
+                <div class="content">
+                    <div id="relay1" class="cf-yn yn-y">
+                        <div class="metric m-green">Off</div>
+                    </div>
+                </div>
+            </div> <!-- //end cf-item -->
+            <div class="col-sm-3 col-md-2 cf-item">
+                <header>
+                    <p><span></span>Реле 2</p>
+                </header>
+                <div class="content">
+                   <div id="relay2" class="cf-yn yn-y">
+                        <div class="metric m-green">Off</div>
+                    </div>
+                </div>
+            </div> <!-- //end cf-item -->
+            <div class="col-sm-3 col-md-2 cf-item">
+                <header>
+                    <p><span></span>Реле 3</p>
+                </header>
+                <div class="content">
+                    <div id="relay3" class="cf-yn yn-y">
+                        <div class="metric m-green">Off</div>
+                    </div>
+                </div>
+            </div> <!-- //end cf-item -->
+            <div class="col-sm-3 col-md-2 cf-item">
+                <header>
+                    <p><span></span>Реле 4</p>
+                </header>
+                <div class="content">
+                    <div id="relay4" class="cf-yn yn-y">
+                        <div class="metric m-green">Off</div>
+                    </div>
+                </div>
+            </div> <!-- //end cf-item -->
+            <div class="col-sm-3 col-md-2 cf-item">
+                <header>
+                    <p><span></span>Реле 5</p>
+                </header>
+                <div class="content">
+                    <div id="relay5" class="cf-yn yn-y">
+                        <div class="metric m-green">Off</div>
+                    </div>
+                </div>
+            </div> <!-- //end cf-item -->
+        </div> <!-- //end row -->
+    </div> <!-- //end container -->
+
+
+</body>
+</html>
