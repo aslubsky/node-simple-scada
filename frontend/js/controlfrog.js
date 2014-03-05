@@ -33,7 +33,7 @@ var cf_rPs = [];
 var cf_rRags = [];
 var cf_rFunnels = [];
 
- var socket = io.connect('http://localhost:8085');
+ var socket = io.connect('http://192.168.1.2:8085');
 
 $(document).ready(function(){
 
