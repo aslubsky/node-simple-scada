@@ -3,18 +3,16 @@
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="utf-8">
-    <title>Controlfrog - Meaningful Metrics</title>
+    <title>Node SCADA</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link href="/css/bootstrap.css" rel="stylesheet">
     <link href="/css/controlfrog.css" rel="stylesheet" media="screen">   
-    <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-    
+    <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon" />   
     
     <script src="/socket.io.min.js"></script>
-    <script src="//code.jquery.com/jquery-1.9.1.min.js"></script>    
+    <script src="/js/jquery-1.9.1.min.js"></script>    
     <script src="/js/moment.js"></script>    
-    <script src="/js/easypiechart.js"></script>
     <script src="/js/gauge.js"></script>    
     <script src="/js/chart.js"></script>
     <script src="/js/jquery.sparklines.js"></script>            
@@ -41,40 +39,15 @@
         
         <ul>
             <li class="current cf-nav-shortcut">
-                <a href="layout-1.html" class="current active">
+                <a href="/" class="current active">
                     <span class="cf-nav-min">1</span>
-                    <span class="cf-nav-max">Layout 1</span>
+                    <span class="cf-nav-max">main</span>
                 </a>
-                <!--
-                <ul>
-                    <li><a href="">Sub menu</a></li>
-                    <li><a href="">Sub menu</a></li>
-                    <li><a href="">Sub menu</a></li>                                        
-                </ul>
-                -->
             </li>
             <li class="cf-nav-shortcut">
-                <a href="layout-2.html">
+                <a href="/archive.html">
                     <span class="cf-nav-min">2</span>
-                    <span class="cf-nav-max">Layout 2</span>
-                </a>
-            </li>
-            <li class="cf-nav-shortcut">
-                <a href="layout-3.html">
-                    <span class="cf-nav-min">3</span>
-                    <span class="cf-nav-max">Layout 3</span>
-                </a>
-            </li>
-            <li class="cf-nav-shortcut">
-                <a href="layout-4.html">
-                    <span class="cf-nav-min">4</span>
-                    <span class="cf-nav-max">Layout 4</span>
-                </a>
-            </li>
-            <li>
-                <a href="layout-4.html">
-                    <span class="cf-nav-min">&bull;</span>                
-                    <span class="cf-nav-max">Example with no shortcut</span>
+                    <span class="cf-nav-max">archive</span>
                 </a>
             </li>
         </ul>

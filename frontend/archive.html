@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <title>Node SCADA</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="/css/bootstrap.css" rel="stylesheet">
+    <link href="/css/controlfrog.css" rel="stylesheet" media="screen">   
+    <link href="/css/nv.d3.css" rel="stylesheet" media="screen">   
+    <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    
+    <script src="/js/d3.v3.min.js" charset="utf-8"></script>
+    
+    
+    <script src="/socket.io.min.js"></script>
+    <script src="/js/jquery-1.9.1.min.js"></script>    
+    <script src="/js/moment.js"></script>    
+    <script src="/js/bootstrap.js"></script>
+    <script src="/js/controlfrog-plugins.js"></script>
+    <script src="/js/nv.d3.js"></script>
+    
+    <!--[if lt IE 9]>
+        <script src="/js/respond.min.js"></script>
+        <script src="/js/excanvas.min.js"></script>
+    <![endif]-->
+    
+    <script>
+        var themeColour = 'black';
+        
+        // Colour settings
+        if(themeColour == 'white'){
+            var metric = '#a9a9a9';
+            var backColor = '#7d7d7d';
+            var pointerColor = '#898989';     
+            var pageBackgorund = '#fff';
+            var pieTrack = metric;
+            var pieBar = backColor;
+            var gaugeTrackColor = metric;
+            var gaugeBarColor = backColor;
+            var gaugePointerColor = '#ccc';
+            var pieSegColors = [metric,'#868686','#636363','#404040','#1d1d1d'];    
+        }
+        else {
+            //default to black
+            var backColor = '#4f4f4f';
+            var metric = '#f2f2f2';    
+            var pointerColor = '#898989'; 
+            var pageBackgorund = '#2b2b2b';    
+            var pieSegColors = [metric,'#c0c0c0','#8e8e8e','#5b5b5b','#292929'];
+            var pieTrack = backColor;
+            var pieBar = metric;
+            var gaugeTrackColor = '#4f4f4f';
+            var gaugeBarColor = '#898989';
+            var gaugePointerColor = metric;
+        }
+
+        $(document).ready(function(){
+            // Navigation 
+            $('.cf-nav-toggle').click(function(e){
+
+                if( $('.cf-nav').hasClass('cf-nav-state-min') ){
+                    $('.cf-nav').removeClass('cf-nav-state-min').addClass('cf-nav-state-max');
+                    $('.cf-container').addClass('cf-nav-state-max');
+                }
+                else{
+                    $('.cf-nav').removeClass('cf-nav-state-max').addClass('cf-nav-state-min');        
+                    $('.cf-container').removeClass('cf-nav-state-max');            
+                }
+                
+                e.preventDefault();
+            });
+        }); // end doc ready
+    </script>
+</head>
+<body class="black">
+    <div class="cf-nav cf-nav-state-min">
+        <a href="" class="cf-nav-toggle">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </a>
+        
+        <ul>
+            <li class="current cf-nav-shortcut">
+                <a href="/">
+                    <span class="cf-nav-min">1</span>
+                    <span class="cf-nav-max">main</span>
+                </a>
+            </li>
+            <li class="cf-nav-shortcut">
+                <a href="/archive.html" class="current active">
+                    <span class="cf-nav-min">2</span>
+                    <span class="cf-nav-max">archive</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    
+    <div class="cf-container cf-nav-active">
+        <div class="row">
+            <style>
+            #chart {
+                background-color: #FFF;
+            }
+            #chart svg {
+              height: 400px;
+            }
+            </style>
+
+            <div id="chart">
+              <svg></svg>
+            </div>
+        </div> <!-- //end row -->
+    </div> <!-- //end container -->
+    
+    
+    
+     <script>
+        $(document).ready(function(){
+            var socket = io.connect('http://192.168.1.2:8085');
+            
+            socket.on('onDataRead', function (data) {
+                //console.log(data);
+                //$('#'+data.name).text(data.value);
+                switch(data.name) {
+                    case 'trm1':
+                        if(window.sparkData.trm1.length > 20) {
+                            window.sparkData.trm1.shift();
+                        }
+                        window.sparkData.trm1.push(data.value);
+                        updateSparkline($('#spark-1'), window.sparkData.trm1, cf_defaultSparkOpts);
+                    break;
+                }
+            });
+    
+            function sinAndCos() {
+                var sin = [],sin2 = [],
+                cos = [];
+                 
+                //Data is represented as an array of {x,y} pairs.
+                for (var i = 0; i < 100; i++) {
+                    sin.push({x: i, y: Math.sin(i/10)});
+                    sin2.push({x: i, y: Math.sin(i/10) *0.25 + 0.5});
+                    cos.push({x: i, y: .5 * Math.cos(i/10)});
+                }
+                 
+                //Line chart data should be sent as an array of series objects.
+                return [
+                    {
+                        values: sin, //values - represents the array of {x,y} data points
+                        key: 'Sine Wave', //key - the name of the series.
+                        color: '#ff7f0e' //color - optional: choose your own line color.
+                    },
+                    {
+                        values: cos,
+                        key: 'Cosine Wave',
+                        color: '#2ca02c'
+                    },
+                    {
+                        values: sin2,
+                        key: 'Another sine wave',
+                        color: '#7777ff',
+                        area: true //area - set to true if you want this line to turn into a filled area chart.
+                    }
+                ];
+            }
+
+
+
+            nv.addGraph(function() {
+                var chart = nv.models.lineWithFocusChart();
+
+                chart.xAxis
+                    .tickFormat(d3.format(',f'));
+
+                chart.yAxis
+                    .tickFormat(d3.format(',.2f'));
+
+                chart.y2Axis
+                    .tickFormat(d3.format(',.2f'));
+
+                d3.select('#chart svg')
+                    .datum(sinAndCos())
+                    .transition().duration(500)
+                    .call(chart);
+
+                nv.utils.windowResize(chart.update);
+
+                return chart;
+            });
+        }); // end doc ready
+    </script>
+</body>
+</html>

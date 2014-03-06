@@ -11,7 +11,7 @@ function ModBus(cfg) {
     this.values = [];
     this.avgValue = 0;
 
-    this.BIN_PATH = '/modbus-rtu-client';
+    this.BIN_PATH = '/usr/local/bin/modbus-rtu-client';
 
     this.getName = function() {
         return this.cfg.name;

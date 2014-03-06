@@ -157,7 +157,7 @@ function createLineChart(obj){
 $(document).ready(function(){
     // Set up default options    
     window.cf_defaultSparkOpts = {};
-    cf_defaultSparkOpts.fillColor = false;
+    cf_defaultSparkOpts.fillColor = '#4A4A4A';
     cf_defaultSparkOpts.lineColor = metric;
     cf_defaultSparkOpts.lineWidth = 1.5;
     cf_defaultSparkOpts.minSpotColor = false;
@@ -172,6 +172,12 @@ $(document).ready(function(){
     window.sparkData.trm2 = [];
     createSparkline($('#spark-1'), window.sparkData.trm1, cf_defaultSparkOpts);
     createSparkline($('#spark-2'), window.sparkData.trm2, cf_defaultSparkOpts);
+    
+    $(window).resize(function(){
+        // console.log('resize');
+        createSparkline($('#spark-1'), window.sparkData.trm1, cf_defaultSparkOpts);
+        createSparkline($('#spark-2'), window.sparkData.trm2, cf_defaultSparkOpts);
+    });
 });
 
 function updateSparkline(obj, data, sparkOptions){
@@ -180,43 +186,37 @@ function updateSparkline(obj, data, sparkOptions){
     obj.sparkline(data, cf_defaultSparkOpts);
 }
 function createSparkline(obj, data, sparkOptions){
-    
-    $(window).resize(generateSparkline);
-    
-    function generateSparkline(){
-        var ww = $(window).width();
-        var $obj = obj;            
-        var $parent = $obj.parent().parent();
-    
-        // Current value
-        $('.sparkline-value .metric-small', $parent).html(data[data.length-1]);
-    
-        // Sizing
-        if(ww < 768){
-            var cWidth = $parent.width();
-            var slWidth = Math.floor(cWidth/3);
-        }
-        else{
-            var svWidth = $('.sparkline-value', $parent).width();
-            var cWidth = $parent.width();
-            var slWidth = cWidth - svWidth - 20;
-            var cHeight = $parent.parent().outerHeight() - 35;
-            var svmHeight = $('.cf-svmc', $parent).height();
-            var slHeight = cHeight - svmHeight;
-            //$('.sparkline-value', $parent).css({height:slHeight});
-        }    
-    
-        // Options
-        sparkOptions.width = slWidth;
-        sparkOptions.height = slHeight;        
-        sparkOptions.height = 100;        
-    
-        // Create sparkline
-        $obj.sparkline(data, sparkOptions);
+    var ww = $(window).width();
+    var $obj = obj;            
+    var $parent = $obj.parent().parent();
+
+    // Current value
+    $('.sparkline-value .metric-small', $parent).html(data[data.length-1]);
+
+    // Sizing
+    if(ww < 768){
+        var cWidth = $parent.width();
+        var slWidth = Math.floor(cWidth/3);
     }
-    
-    // Call once on page load
-    generateSparkline();
+    else{
+        // var svWidth = $('.sparkline-value', $parent).width();
+        var svWidth = 0;
+        var cWidth = $parent.width();
+        var slWidth = cWidth - svWidth - 20;
+        var cHeight = $parent.parent().outerHeight() - 35;
+        var svmHeight = $('.cf-svmc', $parent).height();
+        var slHeight = cHeight - svmHeight;
+        //$('.sparkline-value', $parent).css({height:slHeight});
+    }    
+
+// console.log(slWidth, $obj, $parent);
+    // Options
+    sparkOptions.width = slWidth;
+    // sparkOptions.height = slHeight;        
+    sparkOptions.height = 100;        
+
+    // Create sparkline
+    $obj.sparkline(data, sparkOptions);
 }
 
 
@@ -379,30 +379,6 @@ $(document).ready(function(){
     }, 1000);
     
 }); // end doc ready
-
-/*
-*
-* Funnel charts
-*
-*/
-$(document).ready(function(){
-    /*
-    *    Copy the each() function for each Funnel chart you have
-    *     e.g. $('#cf-funnel-1').each(function(){.....}
-    */                                
-
-    $('.cf-funnel').each(function(){
-    
-        // Dummy data for Funnel chart
-        funData = [3000,1500,500,250,10];
-        funLabels = ['Visits','Cart','Checkout','Purchase','Refund'];
-        funOptions = {barOpacity:true};
-        
-        cf_rFunnels[$(this).prop('id')] = new FunnelChart($(this).prop('id'), funData, funLabels, funOptions);
-    });
-    
-}); // end doc ready
-
 
 
 /*
