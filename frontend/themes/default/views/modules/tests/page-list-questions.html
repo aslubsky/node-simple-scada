@@ -1,0 +1,40 @@
+<breadcrumbs>
+    <crumb href="'/'" title="'Мой кабинет'|translate" />
+    <crumb href="'/study-resources'" title="'Учебные ресурсы'|translate" />
+    <crumb href="'/tests/'" title="'Тесты'|translate" />
+    <crumb title="test.title" />
+</breadcrumbs>
+
+<div class="padded">
+    <div class="page-header">
+        <div class="pull-right">
+            <a ng-href="/tests/{{url.test_id}}/questions/create" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> {{'Добавить вопрос'|translate}}</a>
+            <a ng-show="checkboxes.checkedAny"  bz-confirm="deleteChecked(checkboxes.items)" message="'Удалить?'" title="{{'Удалить'|translate}}" class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i> {{'Удалить'|translate}}</a>
+        </div>
+
+        <h1>{{test.title}}</h1>
+
+    </div>
+
+    <div class="main-content" bz-loading-container="loading">
+        <table ng-table="tableParams" show-filter="true" class="table ng-table-responsive table-striped table-condensed table-test-questions">
+            <tr ng-repeat="question in questions">
+
+                <td width="20" style="text-align: left;" header="'/themes/default/views/block/ng-table/headers/checkbox.html'">
+                    <input type="checkbox" ng-model="checkboxes.items[question.id]"/>
+                </td>
+                <td data-title="'Вопрос'|translate" filter="{ 'body': 'text' }">
+                    <a href="/tests/{{url.test_id}}/questions/edit/{{question.id}}" title="{{'Редактировать'|translate}}" ng-bind-html="getHtml(question.body)"></a>
+                </td>
+                <td data-title="'Тип'|translate" filter="{ 'type': 'select' }" filter-data="filterTypes($column)">
+                    <span ng-if="question.type == 'single'">{{'Одиночный'|translate}}</span>
+                    <span ng-if="question.type == 'multi'">{{'Множественный'|translate}}</span>
+                </td>
+                <td width="95" data-title="'Действия'|translate" class="actions" filter="{ 'clear': 'clear', 'templateURL': '/themes/default/views/block/ng-table/filters/clear.html' }">
+                    <a href="/tests/{{url.test_id}}/questions/edit/{{question.id}}" title="{{'Редактировать'|translate}}"><span class="fa fa-pencil"></span></a>
+                    <a href="" bz-confirm="remove(question)" message="'Удалить?'" title="{{'Удалить'|translate}}"><span class="fa fa-times text-danger"></span></a>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link href="/css/bootstrap.css" rel="stylesheet">
+    <link href="/css/datepicker.css" rel="stylesheet">
     <link href="/css/controlfrog.css" rel="stylesheet" media="screen">   
     <link href="/css/nv.d3.css" rel="stylesheet" media="screen">   
     <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon" />
@@ -14,10 +15,10 @@
     <script src="/js/d3.v3.min.js" charset="utf-8"></script>
     
     
-    <script src="/socket.io.min.js"></script>
     <script src="/js/jquery-1.9.1.min.js"></script>    
     <script src="/js/moment.js"></script>    
     <script src="/js/bootstrap.js"></script>
+    <script src="/js/bootstrap-datepicker.js"></script>
     <script src="/js/controlfrog-plugins.js"></script>
     <script src="/js/nv.d3.js"></script>
     
@@ -100,12 +101,33 @@
     
     <div class="cf-container cf-nav-active">
         <div class="row">
+            <div class="well">
+                <div class="alert alert-error" id="alert">
+                    <strong>Oh snap!</strong>
+                </div>
+                <table class="table">
+                <thead>
+                    <tr>
+                        <th>Start date<a href="#" class="btn small" id="dp4" data-date-format="yyyy-mm-dd">Change</a></th>
+                        <th>End date<a href="#" class="btn small" id="dp5" data-date-format="yyyy-mm-dd">Change</a></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td id="startDate"></td>
+                        <td id="endDate"></td>
+                    </tr>
+                </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
             <style>
             #chart {
                 background-color: #FFF;
             }
             #chart svg {
-              height: 400px;
+                height: 600px;
             }
             </style>
 
@@ -118,78 +140,129 @@
     
     
      <script>
-        $(document).ready(function(){
-            var socket = io.connect('http://192.168.1.2:8085');
-            
-            socket.on('onDataRead', function (data) {
-                //console.log(data);
-                //$('#'+data.name).text(data.value);
-                switch(data.name) {
-                    case 'trm1':
-                        if(window.sparkData.trm1.length > 20) {
-                            window.sparkData.trm1.shift();
-                        }
-                        window.sparkData.trm1.push(data.value);
-                        updateSparkline($('#spark-1'), window.sparkData.trm1, cf_defaultSparkOpts);
-                    break;
-                }
-            });
-    
-            function sinAndCos() {
-                var sin = [],sin2 = [],
-                cos = [];
-                 
-                //Data is represented as an array of {x,y} pairs.
-                for (var i = 0; i < 100; i++) {
-                    sin.push({x: i, y: Math.sin(i/10)});
-                    sin2.push({x: i, y: Math.sin(i/10) *0.25 + 0.5});
-                    cos.push({x: i, y: .5 * Math.cos(i/10)});
-                }
-                 
-                //Line chart data should be sent as an array of series objects.
-                return [
-                    {
-                        values: sin, //values - represents the array of {x,y} data points
-                        key: 'Sine Wave', //key - the name of the series.
-                        color: '#ff7f0e' //color - optional: choose your own line color.
-                    },
-                    {
-                        values: cos,
-                        key: 'Cosine Wave',
-                        color: '#2ca02c'
-                    },
-                    {
-                        values: sin2,
-                        key: 'Another sine wave',
-                        color: '#7777ff',
-                        area: true //area - set to true if you want this line to turn into a filled area chart.
+        $(function(){
+            var startDate = new Date();
+            var endDate = new Date();
+            $('#dp4').datepicker()
+                .on('changeDate', function(ev){
+                    if (ev.date.valueOf() > endDate.valueOf()){
+                        $('#alert').show().find('strong').text('The start date can not be greater then the end date');
+                    } else {
+                        $('#alert').hide();
+                        startDate = new Date(ev.date);
+                        $('#startDate').text($('#dp4').data('date'));
+                        load();
                     }
-                ];
+                    $('#dp4').datepicker('hide');
+                });
+            $('#dp5').datepicker()
+                .on('changeDate', function(ev){
+                    if (ev.date.valueOf() < startDate.valueOf()){
+                        $('#alert').show().find('strong').text('The end date can not be less then the start date');
+                    } else {
+                        $('#alert').hide();
+                        endDate = new Date(ev.date);
+                        $('#endDate').text($('#dp5').data('date'));
+                        load();
+                    }
+                    $('#dp5').datepicker('hide');
+                });
+        
+        
+            window.chartData = [
+                {
+                    values: [], //values - represents the array of {x,y} data points
+                    key: 'ТРМ t1', //key - the name of the series.
+                }
+            ];
+            
+            var chart;
+            var format;
+            function redraw(period) {
+                nv.addGraph(function () {
+                    chart = nv.models.lineWithFocusChart();
+                            //.useInteractiveGuideline(true)
+                            //.transition().duration(500);
+                    
+                    switch(period) {
+                        case 'minute':
+                            format = '%Y-%m-%d %H:%M';
+                        break;
+                        case 'hour':
+                            format = '%Y-%m-%d %H:00';
+                        break;
+                        case 'day':
+                            format = '%Y-%m-%d';
+                        break;
+                    }
+    
+                    chart.xAxis
+                       .axisLabel('Date')
+                       .rotateLabels(-20)
+                       .tickFormat(function(d) { return d3.time.format(format)(new Date(d)); });
+
+                    chart.yAxis
+                        .tickFormat(d3.format(',.2f'));
+
+                    d3.select('#chart svg')
+                        .datum(window.chartData)
+                        .transition()
+                        .duration(500)
+                        .call(chart);
+
+                    nv.utils.windowResize(chart.update);
+
+                    return chart;
+                });        
             }
-
-
-
-            nv.addGraph(function() {
-                var chart = nv.models.lineWithFocusChart();
-
-                chart.xAxis
-                    .tickFormat(d3.format(',f'));
-
-                chart.yAxis
-                    .tickFormat(d3.format(',.2f'));
-
-                chart.y2Axis
-                    .tickFormat(d3.format(',.2f'));
-
-                d3.select('#chart svg')
-                    .datum(sinAndCos())
-                    .transition().duration(500)
-                    .call(chart);
-
-                nv.utils.windowResize(chart.update);
-
-                return chart;
-            });
+            
+            function load() {
+                var dateBegin = $('#dp4').data('date');
+                var dateEnd = $('#dp5').data('date');
+                console.log('load', dateBegin, dateEnd, window.location.host);
+                if(dateBegin !='' && dateEnd != '') {
+                    window.chartData[0].values = [];
+                
+                    $.ajax({
+                        type: 'POST',
+                        dataType: 'jsonp',
+                        url: 'http://'+window.location.hostname+':8082/',
+                        data: {
+                            'date-begin': dateBegin,
+                            'date-end': dateEnd
+                        }
+                    })
+                    .error(function(res) {
+                        console.log(res);
+                    })
+                    .done(function(res) {
+                        //console.log(res);
+                        var i = 0;
+                        var c = res.length
+                        var data;
+                        for(;i<c;i++) {
+                            data = res[i];
+                            //console.log(data.date, moment(data.date, 'YYYY-MM-DD hh:mm:ss').format('YYYY-MM-DD hh:mm:ss'), data.value);
+                            window.chartData[0].values.push({
+                                x: moment(data.date, 'YYYY-MM-DD hh:mm:ss').valueOf(),
+                                y: parseFloat(data.value)
+                            });
+                        }
+                        redraw(data.period);
+                    });
+                }
+                
+                //window.chartData[0].values = [];
+                //window.chartData[0].values.push({x: data.time, y: parseFloat(data.value)});
+                //redraw();
+            }
+            /*
+            $('#dp4').data('date', );
+            $('#startDate').text($('#dp4').data('date'));
+                var dateEnd = $('#dp5').data('date');
+            
+            load();*/
+   
         }); // end doc ready
     </script>
 </body>

@@ -1,0 +1,59 @@
+<div class="container panel panel-profile">
+    <div class="col col-lg-3 col-md-3 col-sm-4 col-xs-12 course-sidebar sidebar-right">
+
+
+        <div class="profile-avatar img-circle">
+            <img class="img-circle" ng-src="{{(user.photo ? user.photo : '/themes/default/assets/img/defaultuser.jpg')}}"
+                 src="/themes/default/assets/img/preloader.gif" alt="{{user.fullname}}">
+
+            <div class="details img-circle" data-ng-show="user.photo">
+                <a href="" class="action btn btn-primary" data-ng-click="user.photo = ''" role="button" title="{{'Удалить аватар'| translate}}"><span class="fa fa-times"></span></a>
+            </div>
+        </div>
+        <div bz-uploader="'/api/rest.php/auth/users/' + user.id + '?action=upload'" limit="1" text="{'choose': 'Загрузить аватар'}"
+             ng-model="user.photo" autoupload="true" data-ng-hide="user.photo">
+            <div ng-repeat="file in files" class="bz-uploaded-file">
+            </div>
+        </div>
+
+        <h3 class="profile-title text-center">{{user.fullname}}</h3>
+
+        <!--p class="profile-info">Chief Marketing Officer</p-->
+
+        <div class="btn-group btn-group-vertical">
+            <a href="/profile/edit" class="btn btn-default">{{'Редактировать профиль'|translate}}</a>
+
+            <a href="/profile/change-pass" class="btn btn-default">{{'Сменить пароль'|translate}}</a>
+        </div>
+    </div>
+    <div class="panel-body col col-lg-9 col-md-9 col-sm-8 col-xs-12" bz-loading-container="loading" app-view-segment="1">
+        <breadcrumbs>
+            <crumb href="'/'" title="'Мой кабинет'|translate"/>
+            <crumb title="'Профиль'|translate"/>
+        </breadcrumbs>
+
+        <div class="page-header">
+                <h1>{{'Профиль'|translate}}</h1>
+            </div>
+
+            <div class="main-content">
+                <h4>{{'Информация об учетной записи'|translate}}</h4>
+                <dl class="dl-horizontal">
+                    <dt>{{'Логин'|translate}}:</dt>
+                    <dd>{{user.login}}</dd>
+                    <dt>{{'E-mail'|translate}}:</dt>
+                    <dd>{{user.email}}</dd>
+                    <dt>{{'Пол'|translate}}:</dt>
+                    <dd ng-if="user.gender != 'unknown'">
+                        <span ng-if="user.gender == 'male'">{{'Мужской'|translate}}</span>
+                        <span ng-if="user.gender == 'female'">{{'Женский'|translate}}</span>
+                    </dd>
+                    <dd ng-if="user.gender == 'unknown'">{{'не указано'|translate}}</dd>
+                    <dt>{{'Дата рождения'|translate}}:</dt>
+                    <dd ng-if="user.birth_date">{{user.birth_date}}</dd>
+                    <dd ng-if="!user.birth_date">{{'не указано'|translate}}</dd>
+                </dl>
+            </div>
+    </div>
+
+</div>

@@ -1,0 +1,16 @@
+<breadcrumbs>
+    <crumb href="'/'" title="'Мой кабинет'|translate" />
+    <crumb title="'Администрирование'|translate" />
+    <crumb href="'/users'" title="'Пользователи'|translate" />
+    <crumb href="'/users/view/' + user.id" title="user.shortName" />
+    <crumb title="'Редактирование'|translate" />
+</breadcrumbs>
+
+
+<div class="padded" bz-loading-container="loading">
+    <div class="page-header">
+        <h1>{{'Редактирование пользователя'|translate}}</h1>
+    </div>
+
+    <div class="main-content" ng-include="'/themes/default/views/modules/user/form-user-edit.html'"></div>
+</div>

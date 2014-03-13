@@ -1,0 +1,41 @@
+<form data-ng-controller="LoginCtrl" bz-loading-container="loading" class="form-horizontal" name="login" ng-submit="loginUser(user)" novalidate>
+    <div ng-if="error" class="alert alert-error">
+        <a data-dismiss="alert" class="close">×</a>
+        <div ng-bind-html-unsafe="error"></div>
+    </div>
+    <div class="form-group">
+        <div class="col col-lg-12 help-inline">
+            {{'Для доступа в закрытый раздел системы необходимо ввести логин и пароль.'|translate}}
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{ 'has-error': errors.email }">
+        <label for="email" class="control-label col-lg-3">{{'E-mail'|translate }}<span class="star">*</span></label>
+        <div class="controls col-lg-9">
+            <input id="email" ng-model="user.email" type="text" name="email" required class="form-control"/>
+            <span ng-if="errors.email.required || errors.email.exist_user" class="help-block"><small>{{'Вы ошиблись при вводе логина или пароля. Пожалуйста, повторите попытку. Если Вы забыли пароль, Вы можете'|translate }} <a href="/user/recovery">{{'его восстановить'|translate}}</a></small></span>
+            <span ng-if="errors.locked" class="help-block"><small>{{'Ваша учетная запись заблокирована Администрацией. ПО вопросам разблокировки можете обратиться по адресу: e-mail администратора'|translate }}</small></span>
+        </div>
+    </div>
+    <div class="form-group" ng-class="{ 'has-error': errors.password }">
+        <label for="password" class="control-label col-lg-3">{{'Пароль'|translate }}<span class="star">*</span></label>
+        <div class="controls col-lg-9">
+            <input id="password" ng-model="user.password" type="password" name="password" required class="form-control"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="controls  col-lg-offset-3 col-lg-9">
+            <label class="checkbox">
+                <small>{{'Запомнить меня'|translate }}</small>
+                <input id="remember_me" ng-model="user.remember_me" type="checkbox" name="remember_me" checked="true" class="optional"/>
+            </label>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="controls col-lg-offset-3 col-lg-9">
+            <button id="btn-login" type="submit" class="btn btn-primary"><i class="fa fa-key icon-white"></i> {{'Войти'|translate }}</button>
+
+            <a class="btn btn-link" href="/user/recovery"><i class="fa fa-warning"></i> {{'Забыли пароль?'|translate }}</a>
+        </div>
+    </div>
+</form>

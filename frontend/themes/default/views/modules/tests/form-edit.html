@@ -1,0 +1,42 @@
+<form class="test form-horizontal" name="test" novalidate>
+    <div class="form-group" ng-class="{'has-error': test.title.$dirty && test.title.$invalid}">
+        <label class="control-label col-lg-2">{{'Название'|translate}}<span class="star">*</span></label>
+
+        <div class="controls col-lg-10">
+            <input class="form-control" type="text" ng-model="data.title" name="title" required>
+
+            <div class="ng-cloak help-block" ng-if="test.title.$dirty && test.title.$invalid">
+                {{'Поле не может быть пустым'|translate}}
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-lg-2">{{'Описание'|translate}}</label>
+
+        <div class="controls col-lg-10">
+            <textarea class="form-control" ng-model="data.description" name="description"></textarea>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-lg-2">{{'Метки'|translate}}</label>
+
+        <div class="controls col-lg-9">
+            <input type="text" ui-select2="select2Options" style="min-width: 100%" id="tags" ng-model="data.tags"/>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="controls col-lg-10 col-lg-offset-2">
+            <button ng-disabled="test.$invalid || loading" ng-click="saveTest(data)" class="btn btn-primary">
+                <span ng-hide="loading">{{'Сохранить'|translate}}</span>
+                <span ng-show="loading">{{'Сохраняется...'|translate}}</span>
+            </button>
+            <button ng-click="cancel()" class="btn btn-default">
+                <span>{{'Отменить'|translate}}</span>
+            </button>
+        </div>
+    </div>
+
+
+</form>

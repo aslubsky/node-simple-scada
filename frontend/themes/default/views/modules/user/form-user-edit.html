@@ -1,0 +1,121 @@
+<form class="edit form-horizontal" name="edit" ng-submit="editUser(user)" novalidate>
+
+
+        <div class="form-group">
+            <label class="control-label col-lg-3">{{'Фамилия'|translate}}<span class="star">*</span></label>
+            <div class="controls col-lg-9">
+                <input class="form-control" type="text" placeholder="Фамилия" ng-model="user.secondname" name="secondname" required>
+                <div class="ng-cloak help-block" ng-if="edit.secondname.$invalid">
+                    {{'Поле не может быть пустым'|translate}}
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-lg-3">{{'Имя'|translate}}<span class="star">*</span></label>
+            <div class="controls col-lg-9">
+                <input class="form-control" type="text" placeholder="Имя" ng-model="user.firstname" name="firstname" required>
+                <div class="ng-cloak help-block" ng-if="edit.firstname.$invalid">
+                    {{'Поле не может быть пустым'|translate}}
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-lg-3">{{'Отчество'|translate}}<span class="star"></span></label>
+            <div class="controls col-lg-9">
+                <input class="form-control" type="text" placeholder="Отчество" ng-model="user.patronymic" name="patronymic">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-lg-3">{{'Логин'|translate}}<span class="star">*</span></label>
+            <div class="controls col-lg-9">
+                <input class="form-control" type="text" placeholder="Логин" ng-model="user.login" name="login" required>
+                <div class="ng-cloak help-block" ng-if="edit.login.$invalid">
+                    {{'Поле не может быть пустым'|translate}}
+                </div>
+            </div>
+        </div>
+
+        <div ng-if="user.need_edit" class="form-group">
+            <label class="control-label col-lg-3">{{'Пароль'|translate}}<span class="star">*</span></label>
+            <div class="controls col-lg-9">
+                <input class="form-control" type="password" placeholder="Пароль" ng-model="user.password"
+                       name="password" autocomplete="off" required>
+                <div class="ng-cloak help-block" ng-if="edit.password.$invalid  ">
+                    {{'Поле не может быть пустым'|translate}}
+                </div>
+            </div>
+        </div>
+
+        <div ng-if="user.need_edit" class="form-group">
+            <label class="control-label col-lg-3">{{'Повторите пароль'|translate}}<span class="star">*</span></label>
+            <div class="controls col-lg-9">
+                <input class="form-control" type="password" placeholder="Повторите пароль" ng-model="user.spassword"
+                       name="spassword" autocomplete="off" required>
+                <div class="ng-cloak help-block" ng-if="edit.spassword.$invalid  ">
+                    {{'Поле не может быть пустым'|translate}}
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group"
+             ng-class="{ 'has-error': (edit.email.$dirty && edit.email.$invalid) || errors.email}">
+            <label class="control-label col-lg-3">{{'E-mail'|translate}}<span class="star">*</span></label>
+            <div class="controls col-lg-9">
+                <input class="form-control" type="email" placeholder="Введіть Ваш e-mail" ng-model="user.email"
+                       ng-unique="checkEmail($value)" name="email" required>
+                <div class="ng-cloak help-block" ng-if="edit.email.$dirty && edit.email.$error.email">
+                    {{'Неверно заполнено поле Е-mail'|translate}}
+                </div>
+                <div class="ng-cloak help-block"
+                     ng-if="(edit.email.$dirty && edit.email.$error.unique) || errors.email.uniqueEmail">
+                    {{'Пользователь с таким email уже зарегистрирован'|translate}}
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-lg-3">{{'Дата рождения'|translate}}<span class="star"></span></label>
+            <div class="controls col-lg-9">
+                <div class="input-group date" data-date="01.01.1980" data-date-format="dd.mm.yyyy" data-date-start-view="2">
+                    <input class="col-lg-4 form-control" size="16" type="text" bz-datepicker ng-model="user.birth_date" name="birth_date" >
+                    <span class="input-group-addon add-on"><i class="fa fa-calendar"></i></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-lg-3">{{'Пол'|translate}}<span class="star"></span></label>
+            <div class="controls col-lg-9">
+                <select ng-options="o.id as o.title for o in gender" class="form-control" ng-model="user.gender">
+                    <!--<option value="">{{'- не указано'|translate}}</option>-->
+                    <!--<option value="male">{{'Муж.'|translate}}</option>-->
+                    <!--<option value="female">{{'Жен.'|translate}}</option>-->
+                </select>
+            </div>
+        </div>
+
+        <div ng-if="canEditDisable" class="form-group">
+            <div class="col-lg-offset-3">
+                <label class="checkbox">
+                    <input type="checkbox" ng-model="user.is_active">
+                    {{'Заблокирован'|translate}}
+                </label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="controls col-lg-9 col-lg-offset-3">
+                <button ng-disabled="edit.$invalid || loading" ng-click="saveUser(user)" class="btn btn-primary">
+                    <span ng-hide="loading">{{'Сохранить'|translate}}</span>
+                    <span ng-show="loading">{{'Сохраняется'|translate}}</span>
+                </button>
+                <button ng-click="cancel()" class="btn btn-default">
+                    <span>{{'Отменить'|translate}}</span>
+                </button>
+            </div>
+        </div>
+
+</form>

@@ -1,0 +1,66 @@
+[
+    {
+        "title": "Администрирование",
+        "url": "",
+        "access": ["auth.can_edit_users"],
+        "items": [
+            {
+                "title": "Пользователи",
+                "url": "/users",
+                "access": ["auth.can_edit_users"]
+            },
+            {
+                "title": "Роли",
+                "url": "/roles",
+                "access": ["auth.can_manage_roles"]
+            }
+        ]
+    },
+    {
+        "title": "Учебные ресурсы",
+        "url": "",
+        "access": ["tests.can_manage_tests"],
+        "items": [
+            {
+                "title": "Курсы",
+                "url": "/courses",
+                "access": ["courses.can_manage_courses"]
+            },
+            {
+                "title": "Тесты",
+                "url": "/tests",
+                "access": ["tests.can_manage_tests"]
+            },
+            {
+                "title": "Ресурсы",
+                "url": "/pages",
+                "access": ["tests.can_manage_tests"]
+            },
+            {
+                "title": "Категории ресурсов",
+                "url": "/pages/categories",
+                "access": ["courses.can_manage_courses"]
+            }
+        ]
+    },
+    {
+        "title": "Задания",
+        "url": "/tasks",
+        "access": ["tasks.can_manage_tasks"]
+    },
+    {
+        "title": "Мои задания",
+        "url": "/tasks/my",
+        "access": ["auth.user_logged"]
+    },
+    {
+        "title": "Мои курсы",
+        "url": "/courses/my",
+        "access": ["auth.user_logged"]
+    },
+    {
+        "title": "Каталог курсов",
+        "url": "/courses/requests",
+        "access": ["auth.user_logged"]
+    }
+]

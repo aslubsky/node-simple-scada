@@ -1,0 +1,35 @@
+<breadcrumbs>
+    <crumb href="'/'" title="'Мой кабинет'|translate" />
+    <crumb href="'/administration'" title="'Администрирование'|translate" />
+    <crumb title="'Роли'|translate" />
+</breadcrumbs>
+
+<div class="padded">
+
+    <div class="page-header">
+        <div class="table-actions">
+            <a href="/roles/add" class="btn btn-success btn-sm">
+                <i class="fa fa-plus"></i> {{'Добавить роль'|translate}}
+            </a>
+        </div>
+
+        <h1>{{'Роли'|translate}}</h1>
+    </div>
+
+    <div class="main-content" bz-loading-container="loading">
+
+        <table ng-table="tableParams" class="table table-striped table-condensed table-hover table-users" >
+            <tr ng-repeat="role in roles">
+
+                <td data-title="'Название'" header-class="text-left" filter="{ 'fullname': 'text' }" sortable="fullname">
+                    <a href="/roles/edit/{{role.id}}" title="{{'Редактировать'|translate}}">
+                        {{role.title}} <span class="fa fa-pencil"></span>
+                    </a>
+                </td>
+                <td></td>
+            </tr>
+        </table>
+
+
+    </div>
+</div>

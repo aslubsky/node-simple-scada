@@ -1,0 +1,148 @@
+<div class="col-lg-12">
+<div class="page-header">
+    <div class="pull-right" ng-if="$user.has(['courses.can_manage_courses'])">
+        <a class="btn btn-default" href="/courses/{{course.id}}/report" title="{{'Отчет о прохождении курса'|translate}}">
+            <span class="fa fa-bar-chart-o"></span> {{'Отчет'|translate}}
+        </a>
+        <div class="btn-group">
+            <a class="btn btn-primary" href="/courses/{{course.id}}/edit" title="{{'Редактировать'|translate}}">
+                <span class="fa fa-pencil"></span> {{'Редактировать'|translate}}
+            </a>
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                <span class="caret"></span>
+                <span class="sr-only">Toggle Dropdown</span>
+            </button>
+            <ul class="dropdown-menu pull-right" role="menu">
+                <li><a href="/courses/{{course.id}}/elements"><span class="fa fa-book"></span> {{'Редактировать материалы'|translate}}</a></li>
+                <li><a href="/courses/{{course.id}}/plan"><span class="fa fa-list-ol"></span> {{'Редактировать план'|translate}}</a></li>
+                <li><a href="/courses/{{course.id}}/users"><span class="fa fa-users"></span> {{'Слушатели'|translate}}</a></li>
+            </ul>
+        </div>
+    </div>
+    <h1>{{course.title}}</h1>
+    <h6 ng-if="task.title && (course.title != task.title)"><strong>{{'Задание'|translate}}:</strong>  {{task.title}}</h6>
+</div>
+
+<div class="main-content">
+
+<div class="padded col col-xs-9" bz-loading-container="loading">
+
+    <div class="row">
+        <div class="col col-xs-2">
+            <img width="128" src="{{course.icon}}" />
+        </div>
+        <div class="col col-xs-10">
+
+            <div class="well" ng-if="course">
+                <dl class="dl-horizontal">
+                    <dt ng-if="course.code">{{'Код курса'|translate}}: </dt>
+                    <dd ng-if="course.code">{{course.code}}</dd>
+
+                    <dt ng-if="course.course_length">{{'Продолжительность обучения'|translate}}: </dt>
+                    <dd ng-if="course.course_length">
+                        <div ng-if="course.days">{{'дни'|translate}}: {{course.days}} </div>
+                        <div ng-if="course.week">{{'недели'|translate}}: {{course.week}} </div>
+                    </dd>
+
+                    <dt ng-if="course.score_employment">{{'Оценка занятости'|translate}}: </dt>
+                    <dd ng-if="course.score_employment">{{course.score_employment}}</dd>
+                    
+                    <dt ng-if="course.tags">{{'Метки'|translate}}: </dt>
+                    <dd ng-if="course.tags">
+                        <span ng-repeat="tag in course.tags">
+                            <span class="label label-default arrowed arrow-left">{{tag}}</span>&nbsp;
+                        </span>
+                    </dd>
+                    
+                </dl>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row course-description">
+        <div class="col col-xs-12">
+            <p ng-bind-html="getHtml(course.description)"></p>
+        </div>
+    </div>
+</div>
+
+<div class="col col-xs-3 course-sidebar sidebar-right">
+    <a ng-if="task && task.parent_id" class="btn btn-info btn-block btn-lg" href="/courses/materials/{{task.parent_id}}{{mode ? '?mode='+mode : ''}}">
+        {{'Материалы курса'|translate}}
+    </a>
+
+    <div ng-if="task && task.parent_id || testing">
+        <br/>
+        <div ng-include="'/themes/default/views/block/course-plan.html'"></div>
+    </div>
+
+    <div ng-if="course.plan && $user.has(['courses.can_manage_courses'])"><!-- for course view, not task -->
+        <a class="btn btn-info btn-block btn-lg" href="/courses/{{course.id}}/elements">
+            <span class="badge pull-right">{{course.materials.length}}</span>
+            {{'Материалы курса'|translate}}
+        </a>
+        <br/>
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                {{'План курса'|translate}}
+            </div>
+            <div class="list-group">
+                <a ng-repeat="planItem in course.plan" class="list-group-item">
+                    {{planItem.title}}
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
+
+</div>
+
+
+
+
+<!--div id="perspective" class="perspective effect-airbnb modalview animate">
+
+    <div class="padded col col-xs-9 course-container" bz-loading-container="loading">
+        <div ng-if="errors">
+            <div class="alert alert-danger" ng-if="errors.not_assign">{{'Это задание Вам не назначено'|translate}}</div>
+            <div class="alert alert-danger" ng-if="errors.not_found">{{errors.not_found}}</div>
+        </div>
+
+        <div class="row">
+            <div class="col col-xs-2">
+                <img width="128" src="{{course.icon}}" />
+            </div>
+            <div class="col col-xs-10">
+                <div class="page-header">
+                    <h1>{{course.title}}</h1>
+                </div>
+                <ul>
+                    <li ng-if="course.code">{{'Код курса: '|translate}} {{course.code}}</li>
+                    <li ng-if="course.course_length">{{'Продолжительность обучения'|translate}}
+                        <span ng-if="course.days">{{'(Дни): '|translate}} {{course.days}} </span>
+                        <span ng-if="course.week">{{'(Недели): '|translate}} {{course.week}} </span>
+                    </li>
+                    <li ng-if="course.score_employment">{{'Оценка занятости: '|translate}} {{course.score_employment}}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="row course-description">
+            <div class="col col-xs-12">
+                <p ng-bind-html="getHtml(course.description)"></p>
+            </div>
+        </div>
+    </div>
+    <div class="col col-xs-3 course-sidebar sidebar-right  outer-nav left vertical">
+        <a ng-if="!testing" class="btn btn-default btn-block btn-lg" href="/courses/materials/{{task.id}}">
+            <span class="fa fa-book"></span> {{'Материалы курса'|translate}}
+        </a>
+        <br/>
+        <div ng-include="'/themes/default/views/block/course-plan.html'"></div>
+    </div>
+
+
+</div-->

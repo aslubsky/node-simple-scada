@@ -1,0 +1,105 @@
+<div class="form-group">
+    <label class="control-label col-lg-2">{{'Тест'|translate}}<span class="star">*</span></label>
+
+    <div class="controls col-lg-9">
+        <select class="form-control" ng-model="data.task.element_id" name="element_id"
+                ng-options="c.id as c.title for c in tests"
+                required></select>
+
+        <div class="ng-cloak help-block" ng-if="task.element_id.$invalid">
+            {{'Поле не может быть пустым'|translate}}
+        </div>
+    </div>
+</div>
+
+<div class="form-group" ng-show="data.task.element_id">
+    <label class="control-label col-lg-2">{{'Количество вопросов'|translate}}<span class="star"></span></label>
+
+    <div class="controls col-lg-9">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <label class="radio">
+
+                    <input type="radio" name="questions" value="all" ng-model="data.settings.questions_type">
+                    {{'Все'|translate}}
+
+                </label>
+                <label class="radio">
+                    <input type="radio" name="questions" value="limited" ng-model="data.settings.questions_type" data-ng-click="data.settings.questions_count = questionsCount">
+
+                    <div class="input-group">
+                        <input class="form-control" ng-disabled="data.settings.questions_type == 'all'" type="text"
+                               ng-model="data.settings.questions_count" custom-validator-int="{{questionsCount}}" name="questions" required/>
+                        <span class="input-group-addon">{{'из'|translate}} {{questionsCount}}</span>
+                    </div>
+
+                    <div class="error" ng-show="task.questions.$invalid && data.settings.questions_type == 'limited'">
+                        {{'Невалидное число'|translate}}
+                    </div>
+                </label>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="form-group">
+    <label class="control-label col-lg-2">{{'Количество попыток'|translate}}<span
+            class="star"></span></label>
+
+    <div class="col-lg-9">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <label class="radio">
+                    <input type="radio" value="unlim" name="attempts" ng-model="data.settings.attempts_type"/>
+                    {{'Неограниченно'|translate}}
+                </label>
+                <label class="radio">
+                    <input type="radio" value="limited" name="attempts" ng-model="data.settings.attempts_type"/>
+
+                    <input class="form-control" type="text" ng-disabled="data.settings.attempts_type == 'unlim'"
+                           ng-model="data.settings.attempts_count" custom-validator-int
+                           name="attempt" required/>
+                    <div class="ng-cloak help-block"
+                         ng-if="task.attempt.$invalid && data.settings.attempts_type === 'limited'">
+                        {{'Невалидное число'|translate}}
+                    </div>
+                </label>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="form-group">
+    <label class="control-label col-lg-2">{{'Время для прохождения теста (мин.)'|translate}}<span
+            class="star"></span></label>
+
+    <div class="controls col-lg-9">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <label class="radio">
+                    <input type="radio" value="unlimited" name="time" ng-model="data.settings.time_type"/>
+                    {{'Неограниченно'|translate}}
+                </label>
+                <label class="radio">
+                    <input type="radio" value="limited" name="time" ng-model="data.settings.time_type" data-ng-click="data.settings.time = 1" />
+
+                    <input class="form-control" type="text" ng-disabled="data.settings.time_type == 'unlimited'" ng-model="data.settings.time" name="time"  custom-validator-int
+                           required/>
+
+                    <div class="ng-cloak help-block"
+                         ng-if="task.time.$invalid && data.settings.time_type === 'limited'">
+                        {{'Невалидное число'|translate}}
+                    </div>
+                </label>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="form-group">
+    <label class="control-label col-lg-3">{{'Режим тренировки (разрешить проверять ответы на правильность)'|translate}}<span class="star"></span></label>
+    <div class="controls col-lg-9">
+        <input type="checkbox" ng-model="data.settings.training">
+    </div>
+</div>

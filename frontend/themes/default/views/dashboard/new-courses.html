@@ -1,0 +1,17 @@
+<div class="panel panel-info" data-ng-controller="Dashboard.NewCoursesCtrl" bz-loading-container="loading">
+    <div class="panel-heading">
+        <h3 class="panel-title">{{'Новые курсы'|translate}}</h3>
+    </div>
+    <div>
+        <table class="table table-condensed table-hover">
+            <tr ng-repeat="course in courses">
+                <td width="32">
+                    <img width="32" ng-src="{{course.icon}}"></td>
+                <td>
+                    <strong>{{course.title}}</strong></br>
+                    {{course.annotation}}
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

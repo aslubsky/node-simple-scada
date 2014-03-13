@@ -1,0 +1,98 @@
+<breadcrumbs >
+    <crumb href="'/'" title="'Мой кабинет'|translate"/>
+    <crumb href="'/courses/my'" title="'Мои Курсы'|translate" />
+    <crumb href="'/courses/execute/'+task.parent.id" title="task.parent.title"/>
+    <crumb title="task.title"/>
+</breadcrumbs>
+
+<div class="padded" bz-loading-container="loading">
+    <div class="page-header">
+        <div ng-if="question && !canFinish && !finished" class="pull-right">
+            <a bz-confirm="finish()" message="'Вы действительно хотите прервать тестирование?'"
+               title="{{'Прервать'|translate}}" ng-click="" class="btn btn-sm btn-danger"><i class="fa fa-pause"></i>
+                {{'Прервать'|translate}}</a>
+        </div>
+        <h1 ng-if="courseTask && mode">{{courseTask.title}}1</h1>
+        <h1 ng-if="test">{{test.title}}</h1>
+
+        <h6 ng-if="task.parent"><strong>{{'Курс'|translate}}:</strong></h6>
+        <h6 ng-if="task.parent"><strong>{{'Задание'|translate}}:</strong> {{task.parent.title}}</h6>
+
+        <h6 ng-if="task && !task.parent"><strong>{{'Задание'|translate}}:</strong> {{task.title}}</h6>
+    </div>
+    <div class="main-content">
+
+        <div ng-if="errors">
+            <div class="alert alert-danger" ng-if="errors.not_assign">
+                {{'Вы не можете проходить тест, это задание Вам не назначено'|translate}}
+            </div>
+            <div class="alert alert-danger" ng-if="errors.not_found">{{errors.not_found}}</div>
+        </div>
+
+        <div ng-if="question && !canFinish && !finished" class="page-header">
+            <div ng-init="current = 0" class="bz-pie-timer fill" data-total="settings.time * 60"
+                 data-current="timer"></div>
+            <small class="pull-right" ng-if="showTimer">{{'Осталось времени'|translate}}: <span timer="timer"></span></small>
+
+            <small>{{'Вопрос'|translate}} {{question.step}} {{'из'|translate}} {{questionsCount}}</small>
+            <div class="progress progress-tests">
+                <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
+                     style="width: {{question.percent}}%;">
+                    <span class="sr-only">{{question.percent}}% Complete</span>
+                </div>
+            </div>
+        </div>
+
+        <div ng-if="!mode" class="padded">
+            <div ng-if="canStartNewSession || canUsePrevSession">
+                <div ng-include="'/themes/default/views/modules/tests/page-start-execute.html'"></div>
+            </div>
+
+            <div ng-if="finished || canFinish">
+                <div ng-include="'/themes/default/views/modules/tests/page-end-execute.html'"></div>
+            </div>
+        </div>
+
+        <div ng-if="mode" class="padded">
+            <div ng-if="canStartNewSession">
+                <div>
+                    <h3 class="text-center" ng-if="canStartNewSession">
+                        {{'Приступить к выполнению даного задания?'|translate}}
+                    </h3>
+                </div>
+                <div class="text-center">
+                    <a ng-if="canStartNewSession" ng-click="newExecute()" class="btn btn-success">
+                        {{'Начать тестирование'|translate}}
+                    </a>
+                </div>
+            </div>
+
+            <div ng-if="finished || canFinish">
+                <div ng-include="'/themes/default/views/modules/tests/page-end-execute.html'"></div>
+            </div>
+        </div>
+
+
+        <div ng-if="question">
+            <div ng-include="'/themes/default/views/modules/tests/form-' + question.type + '-question.html'"></div>
+
+            <div class="alert alert-block alert-danger" ng-if="error || (settings.training && checkedError)">
+                <span class="fa fa-exclamation-triangle"></span>
+                {{'Не выбрано ни одного ответа'|translate}}
+            </div>
+
+            <div class="form-actions">
+                <button ng-disabled="test.$invalid || loading" ng-click="saveAnswer(question)" class="btn btn-primary">
+                    <span ng-if="settings.training"></span>
+                    <span ng-hide="loading">{{'Ответить'|translate}}</span>
+                    <span ng-show="loading">{{'Сохраняется...'|translate}}</span>
+                </button>
+                <button ng-if="settings.training" ng-disabled="test.$invalid || loading"
+                        ng-click="checkAnswer(question)" class="btn btn-success">
+                    <span>{{'Проверить'|translate}}</span>
+                </button>
+            </div>
+        </div>
+        <br/>
+    </div>
+</div>

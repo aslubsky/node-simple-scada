@@ -1,33 +1,50 @@
 //var async = require('async');
 var _ = require('lodash');
-var config = require('./config').values;
+var moment = require('moment');
+var config = require('./../config').values;
 var GPIO = require('./data-sources/gpio.js');
 var ModBus = require('./data-sources/modbus.js');
 var io = require('socket.io')
     .listen(config.socketio.port, {
         'log level': config.socketio.logLevel
     });
-var stdio = require('stdio')
-    
-var opts = stdio.getopt({
-    'emulate': {args: 1, key: 'e', description: 'Emulate data source'},
-    'archive': {args: 1, key: 'a', mandatory: true, description: 'Archive all data in to DB'}
-});
-    
+var stdio = require('stdio');
+var winston = require('winston');
 var MysqlArchive = require('./archives/mysql.js');
-var archive = new MysqlArchive(config.mysql);
 
-var DataSources = {
-    runDataSource: function (ds) {
+(function() {
+    var self = this;
+    this.logger = new (winston.Logger)({
+        transports: [
+            new (winston.transports.Console)({
+                level: 'info'
+            }),
+            new (winston.transports.File)({
+                level: 'error',
+                filename: __dirname+'/log/main.log',
+                maxsize: 1024*1024*10//10MB
+            })
+        ]
+    });
+    this.opts = stdio.getopt({
+        'emulate': {args: 1, key: 'e', description: 'Emulate data source'},
+        'archive': {args: 1, key: 'a', mandatory: true, description: 'Archive all data in to DB'}
+    });
+    this.archive = new MysqlArchive(config.mysql, this.logger);
+    
+    this.dataSourcesList = [];
+    
+    this.runDataSource = function (ds) {
         setTimeout(function () {
-            ds.read(DataSources.onDataRead);
+            ds.read(self.onDataRead);
         }, ds.getTime());
-    },
-    onDataRead: function (err, ds, value) {
+    }
+    this.onDataRead = function (err, ds, value) {
         //console.log(ds.getName(), value);
         if(err === null) {
             io.sockets.emit('onDataRead', {
                 name: ds.getName(),
+                time: (new Date()).valueOf(),
                 value: value
             });
             if(opts['archive'] && opts['archive'] == 1) {
@@ -38,25 +55,25 @@ var DataSources = {
                 }
             }
         } else {
+            logger.error(err);
         }
-        DataSources.runDataSource(ds);
+        self.runDataSource(ds);
     }
-};
+    
+    _(config.dataSources).forEach(function (dsCfg) {
+        dsCfg.emulate = opts['emulate'] == undefined ? false : true;
+        switch(dsCfg.type) {
+            case 'GPIO':
+                self.dataSourcesList.push(new GPIO(dsCfg));
+            break;
+            case 'ModBus':
+                self.dataSourcesList.push(new ModBus(dsCfg));
+            break;
+        }
+    });
+    
+    _(this.dataSourcesList).forEach(function (ds) {
+        self.runDataSource(ds);
+    });
 
-
-var dataSourcesList = [];
-_(config.dataSources).forEach(function (dsCfg) {
-    dsCfg.emulate = opts['emulate'] == undefined ? false : true;
-    switch(dsCfg.type) {
-        case 'GPIO':
-            dataSourcesList.push(new GPIO(dsCfg));
-        break;
-        case 'ModBus':
-            dataSourcesList.push(new ModBus(dsCfg));
-        break;
-    }
-});
-
-_(dataSourcesList).forEach(function (ds) {
-    DataSources.runDataSource(ds);
-});
+})();

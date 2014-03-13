@@ -3,6 +3,14 @@ exports.values = {
         port: 8085,
         logLevel: 2
     },
+    web: {
+        port: 8081,
+        logLevel: 'dev'
+    },
+    api: {
+        hostname: 'localhost',
+        port: 8082
+    },
     mysql: {
         host : 'localhost',
         port : 3306,

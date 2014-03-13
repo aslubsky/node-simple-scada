@@ -1,0 +1,51 @@
+<div>
+    <h3 class="text-center" ng-if="canStartNewSession">{{'Приступить к выполнению даного задания?'|translate}}</h3>
+    <h3 class="text-center" ng-if="canUsePrevSession">{{'Вы уже начали проходить данный тест. Вы хотите продолжить?'|translate}}</h3>
+
+    <div class="well">
+        <dl class="dl-horizontal dl-description">
+            <!--dt>---------------- Режим прохождения</dt>
+            <dd>нельзя пропускать вопросы<br />нельзя возвращатся назад</dd-->
+
+            <dt>{{'Количество вопросов:'|translate}}</dt>
+            <dd>{{questionsCount}}</dd>
+
+            <div ng-if="canUsePrevSession">
+                <dt>{{'Пройдено вопросов:'|translate}}</dt>
+                <dd>{{test.answers_received}}</dd>
+            
+                <dt>{{'Прогресс выполнения:'|translate}}</dt>
+                <dd>{{test.percent_complete}}%</dd>
+                
+                <dt>{{'Было набран процент:'|translate}}</dt>
+                <dd>{{test.mark}}%</dd>
+                
+                <dt>Затраченое время</dt>
+                <dd>{{prevSession.time | date:'mm:ss'}}<span ng-if="$scope.settings.time !== 0">, осталось {{prevSession.haveTime | date:'mm:ss'}}</span></dd>
+            </div>
+            
+            <dt>{{'Количество попыток:'|translate}}</dt>
+            <dd ng-if="!settings.unlim_attempts">{{settings.attempts_count}}</dd>
+            <dd ng-if="settings.unlim_attempts">{{'Неограничено'|translate}}</dd>
+
+            <dt>{{'Ограничение по времени, мин:'|translate}}</dt>
+            <dd ng-if="settings.time > 0">{{settings.time}}</dd>
+            <dd ng-if="settings.time == 0">{{'Неограничено'|translate}}</dd>
+        </dl>
+    </div>
+
+    <div class="text-center">
+
+        <a ng-if="canStartNewSession" ng-click="newExecute()" class="btn btn-success">{{'Начать тестирование'|translate}}</a>
+
+        <span ng-if="canUsePrevSession">
+
+        <a ng-click="startExecute()" class="btn btn-success">{{'Продолжить тестирование'|translate}}</a>
+        <a ng-click="newExecute()" class="btn btn-success">{{'Перезапустить тестирование'|translate}}</a>
+
+        </span>
+
+         <a ng-click="cancel()" class="btn btn-default">{{'Отмена'|translate}}</a>
+    </div>
+
+</div>

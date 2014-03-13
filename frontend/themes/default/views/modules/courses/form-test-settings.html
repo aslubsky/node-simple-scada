@@ -1,0 +1,120 @@
+<form class="task form-horizontal" name="course-test-settings" novalidate>
+    <div class="form-group">
+        <label class="control-label col-lg-2">{{'Количество вопросов'|translate}}<span class="star"></span></label>
+
+        <div class="controls col-lg-9">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <label class="radio">
+
+                        <input type="radio" name="questions" value="all" ng-model="testSetting.questions_type">
+                        {{'Все'|translate}}
+
+                    </label>
+                    <label class="radio">
+                        <input type="radio" name="questions" value="limited" ng-model="testSetting.questions_type" data-ng-click="testSetting.questions_count = test.questions_count">
+
+                        <div class="input-group">
+                            <input class="form-control" ng-disabled="testSetting.questions_type == 'all'" type="text"
+                                   ng-model="testSetting.questions_count" custom-validator="{{test.questions_count}}" name="questions" required/>
+                            <span class="input-group-addon">{{'из'|translate}} {{test.questions_count}}</span>
+                        </div>
+
+                        <div class="error" ng-show="task.questions.$invalid && testSetting.questions_type == 'limited'">
+                            {{'Невалидное число'|translate}}
+                        </div>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-lg-2">{{'Количество попыток'|translate}}<span
+                class="star"></span></label>
+
+        <div class="col-lg-9">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <label class="radio">
+                        <input type="radio" value="unlim" name="attempts" ng-model="testSetting.attempts_type"/>
+                        {{'Неограниченно'|translate}}
+                    </label>
+                    <label class="radio">
+                        <input type="radio" value="limited" name="attempts" ng-model="testSetting.attempts_type"/>
+
+                        <input class="form-control" type="text" ng-disabled="testSetting.attempts_type == 'unlim'"
+                               ng-model="testSetting.attempts_count" custom-validator
+                               name="attempt" required/>
+                        <div class="ng-cloak help-block"
+                             ng-if="task.attempt.$invalid && testSetting.attempts_type === 'limited'">
+                            {{'Невалидное число'|translate}}
+                        </div>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <label class="control-label col-lg-2">{{'Время для прохождения теста (мин.)'|translate}}<span
+                class="star"></span></label>
+
+        <div class="controls col-lg-9">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <label class="radio">
+                        <input type="radio" value="unlimited" name="time" ng-model="testSetting.time_type"/>
+                        {{'Неограниченно'|translate}}
+                    </label>
+                    <label class="radio">
+                        <input type="radio" value="limited" name="time" ng-model="testSetting.time_type" data-ng-click="testSetting.time = 1" />
+
+                        <input class="form-control" type="text" ng-disabled="testSetting.time_type == 'unlimited'" ng-model="testSetting.time" name="time"  custom-validator
+                               required/>
+
+                        <div class="ng-cloak help-block"
+                             ng-if="task.time.$invalid && testSetting.time_type === 'limited'">
+                            {{'Невалидное число'|translate}}
+                        </div>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-lg-3">{{'Режим тренировки (разрешить проверять ответы на правильность)'|translate}}<span class="star"></span></label>
+        <div class="controls col-lg-9">
+            <input type="checkbox" ng-model="testSetting.training">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-lg-2">{{'Порог прохождения, в %'|translate}}</label>
+
+        <div class="controls col-lg-9">
+            <input class="form-control" type="text" ng-model="testSetting.threshold" name="threshold"
+                   custom-validator-int="100" required>
+
+            <div class="ng-cloak help-block" ng-show="testSetting.threshold.$invalid">
+                {{'Невалидное число'|translate}}
+            </div>
+
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="controls col-lg-9 col-lg-offset-3">
+            <button ng-disabled="task.$invalid || loading" ng-click="save(testSetting)"
+                    class="btn btn-primary">
+                <span ng-hide="loading"><i class="fa fa-floppy-o"></i> {{'Сохранить'|translate}}</span>
+                <span ng-show="loading">{{'Сохраняется...'|translate}}</span>
+            </button>
+            <button ng-click="cancel()" class="btn btn-default">
+                <span>{{'Отменить'|translate}}</span>
+            </button>
+        </div>
+    </div>
+</form>

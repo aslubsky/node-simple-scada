@@ -1,0 +1,99 @@
+<div class="padded col col-xs-9" bz-loading-container="loading">
+
+    <div class="page-header">
+        <h1> {{task.title}}
+            <small>{{'Завершение курса'|translate}}</small>
+        </h1>
+    </div>
+
+    <div class="main-content">
+
+        <div ng-if="errors">
+            <div class="alert alert-danger" ng-if="errors.not_assign">{{'Это задание Вам не назначено'|translate}}</div>
+            <div class="alert alert-danger" ng-if="errors.not_found">{{errors.not_found}}</div>
+        </div>
+
+        <div class="panel error-panel" ng-if="task.status == 'inprogress' || task.status == 'started'">
+            <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa text-warning fa-star-half-empty"></i> {{'Курс еще не пройден'|translate}}</h3>
+            </div>
+            <div class="panel-body">
+                <p>
+                    {{'Пока выполнено только'|translate}} {{task.plan_percent_complete}}% {{'заданий курса'|translate}}
+                    "{{task.title}}"
+                </p>
+
+                <p ng-if="!task.element.finish_type || task.element.finish_type == 'summary'">
+                    <dl class="dl-horizontal text-left">
+                        <dt>{{'Пройдено заданий'|translate}}:</dt>
+                        <dd>{{task.plan_percent_complete}}%</dd>
+                        <dt>{{'Набрано баллов'|translate}}:</dt>
+                        <dd>{{task.plan_sum}}</dd>
+                        <dt>{{'Итоговый процент успешности'|translate}}:</dt>
+                        <dd>{{task.plan_percent}}%</dd>
+
+                        <dt ng-if="task.threshold">{{'Порог успешности'|translate}}:</dt>
+                        <dd ng-if="task.threshold">{{task.threshold}}%</dd>
+                    </dl>
+                </p>
+
+                <p ng-if="task.element.finish_type == 'by_test'">
+                    <dl class="dl-horizontal text-left">
+                        <dt>{{'Итоговый тест пройден на'|translate}}:</dt>
+                        <dd>{{task.mark}}%</dd>
+                        <dt>{{'Порог успешности'|translate}}:</dt>
+                        <dd>{{task.threshold}}%</dd>
+                    </dl>
+
+                </p>
+            </div>
+        </div>
+
+        <div class="panel error-panel" ng-if="task.status == 'finished'">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    <i ng-if="task.is_success" class="fa text-warning fa-star"></i>
+                    <i ng-if="!task.is_success" class="fa fa-flag-checkered"></i>
+                    {{'Поздравляем!'|translate}}<br/>
+                    <span ng-if="task.is_success">{{'Вы успешно завершили курс'|translate}}</span>
+                    <span ng-if="!task.is_success">{{'Вы завершили крус'|translate}}</span> "{{task.title}}"
+                </h3>
+            </div>
+
+            <div class="panel-body">
+
+            <p ng-if="!task.element.finish_type || task.element.finish_type == 'summary'">
+                <dl class="dl-horizontal text-left">
+                    <dt>{{'Пройдено заданий'|translate}}:</dt>
+                    <dd>{{task.plan_percent_complete}}%</dd>
+                    <dt>{{'Итоговая сумма баллов'|translate}}:</dt>
+                    <dd>{{task.plan_sum}}</dd>
+                    <dt>{{'Итоговый процент успешности'|translate}}:</dt>
+                    <dd>{{task.plan_percent}}%</dd>
+                    <dt ng-if="task.threshold">{{'Порог успешности'|translate}}:</dt>
+                    <dd ng-if="task.threshold">{{task.threshold}}%</dd>
+                </dl>
+            </p>
+
+            <p ng-if="task.element.finish_type == 'by_test'">
+                <dl class="dl-horizontal text-left">
+                    <dt>{{'Итоговый тест пройден на'|translate}}:</dt>
+                    <dd>{{task.mark}}%</dd>
+                    <dt>{{'Порог успешности'|translate}}:</dt>
+                    <dd>{{task.threshold}}%</dd>
+                </dl>
+            </p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col col-xs-3 course-sidebar sidebar-right">
+    <a ng-if="task && task.parent_id" class="btn btn-default btn-block btn-lg" href="/courses/materials/{{task.id}}">
+        <span class="fa fa-book"></span> {{'Материалы курса'|translate}}
+    </a>
+    <br/>
+
+    <div ng-if="task && task.parent_id">
+        <div ng-include="'/themes/default/views/block/course-plan.html'"></div>
+    </div>
+</div>

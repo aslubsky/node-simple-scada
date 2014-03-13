@@ -1,0 +1,61 @@
+<breadcrumbs>
+    <crumb title="'Восстановление пароля'|translate" />
+</breadcrumbs>
+
+
+<div class="padded" bz-loading-container="loading">
+    <div class="page-header">
+        <h1>{{'Восстановление пароля'|translate}}</h1>
+    </div>
+
+    <form class="recovery_pass form-horizontal" name="recovery_pass" ng-submit="savePass(pass)" novalidate>
+
+        <div class="col-lg-6">
+
+            <div class="form-group">
+                <label class="control-label col-lg-3">{{'Пароль'|translate}}<span class="star">*</span></label>
+
+                <div class="controls col-lg-6">
+                    <input class="form-control" type="password" placeholder="Пароль" ng-model="pass.password"
+                           name="password" autocomplete="off" required>
+
+                    <div class="ng-cloak help-block" ng-if="pass.password.$invalid  ">
+                        {{'Поле не может быть пустым'|translate}}
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-lg-3">{{'Повторите пароль'|translate}}<span class="star">*</span></label>
+
+                <div class="controls col-lg-6">
+                    <input class="form-control" type="password" placeholder="Повторите пароль" ng-model="pass.spassword"
+                           name="spassword" autocomplete="off" required>
+
+                    <div class="ng-cloak help-block" ng-if="pass.spassword.$invalid  ">
+                        {{'Поле не может быть пустым'|translate}}
+                    </div>
+                </div>
+            </div>
+
+            <div ng-if="errors.password" class="alert alert-danger">{{'Пароли не совпадают'|translate}}</div>
+            <div ng-if="errors.key" class="alert alert-danger">{{'Ключ не совпадает'|translate}}</div>
+
+
+            <div class="form-group">
+                <div class="controls col-lg-9 col-lg-offset-3">
+                    <button ng-disabled="pass.$invalid || loading" ng-click="savePass(pass)" class="btn btn-primary">
+                        <span ng-hide="loading"><i class="fa fa-floppy-o"></i> {{'Сохранить'|translate}}</span>
+                        <span ng-show="loading">...</span>
+                    </button>
+                    <button ng-click="cancel()" class="btn btn-primary">
+                        <span>{{'Отменить'|translate}}</span>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+    </form>
+
+</div>

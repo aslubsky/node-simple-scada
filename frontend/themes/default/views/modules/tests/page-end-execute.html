@@ -1,0 +1,36 @@
+<div ng-if="finished || canFinish">
+
+    <h3 class="text-center">{{'Выполнение задания завершено!'|translate}}</h3>
+    <div class="text-center" ng-if="!timer && timeout" class="alert alert-info"><h3>{{'Время истекло'|translate}}</h3></div>
+    <p class="text-center">{{'Ваш результат'|translate}} - {{testFinishRes.mark}}%</p>
+
+    <div class="well">
+        <dl class="dl-horizontal dl-description">
+            <dt>{{'Всего вопросов в задании'|translate}}</dt>
+            <dd>{{questionsCount}}</dd>
+
+            <dt>{{'Получено ответов'|translate}}</dt>
+            <dd>{{testFinishRes.answers_received}}</dd>
+
+            <dt>{{'Начало тестирования'|translate}}</dt>
+            <dd>{{testFinishRes.start}}</dd>
+
+            <dt>{{'Окончание тестирования'|translate}}</dt>
+            <dd>{{testFinishRes.end}}</dd>
+
+            <dt>{{'Потрачено времени'|translate}}</dt>
+            <dd>{{ testFinishRes.time| date:'mm:ss'}}</dd>
+        </dl>
+    </div>
+
+    <div class="text-center">
+        <!--<a ng-if="finished || canFinish" ng-click="finish()" class="btn btn-success">{{'Завершить тестирование'|translate}}</a>-->
+        <a href="" ng-show="task.parent_id && !mode" ng-click="complete()" class="btn btn-success">{{'Завершить тестирование'|translate}}</a>
+        <a href="" ng-show="mode" ng-click="complete()" class="btn btn-success">{{'Завершить тестирование'|translate}}</a>
+        <a href="" ng-show="!task.parent_id && !mode" ng-click="cancel()" class="btn btn-success">{{'Завершить тестирование'|translate}}</a>
+        <a ng-click="newExecute()" href="" class="btn btn-success">
+            <span class="fa fa-refresh"></span>
+            {{'Пройти тестирование еще раз'|translate}}
+        </a>
+    </div>
+</div>

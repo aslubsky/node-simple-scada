@@ -1,0 +1,44 @@
+<breadcrumbs>
+    <crumb href="'/'" title="'Мой кабинет'|translate" />
+    <crumb title="'Администрирование'|translate" />
+    <crumb href="'/users'" title="'Пользователи'|translate" />
+    <crumb title="userRoles.shortName" />
+    <crumb title="'Редактирование ролей пользователя'|translate" />
+</breadcrumbs>
+
+
+<div class="padded" bz-loading-container="loading">
+    <div class="page-header">
+        <h1>{{'Редактирование ролей пользователя'|translate}} <small>{{ userRoles.fullname }}</small></h1>
+    </div>
+
+    <div class="main-content">
+
+    <form class="editRole form-horizontal" name="editRole" novalidate>
+
+        <div class="form-group">
+            <label class="control-label col-lg-3">{{'Роли'|translate}}<span class="star"></span></label>
+            <div class="panel panel-default col-lg-9">
+                <div class="panel-body">
+                    <label class="checkbox" ng-repeat="role in roles">
+                        <input type="checkbox" ng-model="userRoles[role.id]" value="{{role.id}}" check-list="userRoles.roles">{{role.title}}
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="controls col-lg-9 col-lg-offset-3">
+                <button ng-disabled="editRole.$invalid || loading" ng-click="changeRoles(userRoles)" class="btn btn-primary">
+                    <span ng-hide="loading">{{'Сохранить'|translate}}</span>
+                    <span ng-show="loading">{{'Сохраняется...'|translate}}</span>
+                </button>
+                <button ng-click="cancel()" class="btn btn-default">
+                    <span>{{'Отменить'|translate}}</span>
+                </button>
+            </div>
+        </div>
+
+    </form>
+    </div>
+</div>

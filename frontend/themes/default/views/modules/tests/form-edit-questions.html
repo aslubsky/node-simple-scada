@@ -1,0 +1,116 @@
+<form class="question form-horizontal" name="question" novalidate>
+
+    <div class="form-group">
+        <label class="control-label col-lg-2">{{'Тип'|translate}}<span class="star">*</span></label>
+
+        <div class="controls col-lg-10">
+            <select class="form-control" ng-model="data.type" name="type" required>
+                <option value="single">Одиночный</option>
+                <option value="multi">Множественный</option>
+            </select>
+
+            <div class="ng-cloak help-block" ng-if="type.type.$invalid">
+                {{'Поле не может быть пустым'|translate}}
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-lg-2">{{'Вопрос'|translate}}<span class="star">*</span></label>
+
+        <div class="controls col-lg-10">
+            <textarea class="form-control" ckeditor="editorOptions" ng-model="data.body" name="body"
+                      required></textarea>
+
+            <div class="ng-cloak help-block" ng-if="question.body.$invalid">
+                {{'Поле не может быть пустым'|translate}}
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-lg-2">{{'Изображения'|translate}}</label>
+
+        <div class="controls col-lg-10">
+            <div bz-uploader="'/api/rest.php/tests/'+data.test_id+'/questions?action=upload'"
+                 text="{'choose': 'Загрузить файл'}" editor-select-images ng-model="data.files" autoupload="true">
+                <ul class="gallery">
+                    <li ng-repeat="(key,file) in data.files" class="item">
+                        <img src="{{file.file}}" />
+                        <div class="details">
+                            <!--a href="#" class="action"><i class="fa fa-pencil-square-o"></i></a-->
+                            <a href="" bz-confirm="data.files.splice(key,1)" message="'Удалить?'"
+                               title="{{'Удалить'|translate}}" class="action"><i class="fa fa-trash-o"></i></a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group" bz-loading-container="loading" ng-if="data.id">
+        <label class="control-label col-lg-2">{{'Варианты ответов'|translate}}</label>
+
+        <div class="controls col-lg-10">
+            <a ng-click="addAnswer()" class="btn btn-success">
+                <i class="fa fa-plus"></i> {{'Добавить вариант'|translate}}
+            </a>
+            <br/>
+            <br/>
+
+            <table ng-table="tableParams" class="table ng-table-responsive table-condensed table-tests">
+                <tr ng-repeat="answer in answers" ng-class="{ 'success': answer.is_right }">
+                    <td width="20" data-title="'Правильный'|translate">
+                        <input type="checkbox" ng-click="setIsRight(answer)" ng-model="answer.is_right"/>
+                    </td>
+                    <td data-title="'Ответ'|translate">
+                        <span ng-if="!answer.$edit" ng-bind-html="getHtml(answer.body)"></span>
+
+                        <div ng-if="answer.$edit">
+                            <textarea class="form-control" ckeditor="editorOptions" ng-model="answer.body" name="body"
+                                      required></textarea>
+                        </div>
+                    </td>
+                    <td width="95" data-title="'Действия'|translate" class="actions">
+                        <a href="" ng-if="!answer.$edit" ng-click="answer.$edit = true"
+                           title="{{'Редактировать'|translate}}"><span class="fa fa-pencil"></span></a>
+                        <a href="" ng-if="answer.$edit" ng-click="saveAnswer(answer)" title="{{'Сохранить'|translate}}"><span
+                                class="fa fa-floppy-o"></span></a>
+                        <a href="" bz-confirm="removeAnswer(answer)" message="'Удалить?'"><span
+                                class="fa fa-times text-danger"></span></a>
+                    </td>
+
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="controls col-lg-10 col-lg-offset-2">
+
+            <div class="btn-group">
+                <button ng-disabled="question.$invalid || loading" ng-click="saveQuestion(data, 'close')" type="button"
+                        class="btn btn-primary">
+                    <span ng-hide="loading">{{'Сохранить'|translate}}</span>
+                    <span ng-show="loading">{{'Сохраняется...'|translate}}</span>
+                </button>
+                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                    <span class="caret"></span>
+                    <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                    <li ng-class="{'disabled':question.$invalid || loading}" ng-disabled="question.$invalid || loading">
+                        <a ng-click="saveQuestion(data, 'reload')" href="">{{'Сохранить и продолжить редактировать'|translate}}</a>
+                    </li>
+                    <li ng-class="{'disabled':question.$invalid || loading}" ng-disabled="question.$invalid || loading">
+                        <a ng-click="saveQuestion(data, 'new')" href="">{{'Сохранить и создать новый'|translate}}</a>
+                    </li>
+                </ul>
+            </div>
+
+            <button ng-click="cancel()" class="btn btn-default">
+                <span>{{'Отменить'|translate}}</span>
+            </button>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Collaborator</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="EqualTeam (http://equalteam.net/)">
+
+    <base href="/"/>
+    <link href="/themes/default/assets/css/bootstrap.css" rel="stylesheet" media="screen">
+    <link href="/themes/default/assets/css/theme.css" rel="stylesheet" media="screen">
+
+    <script src="/bower_components/requirejs/require.js" data-main="app/config"></script>
+</head>
+
+<body locale-bundle="theme">
+
+<nav class="navbar navbar-main" role="navigation">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle ng-cloak" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/"></a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <div menu-class="'nav navbar-nav'" els-menu="mainMenu"></div>
+
+        <!-- Правое меню, видно только гостям -->
+        <ul ng-if="$user.is_guest" class="nav navbar-nav ng-cloak navbar-right">
+            <li>
+                <a href="" class="registration dropdown-toggle">{{'Регистрация'|translate}}</a>
+                <ul class="dropdown-menu dropdown-menu-login">
+                    <li>
+                        <h4>{{'Регистрация'|translate}}</h4>
+
+                        <div ng-include="'/themes/default/views/user/form-registration.html'"></div>
+                    </li>
+                </ul>
+            </li>
+            <li class="dropdown dropdown-login">
+                <a href="" class="dropdown-toggle">{{'Войти в систему'|translate}}</a>
+                <ul class="dropdown-menu dropdown-menu-login">
+                    <li>
+                        <h4>{{'Вход'|translate}}</h4>
+
+                        <div ng-include="'/themes/default/views/user/form-login.html'"></div>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        <!-- Правое меню, видно залогиненому пользователю -->
+        <ul ng-if="!$user.is_guest" class="nav navbar-nav ng-cloak navbar-right">
+            <li class="dropdown dropdown-login">
+                <a href="" data-toggle="dropdown" class="dropdown-toggle">
+                    <img src="/themes/default/assets/img/defaultuser.jpg" ng-src="{{($user.photo_thumb ? $user.photo_thumb : '/themes/default/assets/img/defaultuser.jpg')}}" class="img-circle img-avatar">
+                    <span class="details">
+                        <span class="name">{{ $user.fullname }}<b class="caret"></b></span>
+                        <span class="role">{{ $user.role.title }}</span>
+                    </span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li role="presentation"><a href="/profile">{{'Профиль'|translate}}</a></li>
+                    <li role="presentation"><a href="/profile/change-pass">{{'Сменить пароль'|translate}}</a></li>
+                    <li ng-if="$user.roles.length > 1" role="presentation" class="dropdown-header">{{'Роли пользователя'|translate}}</li>
+                    <li ng-repeat="role in $user.roles">
+                        <a ng-class="'role-' + role.id" ng-click="$user.$changeRole(role.id)" href="">{{role.title}}</a>
+                    </li>
+                    <li ng-if="$user.roles.length > 1" role="presentation" class="divider"></li>
+                    <li role="presentation"><a id="btn-logout" href="" ng-click="logout()">{{'Выйти'|translate}}</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <!-- /.navbar-collapse -->
+</nav>
+
+
+<div class="main">
+    <div class="container-main">
+
+        <div class="wrapper">
+            <div class="ng-cloak"> <!-- row -->
+                <div class="main-left clearfix"> <!-- col col-xs-9 -->
+                    <div class="heading-bar visible-lg visible-md hidden-sm hidden-xs">
+                        <ul class="nav-links pull-right">
+                            <li>
+                                <a class="help" ng-click="bzShowHelp()" href="" title="{{'Помощь'|translate}}">
+                                    {{'Справка'|translate}}
+                                </a>
+                            </li>
+                        </ul>
+
+                        <ol class="breadcrumb" breadcrumbs></ol>
+                    </div>
+                    <div app-view-segment="0"></div>
+                </div>
+
+                <!--div ng-include="'/themes/default/views/block/sidebar.html'"></div-->
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container ng-cloak">
+    <hr>
+
+    <footer>
+        <a href="http://davintoo.com/" target="_blank" class="davintoo">Developed by</a>
+
+        <ul class="list-inline">
+            <li><a href="">О системе</a></li>
+            <li><a href="">Справочная информация</a></li>
+        </ul>
+    </footer>
+</div>
+</body>
+</html>

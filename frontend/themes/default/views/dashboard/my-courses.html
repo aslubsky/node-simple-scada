@@ -1,0 +1,25 @@
+<div class="panel panel-primary panel-mycourses" data-ng-controller="Dashboard.MyCoursesCtrl" bz-loading-container="loading" ng-show="courses.length > 0">
+    <div class="panel-heading">
+        <h3 class="panel-title">{{'Мои курсы'|translate}}</h3>
+    </div>
+    <div>
+        <table class="table table-condensed table-hover">
+            <tr ng-repeat="courseTask in courses">
+                <td width="32">
+                    <img width="32" ng-src="{{courseTask.element.icon}}"></td>
+                <td>
+                    <a href="/courses/execute/{{courseTask.id}}?restore=true">{{courseTask.title}}</a></br>
+                    {{courseTask.element.annotation}}
+                </td>
+                <td width="90">
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{courseTask.plan_percent_complete}}"
+                             aria-valuemin="0" aria-valuemax="100" style="width: {{courseTask.plan_percent_complete}}%;">
+                            <span class="sr-only">{{courseTask.plan_percent_complete}}% {{'Пройдено'|translate}}</span>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

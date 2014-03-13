@@ -1,0 +1,16 @@
+<breadcrumbs>
+    <crumb href="'/'" title="'Мой кабинет'|translate" />
+    <crumb href="'/study-resources'" title="'Учебные ресурсы'|translate" />
+    <crumb href="'/courses'" title="'Курсы'|translate" />
+    <crumb href="'/courses/' + data.id + '/view'" title="data.title"/>
+    <crumb title="'Редактирование'|translate" />
+</breadcrumbs>
+
+<div class="padded" bz-loading-container="loading">
+
+    <div class="page-header">
+        <h1>{{'Редактирование курса'|translate}}</h1>
+    </div>
+
+    <div class="main-content" ng-include="'/themes/default/views/modules/courses/form-edit.html'"></div>
+</div>
