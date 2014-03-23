@@ -4,13 +4,14 @@ var moment = require('moment');
 var config = require('./../config').values;
 var GPIO = require('./data-sources/gpio.js');
 var ModBus = require('./data-sources/modbus.js');
+var dbClass = require('./db');
+
 var io = require('socket.io')
     .listen(config.socketio.port, {
         'log level': config.socketio.logLevel
     });
 var stdio = require('stdio');
 var winston = require('winston');
-var MysqlArchive = require('./archives/mysql.js');
 
 (function() {
     var self = this;
@@ -30,7 +31,8 @@ var MysqlArchive = require('./archives/mysql.js');
         'emulate': {args: 1, key: 'e', description: 'Emulate data source'},
         'archive': {args: 1, key: 'a', mandatory: true, description: 'Archive all data in to DB'}
     });
-    this.archive = new MysqlArchive(config.mysql, this.logger);
+    
+    this.db = new dbClass(config.mysql, this.logger);
     
     this.dataSourcesList = [];
     
@@ -48,28 +50,28 @@ var MysqlArchive = require('./archives/mysql.js');
                 value: value
             });
             if(opts['archive'] && opts['archive'] == 1) {
-                if(ds.cfg.wrtite_ratio == undefined) {
-                    archive.save(ds, value);
-                } else if(ds.canWrite() === true) {
-                    archive.save(ds, ds.getAvgValue());
-                }
+                ds.save(value);
             }
         } else {
-            logger.error(err);
+            self.logger.error(err);
         }
         self.runDataSource(ds);
     }
     
     _(config.dataSources).forEach(function (dsCfg) {
         dsCfg.emulate = opts['emulate'] == undefined ? false : true;
+        var dso = null;
         switch(dsCfg.type) {
             case 'GPIO':
-                self.dataSourcesList.push(new GPIO(dsCfg));
+                dso = new GPIO(dsCfg);
             break;
             case 'ModBus':
-                self.dataSourcesList.push(new ModBus(dsCfg));
+                dso = new ModBus(dsCfg);
             break;
         }
+        dso.logger = self.logger;
+        dso.db = self.db;
+        self.dataSourcesList.push(dso);
     });
     
     _(this.dataSourcesList).forEach(function (ds) {

@@ -1,5 +1,6 @@
 define([
     'angular',
+    'bz',
     'angular-locale',
     'ngTable',
     'ngTableExport',
@@ -7,7 +8,7 @@ define([
     'angular-notify'
 ], function (angular) {
 
-    var app = angular.module('app', ['ngTable', 'ngTableExport', 'ui.bootstrap', 'cgNotify']);
+    var app = angular.module('app', ['bz', 'ngTable', 'ngTableExport', 'ui.bootstrap', 'cgNotify']);
 
     app.config(['$routeSegmentProvider', '$locationProvider', 'bzConfigProvider', '$logProvider', 'bzUserProvider', '$httpProvider',
         function ($routeSegmentProvider, $locationProvider, config, $logProvider, bzUser, $httpProvider) {

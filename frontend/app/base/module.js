@@ -28,8 +28,6 @@ define([
 
     app.config(['$routeSegmentProvider', 'bzConfigProvider',
         function($routeSegmentProvider, config) {
-            // если включено, то при старте приложения будет грузить данные про текущею сессию
-            config.checkSessionOnStart(true);
 
             $routeSegmentProvider
                 .when('/', 'main')

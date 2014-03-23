@@ -2,6 +2,11 @@ require.config({
     baseUrl: '/app',
 
     packages: [
+        {
+            name: 'bz',
+            location: '../bower_components/bazalt/build',
+            main: 'bz'
+        }
     ],
 
     paths: {

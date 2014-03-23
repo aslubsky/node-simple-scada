@@ -32,6 +32,7 @@
     "jquery": "1.10.2"
   },
   "dependencies": {
+    "bazalt": "*",
     "angular-ui-bootstrap3": "~0.6.0",
     "font-awesome": "~4.0.3",
     "jquery": "~2.0.3"

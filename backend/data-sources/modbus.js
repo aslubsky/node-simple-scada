@@ -1,15 +1,22 @@
 var util = require('util');
 var exec = require('child_process').exec;
+var moment = require('moment');
 
 
 module.exports = ModBus;
 
 function ModBus(cfg) {
+    var self = this;
+    
     this.cfg = cfg;
     
     this.read_count = 0;
     this.values = [];
     this.avgValue = 0;
+    
+    this.logger = null;
+    
+    this.db = null;
 
     this.BIN_PATH = '/usr/local/bin/modbus-rtu-client';
 
@@ -50,6 +57,30 @@ function ModBus(cfg) {
         return false;
     }
     
+    this.save = function (value) {
+        if(this.cfg.wrtite_ratio == undefined) {
+            this._save(value);
+        } else if(this.canWrite() === true) {
+            this._save(this.getAvgValue());
+        }
+    }
+    
+    this._save = function (value) {
+        var obj = {
+            'date': moment().format('YYYY-MM-DD HH:mm:ss'),
+            'source_id': this.getId(),
+            'value': value+''
+        };
+        // console.log(obj);
+        this.logger.log('debug', 'INSERT INTO archive_numeric SET ?', obj);
+        this.db.query('INSERT INTO archive_numeric SET ?', obj, function(rows, fields) {
+            // console.log(rows, fields);
+            self.logger.log('debug', 'INSERT DONE', rows);
+        }, function(qerr, qs) {
+            self.logger.log('error', qerr+"\n"+qs);
+        });
+    }
+    
     this.read = function(cb) {
         this.read_count++;
         
@@ -61,7 +92,6 @@ function ModBus(cfg) {
         }
 
         var str = __dirname + this.BIN_PATH +' -r '+this.cfg.register;
-        var self = this;
         var val = 0;
         // console.log(str);
         exec(str, function(err, stdout, stderr) {
