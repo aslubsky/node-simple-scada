@@ -1,5 +1,8 @@
 define([
     'app',
+    'base/canvas/figure',
+    'base/canvas/arrows',
+    'base/canvas/h2obarrel',
     'base/controllers/MainCtrl',
     /*'base/directives/dropdownMenu',
     'base/directives/bzHelp',

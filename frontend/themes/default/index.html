@@ -27,56 +27,431 @@
 
 <body locale-bundle="theme">
 
-<nav class="navbar navbar-main" role="navigation">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-        <button type="button" class="navbar-toggle ng-cloak" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="/"></a>
-    </div>
-</nav>
-
-
 <div class="main">
     <div class="container-main">
-
-        <div class="wrapper">
-            <div class="ng-cloak"> <!-- row -->
-                <div class="main-left clearfix"> <!-- col col-xs-9 -->
-                    <div class="heading-bar visible-lg visible-md hidden-sm hidden-xs">
-                        <ul class="nav-links pull-right">
-                            <li>
-                                <a class="help" ng-click="bzShowHelp()" href="" title="{{'Помощь'|translate}}">
-                                    {{'Справка'|translate}}
-                                </a>
-                            </li>
-                        </ul>
-
-                        <ol class="breadcrumb" breadcrumbs></ol>
-                    </div>
-                    <div app-view-segment="0"></div>
-                </div>
-
-                <!--div ng-include="'/themes/default/views/block/sidebar.html'"></div-->
-            </div>
+        <div class="background tile-overlay"></div>
+        <div class="content ng-cloak">
+            <div app-view-segment="0"></div>
         </div>
     </div>
 </div>
-<div class="container ng-cloak">
-    <hr>
 
-    <footer>
-        <a href="http://equalteam.net/" target="_blank">Developed by EqualTeam</a>
 
-        <ul class="list-inline">
-            <li><a href="">О системе</a></li>
-            <li><a href="">Справочная информация</a></li>
-        </ul>
-    </footer>
-</div>
+<script defer="defer">
+
+
+
+
+
+
+//
+//
+//
+//function WaterCounter() {
+//    this.draws = [];
+//    var self = this;
+//
+//    this.draws.push(function(ctx) {
+//        ctx.fillStyle = "transparent";
+//        ctx.strokeStyle = "#D9D4D3";
+//        ctx.lineWidth = self.getLineWidth();
+//        ctx.beginPath();
+//        ctx.moveTo(58,0.75);
+//        ctx.bezierCurveTo(70.28833568373516,0.75,80.25,10.711664316264843,80.25,23);
+//        ctx.bezierCurveTo(80.25,35.288335683735156,70.28833568373516,45.25,58,45.25);
+//        ctx.bezierCurveTo(45.711664316264844,45.25,35.75,35.288335683735156,35.75,23);
+//        ctx.bezierCurveTo(35.75,10.711664316264843,45.711664316264844,0.75,58,0.75);
+//        ctx.closePath();
+//    });
+//
+//    this.draws.push(function(ctx) {
+//        ctx.fillStyle = "rgba(0, 0, 0, 0)";
+//        ctx.strokeStyle = "#D9D4D3";
+//        ctx.lineWidth = self.getLineWidth();
+//        ctx.beginPath();
+//        ctx.moveTo(58,4.75);
+//        ctx.bezierCurveTo(68.07919668441198,4.75,76.25,12.920803315588017,76.25,23);
+//        ctx.bezierCurveTo(76.25,33.07919668441198,68.07919668441198,41.25,58,41.25);
+//        ctx.bezierCurveTo(47.92080331558802,41.25,39.75,33.07919668441198,39.75,23);
+//        ctx.bezierCurveTo(39.75,12.920803315588017,47.92080331558802,4.75,58,4.75);
+//        ctx.closePath();
+//    });
+//
+//
+//    this.onDrawStop = function(ctx) {
+//        /*$('.t4').css({
+//         left: Math.ceil(45*self.getScale())+'px',
+//         top: Math.ceil(2*self.getScale())+'px',
+//         'font-size': Math.ceil(26*self.getScale())+'px'
+//         });*/
+//        $('.t4').css({
+//            left: Math.ceil(47*self.getScale())+'px',
+//            top: Math.ceil(6*self.getScale())+'px',
+//            'font-size': Math.ceil(26*self.getScale())+'px'
+//        });
+//    }
+//}
+//WaterCounter.prototype = new Figure();
+//
+//function pHBarrel() {
+//    this.draws = [];
+//    var self = this;
+//
+//    this.draws.push(function(ctx) {
+//        ctx.fillStyle = "transparent";
+//        ctx.strokeStyle = "#D9D4D3";
+//        ctx.lineWidth = self.getLineWidth();
+//        ctx.miterLimit = 10;
+//        ctx.beginPath();
+//        ctx.moveTo(273,207);
+//        ctx.bezierCurveTo(273,177,329,177,329,207);
+//        ctx.lineTo(329,270);
+//        ctx.bezierCurveTo(329,300,273,300,273,270);
+//        ctx.closePath();
+//    });
+//
+//    this.draws.push(function(ctx) {
+//        ctx.fillStyle = "rgba(0, 0, 0, 0)";
+//        ctx.strokeStyle = "#D9D4D3";
+//        ctx.lineWidth = self.getLineWidth();
+//        ctx.miterLimit = 10;
+//        ctx.beginPath();
+//        ctx.moveTo(273,207);
+//        ctx.bezierCurveTo(273,229,329,229,329,207);
+//    });
+//
+//    this.draws.push(function(ctx) {
+//        ctx.fillStyle = "rgba(0, 0, 0, 0)";
+//        ctx.strokeStyle = "#D9D4D3";
+//        ctx.lineWidth = self.getLineWidth();
+//        ctx.miterLimit = 10;
+//        ctx.beginPath();
+//        ctx.moveTo(273,257);
+//        ctx.bezierCurveTo(273,279,329,279,329,257);
+//    });
+//
+//    this.draws.push(function(ctx) {
+//        ctx.fillStyle = "rgba(0, 0, 0, 0)";
+//        ctx.strokeStyle = "#D9D4D3";
+//        ctx.lineWidth = self.getLineWidth();
+//        ctx.miterLimit = 10;
+//        ctx.beginPath();
+//        ctx.moveTo(273,262);
+//        ctx.bezierCurveTo(273,284,329,284,329,262);
+//    });
+//
+//    this.onDrawStop = function() {
+//        $('.t2').css({
+//            left: Math.ceil(284*self.getScale())+'px',
+//            top: Math.ceil(225*self.getScale())+'px',
+//            'font-size': Math.ceil(24*self.getScale())+'px'
+//        });
+//    }
+//}
+//pHBarrel.prototype = new Figure();
+//
+//function ClBarrel() {
+//    this.draws = [];
+//    var self = this;
+//
+//
+//    this.draws.push(function(ctx) {
+//        ctx.fillStyle = "transparent";
+//        ctx.strokeStyle = "#D9D4D3";
+//        ctx.lineWidth = 2;
+//        ctx.miterLimit = 10;
+//        ctx.beginPath();
+//        ctx.moveTo(368,207);
+//        ctx.bezierCurveTo(368,178,424,178,424,207);
+//        ctx.lineTo(424,271);
+//        ctx.bezierCurveTo(424,300,368,300,368,271);
+//        ctx.closePath();
+//    });
+//
+//    this.draws.push(function(ctx) {
+//        ctx.fillStyle = "rgba(0, 0, 0, 0)";
+//        ctx.strokeStyle = "#D9D4D3";
+//        ctx.lineWidth = 2;
+//        ctx.miterLimit = 10;
+//        ctx.beginPath();
+//        ctx.moveTo(368,207);
+//        ctx.bezierCurveTo(368,229,424,229,424,207);
+//    });
+//
+//    this.draws.push(function(ctx) {
+//        ctx.fillStyle = "rgba(0, 0, 0, 0)";
+//        ctx.strokeStyle = "#D9D4D3";
+//        ctx.lineWidth = 2;
+//        ctx.miterLimit = 10;
+//        ctx.beginPath();
+//        ctx.moveTo(368,257);
+//        ctx.bezierCurveTo(368,279,424,279,424,257);
+//    });
+//
+//    this.draws.push(function(ctx) {
+//        ctx.fillStyle = "rgba(0, 0, 0, 0)";
+//        ctx.strokeStyle = "#D9D4D3";
+//        ctx.lineWidth = 2;
+//        ctx.miterLimit = 10;
+//        ctx.beginPath();
+//        ctx.moveTo(368,262);
+//        ctx.bezierCurveTo(368,284,424,284,424,262);
+//    });
+//
+//    this.onDrawStop = function() {
+//        $('.t3').css({
+//            left: Math.ceil(384*self.getScale())+'px',
+//            top: Math.ceil(225*self.getScale())+'px',
+//            'font-size': Math.ceil(24*self.getScale())+'px'
+//        });
+//    }
+//}
+//ClBarrel.prototype = new Figure();
+//
+//function Other() {
+//    this.draws = [];
+//    var self = this;
+//
+//    /* pH */
+//    this.draws.push(function(ctx) {
+//        ctx.fillStyle = "transparent";
+//        ctx.strokeStyle = "#D9D4D3";
+//        ctx.lineWidth = 2;
+//        ctx.beginPath();
+//        ctx.moveTo(300,131.75);
+//        ctx.bezierCurveTo(310.6314814342428,131.75,319.25,140.36851856575723,319.25,151);
+//        ctx.bezierCurveTo(319.25,161.63148143424277,310.6314814342428,170.25,300,170.25);
+//        ctx.bezierCurveTo(289.3685185657572,170.25,280.75,161.63148143424277,280.75,151);
+//        ctx.bezierCurveTo(280.75,140.36851856575723,289.3685185657572,131.75,300,131.75);
+//        ctx.closePath();
+//    });
+//    this.draws.push(function(ctx) {
+//        ctx.fillStyle = "rgba(0, 0, 0, 0)";
+//        ctx.strokeStyle = "#D9D4D3";
+//        ctx.lineWidth = 2;
+//        ctx.miterLimit = 10;
+//        ctx.beginPath();
+//        ctx.moveTo(300,132);
+//        ctx.lineTo(320,151);
+//        ctx.lineTo(300,170);
+//    });
+//    this.draws.push(function(ctx) {
+//        ctx.fillStyle = "rgba(0, 0, 0, 0)";
+//        ctx.strokeStyle = "#D9D4D3";
+//        ctx.lineWidth = 2;
+//        ctx.miterLimit = 10;
+//        ctx.beginPath();
+//        ctx.moveTo(301,185);
+//        ctx.lineTo(301,180);
+//        ctx.quadraticCurveTo(301,175,300,176);
+//        ctx.lineTo(300,177);
+//    });
+//    this.draws.push(function(ctx) {
+//        ctx.fillStyle = "#D9D4D3";
+//        ctx.strokeStyle = "#D9D4D3";
+//        ctx.lineWidth = 2;
+//        ctx.miterLimit = 10;
+//        ctx.beginPath();
+//        ctx.moveTo(300,171);
+//        ctx.lineTo(304,178);
+//        ctx.lineTo(300,177);
+//        ctx.lineTo(297,178);
+//        ctx.closePath();
+//    });
+//    this.draws.push(function(ctx) {
+//        ctx.fillStyle = "rgba(0, 0, 0, 0)";
+//        ctx.strokeStyle = "#D9D4D3";
+//        ctx.lineWidth = 2;
+//        ctx.miterLimit = 10;
+//        ctx.beginPath();
+//        ctx.moveTo(301,132);
+//        ctx.lineTo(301,126);
+//        ctx.quadraticCurveTo(301,120,311,120);
+//        ctx.lineTo(434,120);
+//        ctx.quadraticCurveTo(444,120,444,110);
+//        ctx.lineTo(444,97);
+//    });
+//    this.draws.push(function(ctx) {
+//        ctx.fillStyle = "#D9D4D3";
+//        ctx.strokeStyle = "#D9D4D3";
+//        ctx.lineWidth = 2;
+//        ctx.miterLimit = 10;
+//        ctx.beginPath();
+//        ctx.moveTo(444,91);
+//        ctx.lineTo(447,98);
+//        ctx.lineTo(444,97);
+//        ctx.lineTo(440,98);
+//        ctx.closePath();
+//    });
+//    /* pH */
+//
+//
+//    /* Temp */
+//    this.draws.push(function(ctx) {
+//        ctx.fillStyle = "transparent";
+//        ctx.strokeStyle = "#D9D4D3";
+//        ctx.lineWidth = 2;
+//        ctx.miterLimit = 10;
+//        ctx.beginPath();
+//        ctx.moveTo(277,9);
+//        ctx.lineTo(386,9);
+//        ctx.lineTo(400,40);
+//        ctx.lineTo(413,40);
+//        ctx.lineTo(413,70);
+//        ctx.lineTo(400,70);
+//        ctx.lineTo(386,100);
+//        ctx.lineTo(277,100);
+//        ctx.closePath();
+//    });
+//    this.draws.push(function(ctx) {
+//        ctx.fillStyle = "rgba(0, 0, 0, 0)";
+//        ctx.strokeStyle = "#D9D4D3";
+//        ctx.lineWidth = 2;
+//        ctx.miterLimit = 10;
+//        ctx.beginPath();
+//        ctx.moveTo(263,55);
+//        ctx.lineTo(400,55);
+//        ctx.lineTo(386,85);
+//        ctx.lineTo(359,24);
+//        ctx.lineTo(332,85);
+//        ctx.lineTo(304,24);
+//        ctx.lineTo(291,55);
+//    });
+//
+//    this.draws.push(function(ctx) {
+//        ctx.fillStyle = "transparent";
+//        ctx.strokeStyle = "#D9D4D3";
+//        ctx.lineWidth = 2;
+//        ctx.beginPath();
+//        ctx.moveTo(209,28.562499999999996);
+//        ctx.bezierCurveTo(223.6010280736516,28.562499999999996,235.4375,40.398971926348395,235.4375,55);
+//        ctx.bezierCurveTo(235.4375,69.6010280736516,223.6010280736516,81.4375,209,81.4375);
+//        ctx.bezierCurveTo(194.3989719263484,81.4375,182.5625,69.6010280736516,182.5625,55);
+//        ctx.bezierCurveTo(182.5625,40.398971926348395,194.3989719263484,28.562499999999996,209,28.562499999999996);
+//        ctx.closePath();
+//    });
+//    this.draws.push(function(ctx) {
+//        ctx.fillStyle = "rgba(0, 0, 0, 0)";
+//        ctx.strokeStyle = "#D9D4D3";
+//        ctx.lineWidth = 2;
+//        ctx.miterLimit = 10;
+//        ctx.beginPath();
+//        ctx.moveTo(209,28);
+//        ctx.lineTo(236,55);
+//        ctx.lineTo(209,81);
+//    });
+//    /* Temp */
+//
+//
+//
+//    /*Cl*/
+//    this.draws.push(function(ctx) {
+//        ctx.fillStyle = "transparent";
+//        ctx.strokeStyle = "#D9D4D3";
+//        ctx.lineWidth = 2;
+//        ctx.beginPath();
+//        ctx.moveTo(395,131.75);
+//        ctx.bezierCurveTo(405.6314814342428,131.75,414.25,140.36851856575723,414.25,151);
+//        ctx.bezierCurveTo(414.25,161.63148143424277,405.6314814342428,170.25,395,170.25);
+//        ctx.bezierCurveTo(384.3685185657572,170.25,375.75,161.63148143424277,375.75,151);
+//        ctx.bezierCurveTo(375.75,140.36851856575723,384.3685185657572,131.75,395,131.75);
+//        ctx.closePath();
+//    });
+//    this.draws.push(function(ctx) {
+//        ctx.fillStyle = "rgba(0, 0, 0, 0)";
+//        ctx.strokeStyle = "#D9D4D3";
+//        ctx.lineWidth = 2;
+//        ctx.miterLimit = 10;
+//        ctx.beginPath();
+//        ctx.moveTo(395,132);
+//        ctx.lineTo(415,151);
+//        ctx.lineTo(395,171);
+//    });
+//    this.draws.push(function(ctx) {
+//        ctx.fillStyle = "rgba(0, 0, 0, 0)";
+//        ctx.strokeStyle = "#D9D4D3";
+//        ctx.lineWidth = 2;
+//        ctx.miterLimit = 10;
+//        ctx.beginPath();
+//        ctx.moveTo(396,185);
+//        ctx.lineTo(396,180);
+//        ctx.quadraticCurveTo(396,175,395,176);
+//        ctx.lineTo(395,177);
+//    });
+//    this.draws.push(function(ctx) {
+//        ctx.fillStyle = "#D9D4D3";
+//        ctx.strokeStyle = "#D9D4D3";
+//        ctx.lineWidth = 2;
+//        ctx.miterLimit = 10;
+//        ctx.beginPath();
+//        ctx.moveTo(395,172);
+//        ctx.lineTo(399,179);
+//        ctx.lineTo(395,177);
+//        ctx.lineTo(392,179);
+//        ctx.closePath();
+//    });
+//    this.draws.push(function(ctx) {
+//        ctx.fillStyle = "rgba(0, 0, 0, 0)";
+//        ctx.strokeStyle = "#D9D4D3";
+//        ctx.lineWidth = 2;
+//        ctx.miterLimit = 10;
+//        ctx.beginPath();
+//        ctx.moveTo(395,132);
+//        ctx.lineTo(395,126);
+//        ctx.quadraticCurveTo(395,120,405,120);
+//        ctx.lineTo(434,120);
+//        ctx.quadraticCurveTo(444,120,444,110);
+//        ctx.lineTo(444,97);
+//    });
+//    /*Cl*/
+//}
+//Other.prototype = new Figure();
+//
+//
+//function Main(canvas) {
+//    this.objects = {};
+//    this.canvas = canvas;
+//
+//    this.objects.arrows = new Arrows();
+//    this.objects.wc = new WaterCounter();
+//    this.objects.mainBar = new MainBar();
+//    this.objects.pHb = new pHBarrel();
+//    this.objects.clb = new ClBarrel();
+//    this.objects.other = new Other();
+//
+//
+//    this.objects.arrows.setCanvas(canvas);
+////    _.forEach(this.objects, function(o) {
+////        o.setCanvas(canvas);
+////    });
+//
+//    this.init = function() {
+//        var scale = this.objects.mainBar.getScale();
+//        //console.log(s);
+//        this.canvas.width = Math.ceil(this.objects.mainBar.getOrigWidth()*scale);
+//        this.canvas.height = Math.ceil(this.objects.mainBar.getOrigHeight()*scale);
+//
+//        $('#cc').css({
+//            width: this.canvas.width+'px',
+//            height: this.canvas.height+'px'
+//        });
+//    }
+//
+//    this.draw = function() {
+//        this.objects.arrows.draw();
+////        _.forEach(this.objects, function(o) {
+////            o.draw();
+////        });
+//    }
+//    this.clear = function() {
+//        this.canvas.getContext('2d').clearRect(0, 0, this.canvas.width, this.canvas.height);
+//    }
+//    this.init();
+//}
+
+
+
+</script>
+
 </body>
 </html>

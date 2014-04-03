@@ -2,13 +2,11 @@ define([
     'angular',
     'bz',
     'angular-locale',
-    'ngTable',
-    'ngTableExport',
     'ui-bootstrap',
     'angular-notify'
 ], function (angular) {
 
-    var app = angular.module('app', ['bz', 'ngTable', 'ngTableExport', 'ui.bootstrap', 'cgNotify']);
+    var app = angular.module('app', ['bz', 'ui.bootstrap', 'cgNotify']);
 
     app.config(['$routeSegmentProvider', '$locationProvider', 'bzConfigProvider', '$logProvider', 'bzUserProvider', '$httpProvider',
         function ($routeSegmentProvider, $locationProvider, config, $logProvider, bzUser, $httpProvider) {
@@ -22,19 +20,6 @@ define([
 
     app.run(['$rootScope', '$http', 'bzUser', '$location', '$templateCache', 'notify', '$sce', 'bzConfig',
         function ($rootScope, $http, bzUser, $location, $templateCache, notify, $sce, bzConfig) {
-            // $http({method: 'GET', url: '/app/menu.json'}).
-                // success(function (data, status, headers, config) {
-                    // $rootScope.mainMenu = data;
-                // }).error(function (data, status, headers, config) {
-                // });
-
-
-            $rootScope.$on('$locationChangeStart', function (event, nextLocation, currentLocation) {
-                // close menu on mobile device
-                if ($('.navbar-collapse').hasClass('in')) {
-                    $('.navbar-toggle').click();
-                }
-            });
 
             $rootScope.$on('ajaxError', function () {
                 $rootScope.notify(500, 'danger');
