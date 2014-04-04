@@ -3,12 +3,17 @@ define(['app'], function(app) {
         function($scope, $location, $routeParams) {
 
 
+            var self = this;
             this.objects = {};
             var canvas = this.canvas = document.getElementById('c');
             //console.log(canvas);
 
             this.objects.arrows = new app.Arrows();
             this.objects.h2o = new app.H2OBarrel();
+            this.objects.ph = new app.pHBarrel();
+            this.objects.cl = new app.ClBarrel();
+            this.objects.watercounter = new app.WaterCounter();
+            this.objects.other = new app.Other();
             /*this.objects.wc = new WaterCounter();
             this.objects.mainBar = new MainBar();
             this.objects.pHb = new pHBarrel();
@@ -41,9 +46,15 @@ define(['app'], function(app) {
             this.clear = function() {
                 this.canvas.getContext('2d').clearRect(0, 0, this.canvas.width, this.canvas.height);
             }
+
             this.init();
             this.draw();
 
+            $(window).resize(function(){
+                self.init();
+                self.clear();
+                self.draw();
+            });
             //console.log('Dashboard.MainCtrl');
 
             //$scope.m = new Main(document.getElementById('c'));

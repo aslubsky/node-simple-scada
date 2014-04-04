@@ -3808,7 +3808,7 @@ body.cover {
   background: radial-gradient(circle at 50% 50%, #532824 0%, #3e2220 300px, #2f191e 100%) repeat scroll 0 0 #532824;
 }
 .main > .content {
-  color: #FCFCFC;
+  color: #D9D4D3;
   text-align: left;
   width: auto;
   overflow: hidden;
@@ -3836,6 +3836,7 @@ body.cover {
 }
 .canvas-text {
   font-family: verdana;
+  color: #D9D4D3;
   position: absolute;
 }
 [ng\:cloak],

@@ -5,6 +5,7 @@ define([
     'base/canvas/h2obarrel',
     'base/canvas/phbarrel',
     'base/canvas/clbarrel',
+    'base/canvas/watercounter',
     'base/canvas/other',
     'base/controllers/MainCtrl',
     /*'base/directives/dropdownMenu',
