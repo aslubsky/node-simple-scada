@@ -16,10 +16,9 @@ define(['app'], function(app) {
             this.objects.other = new Other();*/
 
 
-            this.objects.arrows.setCanvas(canvas);
-//    _.forEach(this.objects, function(o) {
-//        o.setCanvas(canvas);
-//    });
+            angular.forEach(this.objects, function(o) {
+                o.setCanvas(canvas);
+            });
 
             this.init = function() {
                 var scale = this.objects.arrows.getScale();
@@ -35,11 +34,9 @@ define(['app'], function(app) {
             }
 
             this.draw = function() {
-                console.log(this.objects.arrows);
-                this.objects.arrows.draw();
-//        _.forEach(this.objects, function(o) {
-//            o.draw();
-//        });
+                angular.forEach(this.objects, function(o) {
+                    o.draw();
+                });
             }
             this.clear = function() {
                 this.canvas.getContext('2d').clearRect(0, 0, this.canvas.width, this.canvas.height);

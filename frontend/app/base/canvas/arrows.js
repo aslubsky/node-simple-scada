@@ -11,7 +11,6 @@ define([
         var self = this;
 
         this.draws.push(function(ctx) {
-
             ctx.fillStyle = "#D9D4D3";
             ctx.strokeStyle = "#D9D4D3";
             ctx.lineWidth = 2;
@@ -33,15 +32,10 @@ define([
             ctx.bezierCurveTo(95,20,88,28,88,38);
             ctx.lineTo(88,64);
             ctx.closePath();
-
-
-
-
         });
 
 
         this.draws.push(function(ctx) {
-
             ctx.fillStyle = "#D9D4D3";
             ctx.strokeStyle = "#D9D4D3";
             ctx.lineWidth = 2;
@@ -61,13 +55,10 @@ define([
             ctx.lineTo(213,111);
             ctx.bezierCurveTo(230,111,244,119,244,129);
             ctx.lineTo(244,154);
-            ctx.closePath();
-
-
-
+            ctx.closePath()
         });
-        this.draws.push(function(ctx) {
 
+        this.draws.push(function(ctx) {
             ctx.fillStyle = "#D9D4D3";
             ctx.strokeStyle = "#D9D4D3";
             ctx.lineWidth = 2;
@@ -81,10 +72,8 @@ define([
             ctx.lineTo(20,32);
             ctx.lineTo(2,32);
             ctx.closePath();
-
-
-
         });
+
         this.draws.push(function(ctx) {
             ctx.fillStyle = "#D9D4D3";
             ctx.strokeStyle = "#D9D4D3";
@@ -116,6 +105,7 @@ define([
             ctx.lineTo(413,70);
             ctx.closePath();
         });
+
         this.draws.push(function(ctx) {
             ctx.fillStyle = "#D9D4D3";
             ctx.strokeStyle = "#D9D4D3";

@@ -1,7 +1,7 @@
-define([
+define('figure', [
     'angular',
     'app'
-], 'figure', function (angular, app) {
+], function (angular, app) {
     'use strict';
 
     function Figure() {
