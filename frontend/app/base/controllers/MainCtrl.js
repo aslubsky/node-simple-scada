@@ -50,6 +50,9 @@ define(['app'], function(app) {
             this.init();
             this.draw();
 
+            //this.objects.h2o.startAlarm(1);
+            this.objects.ph.startAlarm(1);
+
             $(window).resize(function(){
                 self.init();
                 self.clear();

@@ -12,14 +12,6 @@ define([
 
         var self = this;
 
-        this.setColorDefault = function() {
-            this.color = '#D9D4D3';
-        }
-        this.setColorAlarm = function() {
-            this.color = 'red';
-        }
-        this.origin = 1.621153846;//843รท520
-
         this.draws.push(function(ctx) {//bar h2o
             ctx.fillStyle = "transparent";
             ctx.strokeStyle = self.color;
@@ -33,7 +25,7 @@ define([
             ctx.closePath();
         });
         this.draws.push(function(ctx) {//bar h2o
-            ctx.fillStyle = "rgba(0, 0, 0, 0)";
+            ctx.fillStyle = "transparent";
             ctx.strokeStyle = self.color;
             ctx.lineWidth = self.getLineWidth();
             ctx.miterLimit = 10;
@@ -55,7 +47,7 @@ define([
             var s = this.getScale();
             this.ctx.save();
             this.ctx.scale(s, s);
-            this.ctx.clearRect(64, 61, 114, 302);
+            this.ctx.clearRect(63, 61, 114, 302);
             this.ctx.restore();
         }
         this.onDrawStart = function(ctx) {
@@ -65,6 +57,7 @@ define([
             $('.t1').css({
                 left: Math.ceil(92*self.getScale())+'px',
                 top: Math.ceil(170*self.getScale())+'px',
+                color: self.color,
                 'font-size': Math.ceil(26*self.getScale())+'px'
             });
         }

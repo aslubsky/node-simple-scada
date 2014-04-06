@@ -60,5 +60,34 @@ define('figure', [
         return scale;
     }
 
+    Figure.prototype.startAlarm = function(type) {
+        var self = this;
+        var defColor = self.getColorDefault();
+        var alColor = self.getColorAlarm();
+        this.alarmTimer = setTimeout(function(){
+            if(self.color == alColor) {
+                self.color = defColor;
+            } else {
+                self.color = alColor;
+            }
+            self.clear();
+            self.draw();
+            if(self.alarmTimer != null) {
+                self.startAlarm();
+            }
+        }, 1000);
+    }
+
+    Figure.prototype.stopAlarm = function() {
+        self.alarmTimer = null;
+    }
+
+    Figure.prototype.getColorDefault = function() {
+        return '#D9D4D3';
+    }
+    Figure.prototype.getColorAlarm = function() {
+        return 'red';
+    }
+
     app.Figure = Figure;
 });
