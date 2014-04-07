@@ -1,8 +1,7 @@
 define([
-    'angular',
     'app',
-    'figure'
-], function (angular, app) {
+    'base/canvas/figure'
+], function (app) {
     'use strict';
 
     function H2OBarrel() {

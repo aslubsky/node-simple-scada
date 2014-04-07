@@ -1,4 +1,4 @@
-define('figure', [
+define([
     'angular',
     'app'
 ], function (angular, app) {

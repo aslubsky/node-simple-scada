@@ -1,6 +1,5 @@
 define([
     'app',
-    'base/canvas/figure',
     'base/canvas/arrows',
     'base/canvas/h2obarrel',
     'base/canvas/phbarrel',

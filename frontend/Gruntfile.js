@@ -85,7 +85,7 @@ module.exports = function (grunt) {
             dev: {
                 options: {
                     hostname: '127.0.0.1',
-                    port: 8080
+                    port: 8081
                 }
             }
         },
