@@ -16,21 +16,27 @@ define([
     Figure.prototype.onDrawStop = function() {
     }
     Figure.prototype.draw = function() {
-        //console.log('draw', this);
+        this.ctx.save();
         var i = 0;
         var l = this.draws.length;
         var s = this.getScale();
-        //this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
         this.onDrawStart();
+        this.ctx.scale(s, s);
+        this.clear();
+
+        this.ctx.lineWidth = this.getLineWidth();
+        this.ctx.miterLimit = 10;
+        this.ctx.fillStyle = "transparent";
+        this.ctx.strokeStyle = this.color;
+
         for (; i < l; i++) {
-            this.ctx.save();
-            this.ctx.scale(s, s);
-            this.draws[i](this.ctx);
-            this.ctx.fill();
+            this.draws[i].apply(this);
             this.ctx.stroke();
-            this.ctx.restore();
         }
         this.onDrawStop();
+
+        this.ctx.restore();
     }
 
     Figure.prototype.getOrigWidth = function() {
@@ -49,10 +55,6 @@ define([
     Figure.prototype.getScale = function() {
         //width=480
         //height=300
-
-        //canvas.width = window.innerWidth;
-        //canvas.height = window.innerHeight;
-
         var scale = (window.innerWidth / this.getOrigWidth());
         if (this.getOrigHeight() * scale > window.innerHeight) {
             scale = window.innerHeight / this.getOrigHeight();
@@ -70,16 +72,22 @@ define([
             } else {
                 self.color = alColor;
             }
-            self.clear();
-            self.draw();
+            self.drawAlarm(type);
             if(self.alarmTimer != null) {
                 self.startAlarm();
             }
         }, 1000);
     }
 
+    Figure.prototype.clear = function() {
+    }
+
     Figure.prototype.stopAlarm = function() {
-        self.alarmTimer = null;
+        this.alarmTimer = null;
+    }
+
+    Figure.prototype.drawAlarm = function(type) {
+        this.draw();
     }
 
     Figure.prototype.getColorDefault = function() {

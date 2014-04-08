@@ -14,11 +14,8 @@ define(['app'], function(app) {
             this.objects.cl = new app.ClBarrel();
             this.objects.watercounter = new app.WaterCounter();
             this.objects.other = new app.Other();
-            /*this.objects.wc = new WaterCounter();
-            this.objects.mainBar = new MainBar();
-            this.objects.pHb = new pHBarrel();
-            this.objects.clb = new ClBarrel();
-            this.objects.other = new Other();*/
+
+
 
 
             angular.forEach(this.objects, function(o) {
@@ -26,10 +23,10 @@ define(['app'], function(app) {
             });
 
             this.init = function() {
-                var scale = this.objects.arrows.getScale();
+                var scale = this.objects.h2o.getScale();
                 //console.log(s);
-                this.canvas.width = Math.ceil(this.objects.arrows.getOrigWidth()*scale);
-                this.canvas.height = Math.ceil(this.objects.arrows.getOrigHeight()*scale);
+                this.canvas.width = Math.ceil(this.objects.h2o.getOrigWidth()*scale);
+                this.canvas.height = Math.ceil(this.objects.h2o.getOrigHeight()*scale);
 
 
                 $('#cc').css({
@@ -39,7 +36,8 @@ define(['app'], function(app) {
             }
 
             this.draw = function() {
-                angular.forEach(this.objects, function(o) {
+                angular.forEach(this.objects, function(o, k) {
+//                    console.log(k, '===');
                     o.draw();
                 });
             }
@@ -50,8 +48,11 @@ define(['app'], function(app) {
             this.init();
             this.draw();
 
-            //this.objects.h2o.startAlarm(1);
-            this.objects.ph.startAlarm(1);
+            //this.objects.h2o.startAlarm('low');
+//            this.objects.h2o.startAlarm();
+            this.objects.ph.startAlarm();
+            this.objects.cl.startAlarm();
+//            this.objects.h2o.startAlarm();
 
             $(window).resize(function(){
                 self.init();
