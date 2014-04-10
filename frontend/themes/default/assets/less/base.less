@@ -1,35 +1,29 @@
-/* Область с данными */
 .main {
-  background: url("../img/tile-chocolate.jpg") repeat scroll 0 0 rgba(0, 0, 0, 0);
-  & > .container-main {
-    position: relative;
-    background: radial-gradient(circle at 50% 50%, #532824 0%, #3E2220 300px, #2F191E 100%) repeat scroll 0 0 #532824;
-  }
-  & > .content {
-    color: #D9D4D3;
-    text-align: left;
-    width: auto;
-    overflow: hidden;
-    min-height: 200px;
-    margin-left: 0;
-    background-image: url('../img/preloader.gif');
-    background-repeat: no-repeat;
-    background-position: center 100px;
-  }
+  position: relative;
 }
 
-.background {
-  height: 100%;
-  left: 0;
-  opacity: 1;
-  position: absolute;
-  text-align: center;
-  top: 0;
-  width: 100%;
+.main .container-main {
+  position: relative;
+  background: url("../img/pw_maze_black.png") repeat scroll 0 0 transparent;
 }
 
-.tile-overlay {
-  background: url("../img/bg-tile.png") repeat scroll 0 0 rgba(0, 0, 0, 0);
+.main .container-main.overlay {
+  opacity: 0.3
+}
+
+
+.main .content {
+  color: #D9D4D3;
+  text-align: left;
+  width: auto;
+  overflow: hidden;
+  min-height: 200px;
+  margin-left: 0;
+}
+.main .preload {
+  /*background-image: url('../img/preloader.gif');
+  background-repeat: no-repeat;
+  background-position: center 100px;*/
 }
 
 .canvas-container {
@@ -40,4 +34,16 @@
   font-family: verdana;
   color: #D9D4D3;
   position: absolute;
+  cursor: pointer;
+}
+.canvas-dialog {
+  background: url("../img/pw_maze_black.png") repeat scroll 0 0 transparent;
+  border: 4px solid #D9D4D3;
+  border-radius: 10px;
+  color: #D9D4D3;
+  text-align: center;
+  font-family: verdana;
+  padding: 10px;
+  position: absolute;
+  z-index: 100;
 }

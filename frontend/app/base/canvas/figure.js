@@ -7,9 +7,10 @@ define([
     function Figure() {
         this.draws = [];
     }
-    Figure.prototype.setCanvas = function(canvas) {
-        this.canvas = canvas;
-        this.ctx = canvas.getContext("2d");
+    Figure.prototype.setScope = function($scope) {
+        this.$scope = $scope;
+        this.canvas = $scope.canvas;
+        this.ctx = $scope.canvas.getContext("2d");
     }
     Figure.prototype.onDrawStart = function() {
     }
@@ -26,7 +27,7 @@ define([
         this.clear();
 
         this.ctx.lineWidth = this.getLineWidth();
-        this.ctx.miterLimit = 10;
+        this.ctx.miterLimit = this.getMiterLimit();
         this.ctx.fillStyle = "transparent";
         this.ctx.strokeStyle = this.color;
 
@@ -39,12 +40,6 @@ define([
         this.ctx.restore();
     }
 
-    Figure.prototype.getOrigWidth = function() {
-        return 480;
-    }
-    Figure.prototype.getOrigHeight = function() {
-        return 300;
-    }
     Figure.prototype.getLineWidth = function() {
         return 2;
     }
@@ -53,13 +48,16 @@ define([
     }
 
     Figure.prototype.getScale = function() {
-        //width=480
-        //height=300
-        var scale = (window.innerWidth / this.getOrigWidth());
-        if (this.getOrigHeight() * scale > window.innerHeight) {
-            scale = window.innerHeight / this.getOrigHeight();
-        }
-        return scale;
+        return this.$scope.getScale();
+    }
+
+    Figure.prototype.getPosition = function(e) {
+        var bbox = this.canvas.getBoundingClientRect();
+
+        return {
+            x: e.clientX - bbox.left * (this.canvas.width  / bbox.width),
+            y: e.clientY - bbox.top  * (this.canvas.height / bbox.height)
+        };
     }
 
     Figure.prototype.startAlarm = function(type) {
@@ -96,6 +94,9 @@ define([
     Figure.prototype.getColorAlarm = function() {
         return 'red';
     }
+    Figure.prototype.onSelect = function(e) {
+    }
+
 
     app.Figure = Figure;
 });

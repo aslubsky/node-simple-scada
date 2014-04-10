@@ -1,7 +1,12 @@
-<div class="canvas-container" id="cc">
-    <canvas id="c"></canvas>
-    <div class="canvas-text t1">H<sub>2</sub>O</div>
-    <div class="canvas-text t2">pH</div>
-    <div class="canvas-text t3">Cl</div>
-    <div class="canvas-text t4"><i class="fa fa-cog"></i></div>
+<div class="container-main" ng-class="{overlay: !hideDialog}">
+    <div class="content">
+        <div class="canvas-container" id="canvas-container">
+            <canvas id="canvas"></canvas>
+            <div class="canvas-text t1">H<sub>2</sub>O</div>
+            <div class="canvas-text t2">pH</div>
+            <div class="canvas-text t3">Cl</div>
+            <div class="canvas-text t4"><i class="fa fa-cog"></i></div>
+        </div>
+    </div>
 </div>
+<div ng-click="hideDialog=true" ng-class="{hide: hideDialog}" class="canvas-dialog">{{ dialogMessage }}</div>

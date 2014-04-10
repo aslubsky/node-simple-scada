@@ -13,7 +13,7 @@
 
     <script>
         bazalt = {
-            api: '/api/rest.php',
+            api: '/api/rest',
             errorTemplates: {
                 403: '/themes/default/views/error/403.html',
                 404: '/themes/default/views/error/404.html'
@@ -26,14 +26,6 @@
 </head>
 
 <body locale-bundle="theme">
-
-<div class="main">
-    <div class="container-main">
-        <div class="background tile-overlay"></div>
-        <div class="content ng-cloak">
-            <div app-view-segment="0"></div>
-        </div>
-    </div>
-</div>
+    <div class="main ng-cloak" ng-cloak app-view-segment="0"></div>
 </body>
 </html>

@@ -57,6 +57,10 @@ define([
 
         this.clear = function(ctx) {
             this.ctx.clearRect(63, 61, 114, 302);
+
+//            this.ctx.rect(63, 61, 114, 302);
+//            this.ctx.fill();
+//            this.ctx.stroke();
         }
 
         this.drawAlarm = function(type) {
