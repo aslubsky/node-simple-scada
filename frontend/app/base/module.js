@@ -6,6 +6,7 @@ define([
     'base/canvas/clbarrel',
     'base/canvas/watercounter',
     'base/canvas/other',
+    'base/canvas/exchanger',
     'base/controllers/MainCtrl',
     /*'base/directives/dropdownMenu',
     'base/directives/bzHelp',

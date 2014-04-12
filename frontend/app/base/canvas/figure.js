@@ -78,6 +78,18 @@ define([
     }
 
     Figure.prototype.clear = function() {
+        this.ctx.clearRect(this.x, this.y, this.width, this.height);
+    }
+
+    Figure.prototype.inFigure = function(mouse) {
+        var s = this.getScale();
+        if (this.x * s < mouse.x &&
+            this.x * s + this.width * s > mouse.x &&
+            this.y * s < mouse.y &&
+            this.y * s + this.height * s > mouse.y) {
+            return true;
+        }
+        return false;
     }
 
     Figure.prototype.stopAlarm = function() {

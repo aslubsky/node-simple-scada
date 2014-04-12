@@ -24,6 +24,7 @@ define(['app'], function (app) {
             $scope.figures.ph = new app.pHBarrel();
             $scope.figures.cl = new app.ClBarrel();
             $scope.figures.watercounter = new app.WaterCounter();
+            $scope.figures.exchanger = new app.Exchanger();
             $scope.figures.other = new app.Other();
 
             angular.forEach($scope.figures, function (o) {
@@ -57,7 +58,9 @@ define(['app'], function (app) {
                 var scale = $scope.getScale();
                 var bbox = $scope.canvas.getBoundingClientRect();
                 $('.canvas-dialog').css({
-                    left: Math.ceil(bbox.left + $scope.canvas.width / 2 - $('.canvas-dialog').width() / 2) + 'px',
+                    width: Math.ceil($scope.canvas.width / 3) + 'px',
+                    marginLeft: '-'+Math.ceil($scope.canvas.width / 6)+'px',
+                    //left: Math.ceil(bbox.left + $scope.canvas.width / 2 - $('.canvas-dialog').width() / 2) + 'px',
                     top: Math.ceil(100 * scale) + 'px',
                     maxWidth: Math.ceil($scope.canvas.width / 2) + 'px',
                     fontSize: Math.ceil(24 * scale) + 'px'

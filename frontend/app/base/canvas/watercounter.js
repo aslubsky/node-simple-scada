@@ -93,7 +93,6 @@ define([
 
 
         this.clear = function () {
-            //this.ctx.moveTo(0, 0);
             this.ctx.clearRect(this.x, this.y, this.width, this.height);
 //            this.ctx.rect(this.x, this.y, this.width, this.height);
 //            this.ctx.fill();
@@ -111,28 +110,15 @@ define([
             return false;
         }
         this.onSelect = function (e) {
-            var mouse = self.getPosition(e);
-            //console.log(e, mouse, self.inFigure(mouse));
+            /*var mouse = self.getPosition(e);
+            // console.log(e, mouse, self.inFigure(mouse));
             if (self.inFigure(mouse)) {
-                //console.log('OK');
-//                console.log(self.$scope);
+                // console.log('OK');
+               // console.log(self.$scope);
                 self.$scope.hideDialog = false;
                 self.$scope.dialogMessage = 'Перекачано (м.к.): 12.5';
                 self.$scope.$apply();
-            }
-        }
-
-        this.onDrawStop = function () {
-            /*$('.t4').css({
-             left: Math.ceil(45*self.getScale())+'px',
-             top: Math.ceil(2*self.getScale())+'px',
-             'font-size': Math.ceil(26*self.getScale())+'px'
-             });*/
-//            $('.t4').css({
-//                left: Math.ceil(47*self.getScale())+'px',
-//                top: Math.ceil(2*self.getScale())+'px',
-//                'font-size': Math.ceil(26*self.getScale())+'px'
-//            }).on('click', this.onSelect);
+            }*/
         }
     }
 

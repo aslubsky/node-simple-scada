@@ -3840,6 +3840,7 @@ body.cover {
   text-align: center;
   font-family: verdana;
   padding: 10px;
+  left: 50%;
   position: absolute;
   z-index: 100;
 }

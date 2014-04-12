@@ -121,17 +121,17 @@ define([
             //this.ctx.clearRect(178, 85, 70, 302);
         }
    
-        this.onSelect = function (e) {
-            var s = self.getScale();
-            var mouse = self.getPosition(e);
-            console.log(e, mouse.x/s, mouse.y/s);
-        }
+        // this.onSelect = function (e) {
+            // var s = self.getScale();
+            // var mouse = self.getPosition(e);
+            // console.log(e, mouse.x/s, mouse.y/s);
+        // }
         
-        $(window).on('mydraw', function(){
-            self.draws = window.draws;
-            self.clear();
-            self.draw();
-        });
+        // $(window).on('mydraw', function(){
+            // self.draws = window.draws;
+            // self.clear();
+            // self.draw();
+        // });
     }
 
     Arrows.prototype = new app.Figure();

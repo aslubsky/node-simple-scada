@@ -8,6 +8,11 @@ define([
         this.draws = [];
         var self = this;
         this.color = '#D9D4D3';
+        
+        this.x = 367;
+        this.y = 185;
+        this.width = 57;
+        this.height = 110;
 
         this.draws.push(function() {
             this.ctx.beginPath();
@@ -35,18 +40,25 @@ define([
             this.ctx.moveTo(368,262);
             this.ctx.bezierCurveTo(368,284,424,284,424,262);
         });
-
-        this.clear = function() {
-            this.ctx.clearRect(367, 185, 57, 110);
+        
+        this.onSelect = function (e) {
+            var mouse = self.getPosition(e);
+            // console.log(e, mouse, self.inFigure(mouse));
+            if (self.inFigure(mouse)) {
+                // console.log('OK');
+                self.$scope.hideDialog = false;
+                self.$scope.dialogMessage = 'Cl: 1235';
+                self.$scope.$apply();
+            }
         }
-
+        
         this.onDrawStop = function() {
             $('.t3').css({
                 left: Math.ceil(384*self.getScale())+'px',
                 top: Math.ceil(225*self.getScale())+'px',
                 color: self.color,
                 'font-size': Math.ceil(24*self.getScale())+'px'
-            });
+            }).on('click', this.onSelect);
         }
     }
 
