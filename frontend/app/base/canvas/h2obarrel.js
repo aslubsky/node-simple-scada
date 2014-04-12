@@ -56,7 +56,7 @@ define([
         });
 
         this.clear = function(ctx) {
-            this.ctx.clearRect(63, 61, 114, 302);
+            this.ctx.clearRect(63, 61, 115, 302);
 
 //            this.ctx.rect(63, 61, 114, 302);
 //            this.ctx.fill();
