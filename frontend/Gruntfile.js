@@ -14,6 +14,17 @@ module.exports = function (grunt) {
                         dest: 'build/'
                     }
                 ]
+            },
+            socketio: {
+                files: [
+                    {
+                        expand: true,
+                        src: [
+                            'app/vendors/socket.io.min.js'
+                        ],
+                        dest: 'build/js/'
+                    }
+                ]
             }
         },
         less: {
@@ -40,7 +51,7 @@ module.exports = function (grunt) {
                     mainConfigFile: './app/config.js',
                     name: 'main',
                     include: [],
-                    exclude: ['./views.js'],
+                    exclude: ['./views.js', './vendors/socket.io.min.js'],
                     out: 'build/js/main.min.js'
                 }
             }
@@ -110,7 +121,7 @@ module.exports = function (grunt) {
                 replacements: [
                     {
                         from: /<script src="(.*)\/require.js"(.*)><\/script>/gm,
-                        to: '<script src="/js/main.min.js"></script>'
+                        to: '<script src="/js/main.min.js"></script><script src="/js/app/vendors//socket.io.min.js"></script>'
                     }
                 ]
             }
