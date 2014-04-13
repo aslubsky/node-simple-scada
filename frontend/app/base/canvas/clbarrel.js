@@ -9,6 +9,7 @@ define([
         var self = this;
         this.color = '#D9D4D3';
         this.value = 0;
+        this.alarmValue = null;
         this.name = '';
         
         this.x = 367;

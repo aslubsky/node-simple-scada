@@ -85,10 +85,14 @@ define(['app'], function (app) {
             
             
             
-            var namesMap = {
+            var dataNamesMap = {
                 'trm1': 'exchanger',
                 'ph': 'ph',
                 'cl': 'cl'
+            };
+            var alarmNamesMap = {
+                'relay1': 'ph',
+                'relay2': 'cl'
             };
             
             $scope.socket = io.connect('http://'+$location.$$host+':8085');
@@ -103,8 +107,11 @@ define(['app'], function (app) {
             });
             
             $scope.socket.on('onDataRead', function (data) {
-                if(namesMap[data.name] != undefined) {
-                    $scope.figures[namesMap[data.name]].setValue(data.value);
+                if(dataNamesMap[data.name] != undefined) {
+                    $scope.figures[dataNamesMap[data.name]].setValue(data.value);
+                }
+                if(alarmNamesMap[data.name] != undefined) {
+                    $scope.figures[alarmNamesMap[data.name]].setAlarmValue(data.value, data.name);
                 }
                 //console.log(data);
             });

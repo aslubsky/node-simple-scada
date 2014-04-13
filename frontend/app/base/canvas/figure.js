@@ -71,15 +71,16 @@ define([
         var defColor = self.getColorDefault();
         var alColor = self.getColorAlarm();
         this.alarmTimer = setTimeout(function(){
+            if(self.alarmTimer == null) {
+                return;
+            }
             if(self.color == alColor) {
                 self.color = defColor;
             } else {
                 self.color = alColor;
             }
             self.drawAlarm(type);
-            if(self.alarmTimer != null) {
-                self.startAlarm();
-            }
+            self.startAlarm();
         }, 1000);
     }
 
@@ -105,8 +106,22 @@ define([
         }
     }
 
+    Figure.prototype.setAlarmValue = function(value, dsName) {
+        if(this.alarmValue != null && this.alarmValue != value) {
+            //console.log(value, dsName);
+            if(value) {
+                this.startAlarm();
+            } else {
+                this.stopAlarm();
+            }
+        }
+        this.alarmValue = value;
+    }
+
     Figure.prototype.stopAlarm = function() {
         this.alarmTimer = null;
+        this.color = this.getColorDefault();
+        this.drawAlarm();
     }
 
     Figure.prototype.drawAlarm = function(type) {
