@@ -91,14 +91,6 @@ define([
             this.ctx.restore();
         });
 
-
-        this.clear = function () {
-            this.ctx.clearRect(this.x, this.y, this.width, this.height);
-//            this.ctx.rect(this.x, this.y, this.width, this.height);
-//            this.ctx.fill();
-//            this.ctx.stroke();
-        }
-
         this.inFigure = function (mouse) {
             var s = this.getScale();
             if (this.x * s < mouse.x &&

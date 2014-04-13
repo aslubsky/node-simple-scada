@@ -3,7 +3,8 @@ define([
     'bz',
     'angular-locale',
     'ui-bootstrap',
-    'angular-notify'
+    'angular-notify',
+    'socket-io'
 ], function (angular) {
 
     var app = angular.module('app', ['bz', 'ui.bootstrap', 'cgNotify']);

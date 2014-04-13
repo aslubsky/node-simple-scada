@@ -6,11 +6,17 @@ define([
 
     function Figure() {
         this.draws = [];
+        //var self = this;
     }
-    Figure.prototype.setScope = function($scope) {
+    Figure.prototype.setScope = function($scope, name) {
         this.$scope = $scope;
         this.canvas = $scope.canvas;
+        this.name = name;
         this.ctx = $scope.canvas.getContext("2d");
+        var self = this;
+        this.canvas.addEventListener('mousedown', function(e){
+            self.onSelect(e);
+        }, false);
     }
     Figure.prototype.onDrawStart = function() {
     }
@@ -92,6 +98,13 @@ define([
         return false;
     }
 
+    Figure.prototype.setValue = function(value) {
+        this.value = value;
+        if(this.$scope.hideDialog == false && this.$scope.dialogName == this.name) {
+            this.onDialog();
+        }
+    }
+
     Figure.prototype.stopAlarm = function() {
         this.alarmTimer = null;
     }
@@ -106,7 +119,18 @@ define([
     Figure.prototype.getColorAlarm = function() {
         return 'red';
     }
-    Figure.prototype.onSelect = function(e) {
+    Figure.prototype.onSelect = function (e) {
+        var mouse = this.getPosition(e);
+        //console.log(e, this.name);
+        // console.log(e, mouse, this.inFigure(mouse));
+        if (this.inFigure(mouse)) {
+            // console.log('OK');
+            this.$scope.dialogName = this.name;
+            this.$scope.hideDialog = false;
+            this.onDialog();
+        }
+    }
+    Figure.prototype.onDialog = function () {
     }
 
 

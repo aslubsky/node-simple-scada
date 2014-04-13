@@ -27,9 +27,8 @@ define(['app'], function (app) {
             $scope.figures.exchanger = new app.Exchanger();
             $scope.figures.other = new app.Other();
 
-            angular.forEach($scope.figures, function (o) {
-                o.setScope($scope);
-                $scope.canvas.addEventListener('mousedown', o.onSelect, false);
+            angular.forEach($scope.figures, function (o, k) {
+                o.setScope($scope, k);
             });
 
             $scope.initScreen = function () {
@@ -58,8 +57,8 @@ define(['app'], function (app) {
                 var scale = $scope.getScale();
                 var bbox = $scope.canvas.getBoundingClientRect();
                 $('.canvas-dialog').css({
-                    width: Math.ceil($scope.canvas.width / 3) + 'px',
-                    marginLeft: '-'+Math.ceil($scope.canvas.width / 6)+'px',
+                    width: Math.ceil($scope.canvas.width / 2) + 'px',
+                    marginLeft: '-'+Math.ceil($scope.canvas.width / 4)+'px',
                     //left: Math.ceil(bbox.left + $scope.canvas.width / 2 - $('.canvas-dialog').width() / 2) + 'px',
                     top: Math.ceil(100 * scale) + 'px',
                     maxWidth: Math.ceil($scope.canvas.width / 2) + 'px',
@@ -83,6 +82,22 @@ define(['app'], function (app) {
                 $scope.drawDialog();
             });
             $scope.hideDialog = true;
+            
+            
+            
+            var namesMap = {
+                'trm1': 'exchanger',
+                'ph': 'ph',
+                'cl': 'cl'
+            };
+            
+            var socket = io.connect('http://'+$location.$$host+':8085');
+            socket.on('onDataRead', function (data) {
+                if(namesMap[data.name] != undefined) {
+                    $scope.figures[namesMap[data.name]].setValue(data.value);
+                }
+                //console.log(data);
+            });
 
             /* var self = this;
 

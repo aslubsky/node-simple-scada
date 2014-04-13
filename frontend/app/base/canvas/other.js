@@ -61,6 +61,24 @@ define([
         });
         /* pH */
 
+        /*Temp*/
+        this.draws.push(function () {
+            this.ctx.beginPath();
+            this.ctx.moveTo(209, 28.562499999999996);
+            this.ctx.bezierCurveTo(223.6010280736516, 28.562499999999996, 235.4375, 40.398971926348395, 235.4375, 55);
+            this.ctx.bezierCurveTo(235.4375, 69.6010280736516, 223.6010280736516, 81.4375, 209, 81.4375);
+            this.ctx.bezierCurveTo(194.3989719263484, 81.4375, 182.5625, 69.6010280736516, 182.5625, 55);
+            this.ctx.bezierCurveTo(182.5625, 40.398971926348395, 194.3989719263484, 28.562499999999996, 209, 28.562499999999996);
+            this.ctx.closePath();
+        });
+        this.draws.push(function () {
+            this.ctx.beginPath();
+            this.ctx.moveTo(209, 28);
+            this.ctx.lineTo(236, 55);
+            this.ctx.lineTo(209, 81);
+        });
+        /*Temp*/
+        
         /*Cl*/
         this.draws.push(function () {
             this.ctx.beginPath();

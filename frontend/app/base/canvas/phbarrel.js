@@ -8,6 +8,8 @@ define([
         this.draws = [];
         this.color = '#D9D4D3';
         var self = this;
+        this.value = 0;
+        this.name = '';
         
         this.x = 273;
         this.y = 185;
@@ -41,15 +43,9 @@ define([
             this.ctx.bezierCurveTo(273,284,329,284,329,262);
         });
         
-        this.onSelect = function (e) {
-            var mouse = self.getPosition(e);
-            // console.log(e, mouse, self.inFigure(mouse));
-            if (self.inFigure(mouse)) {
-                // console.log('OK');
-                self.$scope.hideDialog = false;
-                self.$scope.dialogMessage = 'pH: 12.5';
-                self.$scope.$apply();
-            }
+        this.onDialog = function () {
+            this.$scope.dialogMessage = 'pH: '+this.value;
+            this.$scope.$apply();
         }
         
         this.onDrawStop = function() {
@@ -58,7 +54,9 @@ define([
                 top: Math.ceil(225*self.getScale())+'px',
                 color: self.color,
                 'font-size': Math.ceil(24*self.getScale())+'px'
-            }).on('click', this.onSelect);
+            }).on('click', function(e){
+                self.onSelect(e);
+            });
         }
     }
 

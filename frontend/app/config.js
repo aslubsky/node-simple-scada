@@ -20,11 +20,13 @@ require.config({
 
         'moment-lang': '../bower_components/momentjs/lang',
         'moment': '../bower_components/momentjs/moment',
+        'socket-io': './vendors/socket.io.min',
 
         'angular-notify': '../bower_components/angular-notify/angular-notify'
     },
 
     shim: {
+        'socket-io': { exports: 'io', deps: [] },
         'angular': { exports: 'angular', deps: ['jquery'] },
         'angular-locale': { deps: ['angular'] },
 

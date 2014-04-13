@@ -76,6 +76,24 @@ exports.values = {
             "id": 7,
             "name": 'trm2',
             "data_type": "number"
+        },
+        {
+            "type": "ModBus",//fake
+            "register": "4",
+            "time": 500,
+            "wrtite_ratio": 120, // (1000/time) * 60
+            "id": 8,
+            "name": 'ph',
+            "data_type": "number"
+        },
+        {
+            "type": "ModBus",//fake
+            "register": "4",
+            "time": 500,
+            "wrtite_ratio": 120, // (1000/time) * 60
+            "id": 9,
+            "name": 'cl',
+            "data_type": "number"
         }
     ]
 };
