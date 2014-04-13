@@ -22,7 +22,10 @@ module.exports = function (grunt) {
                         src: [
                             'app/vendors/socket.io.min.js'
                         ],
-                        dest: 'build/js/'
+                        rename: function(dest, src) {
+                            return dest + 'socket-io.js';
+                        },
+                        dest: 'build/'
                     }
                 ]
             }
@@ -121,7 +124,7 @@ module.exports = function (grunt) {
                 replacements: [
                     {
                         from: /<script src="(.*)\/require.js"(.*)><\/script>/gm,
-                        to: '<script src="/js/main.min.js"></script><script src="/js/app/vendors/socket.io.min.js"></script>'
+                        to: '<script src="/js/main.min.js"></script>'//<script src="/js/app/vendors/socket.io.min.js"></script>
                     }
                 ]
             }

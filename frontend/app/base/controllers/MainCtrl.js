@@ -91,20 +91,31 @@ define(['app'], function (app) {
                 'cl': 'cl'
             };
             
-            var socket = io.connect('http://'+$location.$$host+':8085');
-            socket.on('onDataRead', function (data) {
+            $scope.socket = io.connect('http://'+$location.$$host+':8085');
+            $scope.socket.on('connect', function(socket) {
+                // console.log('connect');
+            });
+            $scope.socket.on('error', function(socket) {
+                // console.log('error');
+            });
+            $scope.socket.on('disconnect', function(socket) {
+                // console.log('disconnect');
+            });
+            
+            $scope.socket.on('onDataRead', function (data) {
                 if(namesMap[data.name] != undefined) {
                     $scope.figures[namesMap[data.name]].setValue(data.value);
                 }
                 //console.log(data);
             });
-
-            /* var self = this;
-
-
-
-
-
+            
+            $(window).blur(function(){
+                $scope.socket.disconnect();
+            });
+            $(window).focus(function(){
+                $scope.socket.socket.connect();
+                //$scope.socket.connect('http://'+$location.$$host+':8085');
+            });
 
              //$scope.figures.h2o.startAlarm('low');
              //            $scope.figures.h2o.startAlarm();
@@ -112,42 +123,7 @@ define(['app'], function (app) {
              //$scope.figures.cl.startAlarm();
              //            $scope.figures.h2o.startAlarm();
 
-             $(window).resize(function(){
-             $scope.init();
-             $scope.clear();
-             self.draw();
-             self.drawDialog();
-             });
-             //console.log('Dashboard.MainCtrl');
-
-
-
-             /*$scope.showDialog = function(msg) {
-             this.dialogEl
-             .html(msg);
-
-             var self = this;
-             setTimeout(function(){
-             self.dialogEl
-             .removeClass('hide');
-             $('.container-main').addClass('overlay');
-             self.drawDialog();
-             }, 200);
-             this.drawDialog();
-             }
-             Figure.prototype.hideDialog = function(msg) {
-             this.dialogEl.addClass('hide');
-             $('.container-main').removeClass('overlay');
-             }*/
-
-
             //$scope.m = new Main(document.getElementById('c'));
             //$scope.m.draw();
-
-            /*$(window).resize(function(){
-             $.m.init();
-             $.m.clear();
-             $.m.draw();
-             });*/
         }]);
 });
