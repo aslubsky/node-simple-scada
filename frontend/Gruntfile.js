@@ -124,7 +124,7 @@ module.exports = function (grunt) {
                 replacements: [
                     {
                         from: /<script src="(.*)\/require.js"(.*)><\/script>/gm,
-                        to: '<script src="/js/main.min.js"></script>'//<script src="/js/app/vendors/socket.io.min.js"></script>
+                        to: '<script src="/ip.js"></script><script src="/js/main.min.js"></script>'//<script src="/js/app/vendors/socket.io.min.js"></script>
                     }
                 ]
             }
