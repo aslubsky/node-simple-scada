@@ -95,7 +95,7 @@ define(['app'], function (app) {
                 'relay2': 'cl'
             };
             
-            $scope.socket = io.connect('http://'+$location.$$host+':8085');
+            $scope.socket = io.connect('http://'+sockeIOConfig.IP+':8085');
             $scope.socket.on('connect', function(socket) {
                 // console.log('connect');
             });
