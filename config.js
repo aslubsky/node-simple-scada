@@ -19,81 +19,81 @@ exports.values = {
         database: 'scada_db'
     },
     dataSources: [
+//        {
+//            "type": "GPIO",
+//            "pin": 0,
+//            "time": 1000,
+//            "id": 1,
+//            "name": 'relay1',
+//            "data_type": "bool"
+//        },
+//        {
+//            "type": "GPIO",
+//            "pin": 3,
+//            "time": 1000,
+//            "id": 2,
+//            "name": 'relay2',
+//            "data_type": "bool"
+//        },
+//        {
+//            "type": "GPIO",
+//            "pin": 4,
+//            "time": 1000,
+//            "id": 3,
+//            "name": 'relay3',
+//            "data_type": "bool"
+//        },
+//        {
+//            "type": "GPIO",
+//            "pin": 5,
+//            "time": 1000,
+//            "id": 4,
+//            "name": 'relay4',
+//            "data_type": "bool"
+//        },
+//        {
+//            "type": "GPIO",
+//            "pin": 6,
+//            "time": 1000,
+//            "id": 5,
+//            "name": 'relay5',
+//            "data_type": "bool"
+//        },
+//        {
+//            "type": "ModBus",
+//            "register": "3",
+//            "time": 500,
+//            "wrtite_ratio": 120, // (1000/time) * 60
+//            "id": 6,
+//            "name": 'trm1',
+//            "data_type": "number"
+//        },
         {
-            "type": "GPIO",
-            "pin": 0,
-            "time": 1000,
-            "id": 1,
-            "name": 'relay1',
-            "data_type": "bool"
-        },
-        {
-            "type": "GPIO",
-            "pin": 3,
-            "time": 1000,
-            "id": 2,
-            "name": 'relay2',
-            "data_type": "bool"
-        },
-        {
-            "type": "GPIO",
-            "pin": 4,
-            "time": 1000,
-            "id": 3,
-            "name": 'relay3',
-            "data_type": "bool"
-        },
-        {
-            "type": "GPIO",
-            "pin": 5,
-            "time": 1000,
-            "id": 4,
-            "name": 'relay4',
-            "data_type": "bool"
-        },
-        {
-            "type": "GPIO",
-            "pin": 6,
-            "time": 1000,
-            "id": 5,
-            "name": 'relay5',
-            "data_type": "bool"
-        },
-        {
-            "type": "ModBus",
-            "register": "3",
-            "time": 500,
-            "wrtite_ratio": 120, // (1000/time) * 60
-            "id": 6,
-            "name": 'trm1',
-            "data_type": "number"
-        },
-        // {
-            // "type": "ModBus",
-            // "register": "4",
-            // "time": 500,
-            // "wrtite_ratio": 120, // (1000/time) * 60
-            // "id": 7,
-            // "name": 'trm2',
-            // "data_type": "number"
-        // },
-        {
-            "type": "ModBus",//fake
-            "register": "4",
-            "time": 500,
-            "wrtite_ratio": 120, // (1000/time) * 60
+            "path": "/dev/ttyUSB0",
+            "baudrate": 38400,
+            "type": "ScadaSerial",
+            "wrtite_ratio": 180, // (1000/time) * 60
             "id": 8,
             "name": 'ph',
             "data_type": "number"
         },
         {
-            "type": "ModBus",//fake
-            "register": "4",
-            "time": 500,
-            "wrtite_ratio": 120, // (1000/time) * 60
+            "path": "/dev/ttyAMA0",
+            "baudrate": 38400,
+            "type": "ScadaSerial",
+            "wrtite_ratio": 180, // (1000/time) * 60
             "id": 9,
-            "name": 'cl',
+            "name": 'orp',
             "data_type": "number"
-        }
+        },
+//        {
+//            "type": "ModBus",//fake
+//            "register": "4",
+//            "time": 500,
+//            "wrtite_ratio": 120, // (1000/time) * 60
+//            "id": 9,
+//            "name": 'cl',
+//            "data_type": "number"
+//        }
     ]
 };

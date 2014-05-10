@@ -4,6 +4,7 @@ var moment = require('moment');
 var config = require('./../config').values;
 var GPIO = require('./data-sources/gpio.js');
 var ModBus = require('./data-sources/modbus.js');
+var ScadaSerial = require('./data-sources/serial.js');
 var dbClass = require('./db');
 
 var io = require('socket.io')
@@ -18,7 +19,7 @@ var winston = require('winston');
     this.logger = new (winston.Logger)({
         transports: [
             new (winston.transports.Console)({
-                level: 'info'
+                level: 'debug'
             }),
             new (winston.transports.File)({
                 level: 'error',
@@ -55,7 +56,9 @@ var winston = require('winston');
         } else {
             self.logger.error(err);
         }
-        self.runDataSource(ds);
+        if(!ds.isAsync()) {
+            self.runDataSource(ds);
+        }
     }
     
     _(config.dataSources).forEach(function (dsCfg) {
@@ -68,14 +71,21 @@ var winston = require('winston');
             case 'ModBus':
                 dso = new ModBus(dsCfg);
             break;
+            case 'ScadaSerial':
+                dso = new ScadaSerial(dsCfg);
+            break;
         }
         dso.logger = self.logger;
         dso.db = self.db;
+        dso.onDataRead = self.onDataRead;
         self.dataSourcesList.push(dso);
     });
-    
+
+//    console.log(this.dataSourcesList);
     _(this.dataSourcesList).forEach(function (ds) {
-        self.runDataSource(ds);
+        if(!ds.isAsync()) {
+            self.runDataSource(ds);
+        }
     });
 
 })();
