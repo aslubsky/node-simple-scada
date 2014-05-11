@@ -88,7 +88,7 @@ define(['app'], function (app) {
             var dataNamesMap = {
                 'trm1': 'exchanger',
                 'ph': 'ph',
-                'cl': 'cl'
+                'orp': 'cl'
             };
             var alarmNamesMap = {
                 'relay1': 'ph',
