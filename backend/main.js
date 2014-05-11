@@ -19,7 +19,7 @@ var winston = require('winston');
     this.logger = new (winston.Logger)({
         transports: [
             new (winston.transports.Console)({
-                level: 'debug'
+                level: config.main.logLevel
             }),
             new (winston.transports.File)({
                 level: 'error',

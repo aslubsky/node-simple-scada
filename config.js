@@ -1,4 +1,7 @@
 exports.values = {
+    main: {
+        logLevel: 'info'
+    },
     socketio: {
         port: 8085,
         logLevel: 2
