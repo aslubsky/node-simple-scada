@@ -18,7 +18,7 @@ exports.values = {
         host : 'localhost',
         port : 3306,
         user : 'root',
-        password: '1',
+        password: '',
         database: 'scada_db'
     },
     dataSources: [
@@ -72,23 +72,18 @@ exports.values = {
 //            "data_type": "number"
 //        },
         {
-            "path": "/dev/ttyUSB0",
-            "baudrate": 38400,
-            "type": "ScadaSerial",
-            "wrtite_ratio": 180, // (1000/time) * 60
-            "id": 8,
-            "name": 'ph',
-            "data_type": "number"
+            "id": 1,
+            "name": 'ph'
         },
-        {
-            "path": "/dev/ttyAMA0",
-            "baudrate": 38400,
-            "type": "ScadaSerial",
-            "wrtite_ratio": 180, // (1000/time) * 60
-            "id": 9,
-            "name": 'orp',
-            "data_type": "number"
-        },
+//        {
+//            "path": "/dev/ttyAMA0",
+//            "baudrate": 38400,
+//            "type": "ScadaSerial",
+//            "wrtite_ratio": 180, // (1000/time) * 60
+//            "id": 9,
+//            "name": 'orp',
+//            "data_type": "number"
+//        },
 //        {
 //            "type": "ModBus",//fake
 //            "register": "4",

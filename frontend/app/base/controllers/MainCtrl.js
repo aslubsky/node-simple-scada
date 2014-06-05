@@ -94,8 +94,9 @@ define(['app'], function (app) {
                 'relay1': 'ph',
                 'relay2': 'cl'
             };
-            
-            $scope.socket = io.connect('http://'+sockeIOConfig.IP+':8085');
+
+//            console.log($location.$$host);
+            $scope.socket = io.connect('http://'+$location.$$host+':8085');
             $scope.socket.on('connect', function(socket) {
                 // console.log('connect');
             });
@@ -113,7 +114,7 @@ define(['app'], function (app) {
                 if(alarmNamesMap[data.name] != undefined) {
                     $scope.figures[alarmNamesMap[data.name]].setAlarmValue(data.value, data.name);
                 }
-                //console.log(data);
+//                console.log(data);
             });
             
             $(window).blur(function(){

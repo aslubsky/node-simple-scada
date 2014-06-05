@@ -3,6 +3,8 @@
   "version": "0.0.1",
   "private": true,
   "dependencies": {
+    "socket.io": "~0.9.16",
+    "lodash": "~2.4.1",
     "connect": "~2.13.0",
     "moment": "~2.5.1",
     "winston": "~0.7.2"
