@@ -1,0 +1,16 @@
+{
+  "name": "node-simple-scada",
+  "version": "0.1.2",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components"
+  ],
+  "devDependencies": {
+    "requirejs": "~2.1.8"
+  },
+  "dependencies": {
+    "lodash": "~2.4.1",
+    "jquery": "~2.1.1"
+  }
+}
