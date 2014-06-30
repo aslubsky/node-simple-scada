@@ -1,0 +1,19 @@
+{
+    "mysql": {
+        "host": "localhost",
+        "port": 3306,
+        "user": "root",
+        "password": "",
+        "database": "scada_db"
+    },
+    "dataSources": [
+        {
+            "id": 1,
+            "name": "ph"
+        },
+        {
+            "id": 3,
+            "name": "trm1"
+        }
+    ]
+}

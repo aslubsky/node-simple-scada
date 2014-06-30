@@ -108,7 +108,9 @@ define([
         'relay2': 'cl'
     };
 
-    $scope.socket = io.connect('http://'+window.location.hostname+':8085');
+
+
+    /*$scope.socket = io.connect('http://'+window.location.hostname+':8085');
     $scope.socket.on('connect', function(socket) {
         // console.log('connect');
     });
@@ -134,6 +136,34 @@ define([
     });
     $(window).focus(function(){
         $scope.socket.socket.connect();
+    });*/
+
+    var REQ_TIME = 1000;
+    $scope.mainTimerCb = function(){
+        $.ajax({
+            dataType: "json",
+            url: '/api/api.php',
+            success: function(allData){
+                _.each(allData, function(data){
+                    //                console.log(data.name, dataNamesMap);
+                    if(dataNamesMap[data.name] != undefined) {
+                        $scope.figures[dataNamesMap[data.name]].setValue(parseFloat(data.value));
+                    }
+                    if(alarmNamesMap[data.name] != undefined) {
+                        $scope.figures[alarmNamesMap[data.name]].setAlarmValue(data.value, data.name);
+                    }
+                });
+            }
+        });
+        $scope.mainTimer = setTimeout($scope.mainTimerCb, REQ_TIME);
+    };
+    $scope.mainTimer = setTimeout($scope.mainTimerCb, REQ_TIME);
+
+    $(window).blur(function(){
+        clearTimeout($scope.mainTimer);
+    });
+    $(window).focus(function(){
+        $scope.mainTimer = setTimeout($scope.mainTimerCb, REQ_TIME);
     });
 
     return app;

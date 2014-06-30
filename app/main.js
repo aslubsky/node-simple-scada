@@ -1,5 +1,5 @@
 define([
-    'socket-io',
+//    'socket-io',
     'lodash',
     'jquery'
 ], function() {
