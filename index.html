@@ -1,18 +1,19 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html>
 <head>
-    <meta charset="utf-8">
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+    <meta name="msapplication-tap-highlight" content="no" />
     <title>SCADA</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
+
     <meta name="author" content="EqualTeam (http://equalteam.net/)">
 
-    <base href="/"/>
-    <link href="/assets/css/main.css" rel="stylesheet" media="screen">
+    <link href="assets/css/main.css" rel="stylesheet" media="screen">
 </head>
-
 <body>
-    <div class="main">
+    <div id="deviceready" class="app main">
         <div class="container-main">
             <div class="content">
                 <div class="canvas-container" id="canvas-container">
@@ -26,6 +27,23 @@
         <div class="hide canvas-dialog"></div>
     </div>
 
-    <script src="/bower_components/requirejs/require.js" data-main="app/app-bootstrap.js"></script>
+    <script src="cordova.js"></script>
+    <script src="app/vendors/jquery.min.js"></script>
+    <script src="app/vendors/fastclick.js"></script>
+
+    <script src="app/canvas/figure.js"></script>
+    <script src="app/canvas/arrows.js"></script>
+    <script src="app/canvas/clbarrel.js"></script>
+    <script src="app/canvas/exchanger.js"></script>
+    <script src="app/canvas/h2obarrel.js"></script>
+    <script src="app/canvas/other.js"></script>
+    <script src="app/canvas/phbarrel.js"></script>
+    <script src="app/canvas/watercounter.js"></script>
+
+    <script src="app/app.js"></script>
+    <script type="text/javascript">
+        var app = new App();
+        app.initialize();
+    </script>
 </body>
 </html>

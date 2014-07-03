@@ -1,170 +1,136 @@
-define([
-    'main',
-    'canvas/arrows',
-    'canvas/clbarrel',
-    'canvas/exchanger',
-    'canvas/figure',
-    'canvas/h2obarrel',
-    'canvas/other',
-    'canvas/phbarrel',
-    'canvas/watercounter'
-], function(app) {
-//    console.log('APP', 'main->', app);
+var App = function() {
+    var self = this;
 
-    var $scope = {};
+    this.REQ_TIME = 1000;
+    this.mainTimer = null;
+    this.dataNamesMap = {
+        'trm1': 'exchanger',
+        'ph': 'ph',
+        'orp': 'cl'
+    };
+    this.alarmNamesMap = {
+        'relay1': 'ph',
+        'relay2': 'cl'
+    };
 
-    $scope.getOrigWidth = function () {
+    this.hideDialog = true;
+
+    // Application Constructor
+    this.initialize = function() {
+        this.bindEvents();
+
+        this.canvas = document.getElementById('canvas');
+
+        this.figures = {};
+        this.figures.arrows = new Arrows();
+        this.figures.h2o = new H2OBarrel();
+        this.figures.ph = new pHBarrel();
+        this.figures.cl = new ClBarrel();
+        this.figures.watercounter = new WaterCounter();
+        this.figures.exchanger = new Exchanger();
+        this.figures.other = new Other();
+
+        $.each(this.figures, function (k, o) {
+//            console.log(o, k);
+            o.setScope(self, k);
+        });
+
+        $('.canvas-dialog').on('click', function(){
+            if(self.hideDialog == false) {
+                $('.canvas-dialog').hide();
+                $('.container-main').removeClass('overlay');
+                self.hideDialog = true;
+            }
+        });
+    }
+
+    // 'load', 'deviceready', 'offline', and 'online'.
+    this.bindEvents = function() {
+        document.addEventListener('deviceready', this.onDeviceReady, false);
+    }
+
+    this.onDeviceReady =  function() {
+//        console.log('onDeviceReady');
+        $('.canvas-text').each(function(){
+            FastClick.attach(this);
+        });
+        self.initScreen();
+        self.draw();
+        self.drawDialog();
+        self.mainTimer = setTimeout(self.mainTimerCb, self.REQ_TIME);
+    }
+
+    this.mainTimerCb = function () {
+        $.ajax({
+            dataType: "jsonp",
+            url: 'http://s.equalteam.net/api/api.php',
+            success: function(allData){
+                $.each(allData, function(k, data){
+                    //                console.log(data.name, dataNamesMap);
+                    if(self.dataNamesMap[data.name] != undefined) {
+                        self.figures[self.dataNamesMap[data.name]].setValue(parseFloat(data.value));
+                    }
+                    if(self.alarmNamesMap[data.name] != undefined) {
+                        self.figures[self.alarmNamesMap[data.name]].setAlarmValue(data.value, data.name);
+                    }
+                });
+            }
+        });
+        self.mainTimer = setTimeout(self.mainTimerCb, self.REQ_TIME);
+    }
+    this.getOrigWidth = function () {
         return 480;
     }
-    $scope.getOrigHeight = function () {
+    this.getOrigHeight = function () {
         return 300;
     }
-    $scope.getScale = function () {
-        var scale = (window.innerWidth / $scope.getOrigWidth());
-        if (this.getOrigHeight() * scale > window.innerHeight) {
-            scale = window.innerHeight / $scope.getOrigHeight();
+    this.getScale = function () {
+        var scale = ((window.innerWidth) / this.getOrigWidth());
+        if (this.getOrigHeight() * scale > (window.innerHeight)) {
+            scale = (window.innerHeight) / this.getOrigHeight();
         }
         return scale;
     }
-    $scope.initScreen = function () {
-        var scale = $scope.getScale();
+    this.initScreen = function () {
+        var scale = this.getScale();
         //console.log(s);
-        this.canvas.width = Math.ceil($scope.getOrigWidth() * scale);
-        this.canvas.height = Math.ceil($scope.getOrigHeight() * scale);
+        this.canvas.width = Math.ceil(this.getOrigWidth() * scale);
+        this.canvas.height = Math.ceil(this.getOrigHeight() * scale);
 
         $('#canvas-container').css({
             width: this.canvas.width + 'px',
             height: this.canvas.height + 'px'
         });
+        if(this.canvas.height + 10 < window.innerHeight) {
+            var offset = Math.ceil((window.innerHeight - this.canvas.height - 2)/2);
+            $('#canvas-container').css({
+                'margin': offset+'px auto'
+            });
+        }
     }
-
-    $scope.draw = function () {
-        _.each($scope.figures, function (o) {
+    this.draw = function () {
+        $.each(this.figures, function (k, o) {
+//            console.log(o, k);
             o.draw();
         });
     }
 
-    $scope.clear = function () {
-        $scope.canvas.getContext('2d').clearRect(0, 0, $scope.canvas.width, $scope.canvas.height);
+
+    this.clear = function () {
+        this.canvas.getContext('2d').clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
 
-    $scope.drawDialog = function () {
-        var scale = $scope.getScale();
-        var bbox = $scope.canvas.getBoundingClientRect();
+    this.drawDialog = function () {
+        var scale = this.getScale();
+        var bbox = this.canvas.getBoundingClientRect();
         $('.canvas-dialog').css({
-            width: Math.ceil($scope.canvas.width / 2) + 'px',
-            marginLeft: '-'+Math.ceil($scope.canvas.width / 4)+'px',
-            //left: Math.ceil(bbox.left + $scope.canvas.width / 2 - $('.canvas-dialog').width() / 2) + 'px',
+            width: Math.ceil(this.canvas.width / 2) + 'px',
+            marginLeft: '-'+Math.ceil(this.canvas.width / 4)+'px',
+            //left: Math.ceil(bbox.left + this.canvas.width / 2 - $('.canvas-dialog').width() / 2) + 'px',
             top: Math.ceil(100 * scale) + 'px',
-            maxWidth: Math.ceil($scope.canvas.width / 2) + 'px',
+            maxWidth: Math.ceil(this.canvas.width / 2) + 'px',
             fontSize: Math.ceil(24 * scale) + 'px'
         });
     }
 
-    $scope.canvas = document.getElementById('canvas');
-
-    $scope.figures = {};
-    $scope.figures.arrows = new app.Arrows();
-    $scope.figures.h2o = new app.H2OBarrel();
-    $scope.figures.ph = new app.pHBarrel();
-    $scope.figures.cl = new app.ClBarrel();
-    $scope.figures.watercounter = new app.WaterCounter();
-    $scope.figures.exchanger = new app.Exchanger();
-    $scope.figures.other = new app.Other();
-
-    _.each($scope.figures, function (o, k) {
-        o.setScope($scope, k);
-    });
-
-    $scope.initScreen();
-    $scope.draw();
-    $scope.drawDialog();
-
-    $(window).resize(function(){
-        $scope.initScreen();
-        $scope.clear();
-        $scope.draw();
-        $scope.drawDialog();
-    });
-
-
-    $('.canvas-dialog').on('click', function(){
-        if($scope.hideDialog == false) {
-            $('.canvas-dialog').hide();
-            $('.container-main').removeClass('overlay');
-            $scope.hideDialog = true;
-        }
-    });
-
-
-
-    var dataNamesMap = {
-        'trm1': 'exchanger',
-        'ph': 'ph',
-        'orp': 'cl'
-    };
-    var alarmNamesMap = {
-        'relay1': 'ph',
-        'relay2': 'cl'
-    };
-
-
-
-    /*$scope.socket = io.connect('http://'+window.location.hostname+':8085');
-    $scope.socket.on('connect', function(socket) {
-        // console.log('connect');
-    });
-    $scope.socket.on('error', function(socket) {
-        // console.log('error');
-    });
-    $scope.socket.on('disconnect', function(socket) {
-        // console.log('disconnect');
-    });
-
-    $scope.socket.on('onDataRead', function (data) {
-        if(dataNamesMap[data.name] != undefined) {
-            $scope.figures[dataNamesMap[data.name]].setValue(data.value);
-        }
-        if(alarmNamesMap[data.name] != undefined) {
-            $scope.figures[alarmNamesMap[data.name]].setAlarmValue(data.value, data.name);
-        }
-        //                console.log(data);
-    });
-
-    $(window).blur(function(){
-        $scope.socket.disconnect();
-    });
-    $(window).focus(function(){
-        $scope.socket.socket.connect();
-    });*/
-
-    var REQ_TIME = 1000;
-    $scope.mainTimerCb = function(){
-        $.ajax({
-            dataType: "json",
-            url: '/api/api.php',
-            success: function(allData){
-                _.each(allData, function(data){
-                    //                console.log(data.name, dataNamesMap);
-                    if(dataNamesMap[data.name] != undefined) {
-                        $scope.figures[dataNamesMap[data.name]].setValue(parseFloat(data.value));
-                    }
-                    if(alarmNamesMap[data.name] != undefined) {
-                        $scope.figures[alarmNamesMap[data.name]].setAlarmValue(data.value, data.name);
-                    }
-                });
-            }
-        });
-        $scope.mainTimer = setTimeout($scope.mainTimerCb, REQ_TIME);
-    };
-    $scope.mainTimer = setTimeout($scope.mainTimerCb, REQ_TIME);
-
-    $(window).blur(function(){
-        clearTimeout($scope.mainTimer);
-    });
-    $(window).focus(function(){
-        $scope.mainTimer = setTimeout($scope.mainTimerCb, REQ_TIME);
-    });
-
-    return app;
-});
+};

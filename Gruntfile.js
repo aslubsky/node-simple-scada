@@ -7,66 +7,34 @@ module.exports = function (grunt) {
                     {
                         expand: true,
                         src: [
+                            'app/**',
                             'assets/**',
                             'favicon.png'
                         ],
                         dest: 'build/'
                     }
                 ]
-            },
-            socketio: {
-                files: [
-                    {
-                        expand: true,
-                        src: [
-                            'app/vendors/socket.io.min.js'
-                        ],
-                        rename: function(dest, src) {
-                            return dest + 'socket-io.js';
-                        },
-                        dest: 'build/'
-                    }
-                ]
             }
         },
-        requirejs: {
-            frontend: {
-                options: {
-                    baseUrl: './app',
-                    optimize: 'none',
-                    preserveLicenseComments: false,
-                    useStrict: true,
-                    wrap: {
-                        start: "(function() {",
-                        end: "require(['app']) }());"
-                    },
-                    mainConfigFile: './app/app-bootstrap.js',
-                    name: 'app',
-                    include: [],
-                    exclude: ['./vendors/socket.io.min.js'],
-                    out: 'build/main.js'
-                }
-            }
-        },
-        uglify: {
-            requirejs: {
-                src: ['bower_components/requirejs/require.js'],
-                dest: '<%= build_dir %>/r.js'
-            },
-            frontend: {
-                src: ['<%= build_dir %>/main.js'],
-                dest: '<%= build_dir %>/main.js'
-            },
-            options: {
-                banner: '/*! <%= banner %> */\n',
-                compress: false,
-                mangle: false,
-                preserveComments: false,
-                beautify: {
-                    ascii_only: true
-                }
-            }
-        },
+//        uglify: {
+//            requirejs: {
+//                src: ['bower_components/requirejs/require.js'],
+//                dest: '<%= build_dir %>/r.js'
+//            },
+//            frontend: {
+//                src: ['<%= build_dir %>/main.js'],
+//                dest: '<%= build_dir %>/main.js'
+//            },
+//            options: {
+//                banner: '/*! <%= banner %> */\n',
+//                compress: false,
+//                mangle: false,
+//                preserveComments: false,
+//                beautify: {
+//                    ascii_only: true
+//                }
+//            }
+//        },
         watch: {
             css: {
                 files: '*',
@@ -80,7 +48,7 @@ module.exports = function (grunt) {
             dev: {
                 options: {
                     hostname: '127.0.0.1',
-                    port: 8081
+                    port: 8080
                 }
             }
         },
@@ -97,19 +65,19 @@ module.exports = function (grunt) {
                     collapseWhitespace: true
                 }
             }
-        },
-        replace: {
-            default: {
-                src: 'build/index.html',
-                overwrite: true,
-                replacements: [
-                    {
-                        from: /<script src="(.*)\/require.js"(.*)><\/script>/gm,
-                        to: '<script src="/r.js" data-main="main"></script>'
-                    }
-                ]
-            }
         }
+//        replace: {
+//            default: {
+//                src: 'build/index.html',
+//                overwrite: true,
+//                replacements: [
+//                    {
+//                        from: /<script src="(.*)\/require.js"(.*)><\/script>/gm,
+//                        to: '<script src="r.js" data-main="main"></script>'
+//                    }
+//                ]
+//            }
+//        }
     });
     grunt.loadNpmTasks('grunt-contrib-htmlmin');
     grunt.loadNpmTasks('grunt-contrib-copy');
@@ -130,9 +98,9 @@ module.exports = function (grunt) {
 //        'ngTemplateCache',
 //        'less:theme',
         'copy',
-        'requirejs',
-        'uglify',
-        'htmlmin',
-        'replace'
+//        'requirejs',
+//        'uglify',
+        'htmlmin'
+//        'replace'
     ]);
 };
