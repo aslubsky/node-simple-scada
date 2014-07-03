@@ -2,6 +2,7 @@ function ClBarrel() {
     this.draws = [];
     var self = this;
     this.color = '#D9D4D3';
+    this.textColor = '#D9D4D3';
     this.value = 0;
     this.alarmValue = null;
     this.name = '';
@@ -39,18 +40,20 @@ function ClBarrel() {
     });
 
     this.onDialog = function () {
-        $('.canvas-dialog').text('Cl: '+this.value);
+//        $('.canvas-dialog').text('Cl: '+this.value);
     }
 
     this.onDrawStop = function() {
         $('.t3').css({
-            left: Math.ceil(384*self.getScale())+'px',
+            left: Math.ceil(382*self.getScale())+'px',
             top: Math.ceil(225*self.getScale())+'px',
-            color: self.color,
-            'font-size': Math.ceil(24*self.getScale())+'px'
-        }).on('click', function(e){
-            self.onSelect(e);
-        });
+            color: self.textColor,
+            'font-size': Math.ceil(16*self.getScale())+'px'
+        })
+        .html('Cl<br/>' + this.value);
+//            .on('click', function(e){
+//            self.onSelect(e);
+//        });
     }
 }
 

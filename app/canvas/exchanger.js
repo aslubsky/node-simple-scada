@@ -2,6 +2,7 @@ function Exchanger() {
     this.draws = [];
     var self = this;
     this.color = '#D9D4D3';
+    this.textColor = '#D9D4D3';
     this.value = 0;
     this.name = '';
 
@@ -34,7 +35,7 @@ function Exchanger() {
     });
 
     this.onDialog = function () {
-        $('.canvas-dialog').text('Температура: '+this.value);
+//        $('.canvas-dialog').text('Температура: '+this.value);
     }
 
     this.onDrawStart = function () {
@@ -46,6 +47,14 @@ function Exchanger() {
         this.ctx.fillStyle = "transparent";
         this.ctx.strokeStyle = this.color;
         this.color = '#D9D4D3';
+
+        $('.t4').css({
+            left: Math.ceil(304*self.getScale())+'px',
+            top: Math.ceil(40*self.getScale())+'px',
+            color: self.textColor,
+            'font-size': Math.ceil(16*self.getScale())+'px'
+        })
+            .html(this.value+' °C');
     }
 }
 

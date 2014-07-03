@@ -95,9 +95,12 @@ Figure.prototype.inFigure = function(mouse) {
 
 Figure.prototype.setValue = function(value) {
     this.value = value;
-    if(this.$scope.hideDialog == false && this.$scope.dialogName == this.name) {
-        this.onDialog();
-    }
+//    if(this.$scope.hideDialog == false && this.$scope.dialogName == this.name) {
+//        this.onDialog();
+//    }
+}
+Figure.prototype.setTextColor = function(textColor) {
+    this.textColor = textColor;
 }
 
 Figure.prototype.setAlarmValue = function(value, dsName) {

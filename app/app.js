@@ -47,6 +47,7 @@ var App = function() {
     // 'load', 'deviceready', 'offline', and 'online'.
     this.bindEvents = function() {
         document.addEventListener('deviceready', this.onDeviceReady, false);
+//        $(this.onDeviceReady);
     }
 
     this.onDeviceReady =  function() {
@@ -60,6 +61,9 @@ var App = function() {
         self.mainTimer = setTimeout(self.mainTimerCb, self.REQ_TIME);
     }
 
+    this.formatNumber = function (val) {
+        return parseFloat(val.substring(0, 4));
+    }
     this.mainTimerCb = function () {
         $.ajax({
             dataType: "jsonp",
@@ -68,7 +72,9 @@ var App = function() {
                 $.each(allData, function(k, data){
                     //                console.log(data.name, dataNamesMap);
                     if(self.dataNamesMap[data.name] != undefined) {
-                        self.figures[self.dataNamesMap[data.name]].setValue(parseFloat(data.value));
+                        self.figures[self.dataNamesMap[data.name]].setValue(self.formatNumber(data.value));
+                        self.figures[self.dataNamesMap[data.name]].setTextColor(self.formatNumber(data.value));
+                        self.figures[self.dataNamesMap[data.name]].onDrawStop();
                     }
                     if(self.alarmNamesMap[data.name] != undefined) {
                         self.figures[self.alarmNamesMap[data.name]].setAlarmValue(data.value, data.name);

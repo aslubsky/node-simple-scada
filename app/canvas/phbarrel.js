@@ -1,6 +1,7 @@
 function pHBarrel() {
     this.draws = [];
     this.color = '#D9D4D3';
+    this.textColor = '#D9D4D3';
     var self = this;
     this.value = 0;
     this.alarmValue = null;
@@ -39,18 +40,21 @@ function pHBarrel() {
     });
 
     this.onDialog = function () {
-        $('.canvas-dialog').text('pH: '+this.value);
+//        $('.canvas-dialog').text('pH: '+this.value);
     }
 
     this.onDrawStop = function() {
+//        this.value = 10.5;
         $('.t2').css({
-            left: Math.ceil(284*self.getScale())+'px',
+            left: Math.ceil(282*self.getScale())+'px',
             top: Math.ceil(225*self.getScale())+'px',
-            color: self.color,
-            'font-size': Math.ceil(24*self.getScale())+'px'
-        }).on('click', function(e){
-            self.onSelect(e);
-        });
+            color: self.textColor,
+            'font-size': Math.ceil(16*self.getScale())+'px'
+        })
+        .html('pH<br/>' + this.value);
+//        .on('click', function(e){
+//            self.onSelect(e);
+//        });
     }
 }
 

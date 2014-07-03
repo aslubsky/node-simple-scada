@@ -33,9 +33,16 @@ body {
 }
 .canvas-text {
     font-family: verdana;
+    text-align: center;
     color: #D9D4D3;
     position: absolute;
     cursor: pointer;
+}
+.canvas-text.t4 {
+    background: url("../img/pw_maze_black.png") repeat scroll 0 0 transparent;
+    border: 2px solid #D9D4D3;
+    border-radius: 5px;
+    padding: 5px;
 }
 .canvas-dialog {
     background: url("../img/pw_maze_black.png") repeat scroll 0 0 transparent;
