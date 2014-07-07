@@ -31,7 +31,7 @@ function Arrows() {
             pos: 0,
             limit: 2,
             clear: function (ctx) {
-                ctx.clearRect(239, 37, 20, 33);
+                ctx.clearRect(239, 37, 20, 34);
             },
             draw: function(ctx) {
                 ctx.moveTo(241 + (8 * this.pos), 38);
@@ -43,11 +43,11 @@ function Arrows() {
             pos: 0,
             limit: 4,
             clear: function (ctx) {
-                ctx.clearRect(412, 39, 38, 34);
+                ctx.clearRect(415, 37, 35, 34);
             },
             draw: function(ctx) {
                 ctx.moveTo(412 + (8 * this.pos), 38);
-                ctx.lineTo(412 + (8 * this.pos), 71);
+                ctx.lineTo(412 + (8 * this.pos), 70);
             }
         }
     ];
@@ -148,8 +148,8 @@ function Arrows() {
         this.ctx.lineTo(451, 20);
         this.ctx.lineTo(476, 55);
         this.ctx.lineTo(451, 90);
-        this.ctx.lineTo(451, 70);
-        this.ctx.lineTo(413, 70);
+        this.ctx.lineTo(451, 69);
+        this.ctx.lineTo(413, 69);
         this.ctx.closePath();
         this.ctx.fill();
     });

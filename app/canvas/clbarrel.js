@@ -45,8 +45,8 @@ function ClBarrel() {
 
     this.onDrawStop = function() {
         $('.t31').css({
-            left: Math.ceil(388*self.getScale())+'px',
-            top: Math.ceil(192*self.getScale())+'px',
+            left: Math.ceil(380*self.getScale())+'px',
+            top: Math.ceil(193*self.getScale())+'px',
             color: self.textColor,
             'font-size': Math.ceil(16*self.getScale())+'px'
         })

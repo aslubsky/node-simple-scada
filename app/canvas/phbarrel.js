@@ -47,7 +47,7 @@ function pHBarrel() {
 //        this.value = 10.5;
         $('.t21').css({
             left: Math.ceil(288*self.getScale())+'px',
-            top: Math.ceil(192*self.getScale())+'px',
+            top: Math.ceil(193*self.getScale())+'px',
             color: self.textColor,
             'font-size': Math.ceil(16*self.getScale())+'px'
         })
