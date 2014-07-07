@@ -44,14 +44,20 @@ function ClBarrel() {
     }
 
     this.onDrawStop = function() {
-        $('.t3').css({
-            left: Math.ceil(382*self.getScale())+'px',
-            top: Math.ceil(225*self.getScale())+'px',
+        $('.t31').css({
+            left: Math.ceil(388*self.getScale())+'px',
+            top: Math.ceil(192*self.getScale())+'px',
             color: self.textColor,
             'font-size': Math.ceil(16*self.getScale())+'px'
         })
-        .html('Cl<br/>' + this.value);
-//            .on('click', function(e){
+        $('.t32').css({
+            left: Math.ceil(382*self.getScale())+'px',
+            top: Math.ceil(230*self.getScale())+'px',
+            color: self.textColor,
+            'font-size': Math.ceil(16*self.getScale())+'px'
+        })
+            .text(this.value);
+//        .on('click', function(e){
 //            self.onSelect(e);
 //        });
     }

@@ -48,6 +48,17 @@ var App = function() {
     this.bindEvents = function() {
         document.addEventListener('deviceready', this.onDeviceReady, false);
 //        $(this.onDeviceReady);
+
+        document.addEventListener('online', function(){
+            $.each(self.figures, function (k, o) {
+                o.showAnimation = true;
+            });
+        }, false);
+        document.addEventListener('offline', function(){
+            $.each(self.figures, function (k, o) {
+                o.showAnimation = false;
+            });
+        }, false);
     }
 
     this.onDeviceReady =  function() {
@@ -57,7 +68,7 @@ var App = function() {
         });
         self.initScreen();
         self.draw();
-        self.drawDialog();
+//        self.drawDialog();
         self.mainTimer = setTimeout(self.mainTimerCb, self.REQ_TIME);
     }
 
@@ -73,7 +84,8 @@ var App = function() {
                     //                console.log(data.name, dataNamesMap);
                     if(self.dataNamesMap[data.name] != undefined) {
                         self.figures[self.dataNamesMap[data.name]].setValue(self.formatNumber(data.value));
-                        self.figures[self.dataNamesMap[data.name]].setTextColor(self.formatNumber(data.value));
+                        data.color = 'red';
+                        self.figures[self.dataNamesMap[data.name]].setTextColor(data.color);
                         self.figures[self.dataNamesMap[data.name]].onDrawStop();
                     }
                     if(self.alarmNamesMap[data.name] != undefined) {

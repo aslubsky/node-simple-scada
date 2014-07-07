@@ -45,13 +45,19 @@ function pHBarrel() {
 
     this.onDrawStop = function() {
 //        this.value = 10.5;
-        $('.t2').css({
-            left: Math.ceil(282*self.getScale())+'px',
-            top: Math.ceil(225*self.getScale())+'px',
+        $('.t21').css({
+            left: Math.ceil(288*self.getScale())+'px',
+            top: Math.ceil(192*self.getScale())+'px',
             color: self.textColor,
             'font-size': Math.ceil(16*self.getScale())+'px'
         })
-        .html('pH<br/>' + this.value);
+        $('.t22').css({
+            left: Math.ceil(282*self.getScale())+'px',
+            top: Math.ceil(230*self.getScale())+'px',
+            color: self.textColor,
+            'font-size': Math.ceil(16*self.getScale())+'px'
+        })
+        .text(this.value);
 //        .on('click', function(e){
 //            self.onSelect(e);
 //        });

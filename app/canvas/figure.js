@@ -16,6 +16,8 @@ Figure.prototype.onDrawStart = function() {
 }
 Figure.prototype.onDrawStop = function() {
 }
+Figure.prototype.onAnimationStart = function() {
+}
 Figure.prototype.draw = function() {
     this.ctx.save();
     var i = 0;
@@ -30,6 +32,8 @@ Figure.prototype.draw = function() {
     this.ctx.miterLimit = this.getMiterLimit();
     this.ctx.fillStyle = "transparent";
     this.ctx.strokeStyle = this.color;
+
+    this.onAnimationStart();
 
     for (; i < l; i++) {
         this.draws[i].apply(this);
@@ -132,17 +136,17 @@ Figure.prototype.getColorAlarm = function() {
     return 'red';
 }
 Figure.prototype.onSelect = function (e) {
-    var mouse = this.getPosition(e);
+    //var mouse = this.getPosition(e);
     //console.log(e, this.name);
-    // console.log(e, mouse, this.inFigure(mouse));
-    if (this.inFigure(mouse)) {
-        // console.log('OK');
-        this.$scope.dialogName = this.name;
-        this.$scope.hideDialog = false;
-        $('.canvas-dialog').show();
-        $('.container-main').addClass('overlay');
-        this.onDialog();
-    }
+//    // console.log(e, mouse, this.inFigure(mouse));
+//    if (this.inFigure(mouse)) {
+//        // console.log('OK');
+//        this.$scope.dialogName = this.name;
+//        this.$scope.hideDialog = false;
+//        $('.canvas-dialog').show();
+//        $('.container-main').addClass('overlay');
+//        this.onDialog();
+//    }
 }
 Figure.prototype.onDialog = function () {
 }
