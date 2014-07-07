@@ -31,7 +31,7 @@ function Arrows() {
             pos: 0,
             limit: 2,
             clear: function (ctx) {
-                ctx.clearRect(239, 38, 20, 32);
+                ctx.clearRect(239, 37, 20, 33);
             },
             draw: function(ctx) {
                 ctx.moveTo(241 + (8 * this.pos), 38);
@@ -43,7 +43,7 @@ function Arrows() {
             pos: 0,
             limit: 4,
             clear: function (ctx) {
-                ctx.clearRect(412, 38, 38, 33);
+                ctx.clearRect(412, 39, 38, 34);
             },
             draw: function(ctx) {
                 ctx.moveTo(412 + (8 * this.pos), 38);

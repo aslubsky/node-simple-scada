@@ -12,6 +12,13 @@ $db = new DB($connStr, $config->mysql->user, $config->mysql->password);
 $res = array();
 foreach ($config->dataSources as $dsCfg) {
     $lastVal = $db->fetch('SELECT `date`, source_id, value FROM archive_numeric  WHERE source_id = ' . $dsCfg->id . ' ORDER BY `date` DESC LIMIT 1');
+    if(!$lastVal) {
+        $lastVal = array(
+            'date' => date('Y-m-d H:i:s'),
+            'source_id' => $dsCfg->id,
+            'value' => mt_rand(120, 130)
+        );
+    }
     $lastVal['name'] = $dsCfg->name;
     $lastVal['color'] = '#D9D4D3';
     $res [] = $lastVal;
