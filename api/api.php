@@ -16,7 +16,7 @@ foreach ($config->dataSources as $dsCfg) {
         $lastVal = array(
             'date' => date('Y-m-d H:i:s'),
             'source_id' => $dsCfg->id,
-            'value' => mt_rand(1200, 1300)/10
+            'value' => (mt_rand(1200, 1300)/10).""
         );
     }
     $lastVal['name'] = $dsCfg->name;
