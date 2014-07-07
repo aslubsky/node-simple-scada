@@ -13,8 +13,11 @@ $res = array();
 foreach ($config->dataSources as $dsCfg) {
     $lastVal = $db->fetch('SELECT `date`, source_id, value FROM archive_numeric  WHERE source_id = ' . $dsCfg->id . ' ORDER BY `date` DESC LIMIT 1');
     $lastVal['name'] = $dsCfg->name;
+    $lastVal['color'] = '#D9D4D3';
     $res [] = $lastVal;
 }
+
+//function getColor($dsCfg, $value)
 
 echo $_GET['callback'] . '(' . json_encode($res) . ')';
 //print_r($db->fetchAll('SELECT `date`, source_id, value FROM archive_numeric ORDER BY `date` DESC LIMIT 1'));

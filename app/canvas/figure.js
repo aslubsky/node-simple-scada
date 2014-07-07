@@ -18,6 +18,10 @@ Figure.prototype.onDrawStop = function() {
 }
 Figure.prototype.onAnimationStart = function() {
 }
+Figure.prototype.onAnimationStop = function() {
+    clearTimeout(this.animationTimer);
+    this.animationTimer = null;
+}
 Figure.prototype.draw = function() {
     this.ctx.save();
     var i = 0;
@@ -33,6 +37,7 @@ Figure.prototype.draw = function() {
     this.ctx.fillStyle = "transparent";
     this.ctx.strokeStyle = this.color;
 
+    this.onAnimationStop();
     this.onAnimationStart();
 
     for (; i < l; i++) {

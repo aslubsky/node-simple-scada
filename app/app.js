@@ -1,4 +1,4 @@
-var App = function() {
+var App = function () {
     var self = this;
 
     this.REQ_TIME = 1000;
@@ -16,7 +16,7 @@ var App = function() {
     this.hideDialog = true;
 
     // Application Constructor
-    this.initialize = function() {
+    this.initialize = function () {
         this.bindEvents();
 
         this.canvas = document.getElementById('canvas');
@@ -35,8 +35,8 @@ var App = function() {
             o.setScope(self, k);
         });
 
-        $('.canvas-dialog').on('click', function(){
-            if(self.hideDialog == false) {
+        $('.canvas-dialog').on('click', function () {
+            if (self.hideDialog == false) {
                 $('.canvas-dialog').hide();
                 $('.container-main').removeClass('overlay');
                 self.hideDialog = true;
@@ -45,30 +45,57 @@ var App = function() {
     }
 
     // 'load', 'deviceready', 'offline', and 'online'.
-    this.bindEvents = function() {
+    this.bindEvents = function () {
         document.addEventListener('deviceready', this.onDeviceReady, false);
+        document.addEventListener('resume', function(){
+            self.mainTimer = setTimeout(self.mainTimerCb, self.REQ_TIME);
+            self.reDraw();
+        }, false);
+        document.addEventListener('pause', function(){
+            clearTimeout(self.mainTimer);
+            self.mainTimer = null;
+        }, false);
+//        document.addEventListener("throttledresize", this.onDeviceReady, false);
+//        document.addEventListener("orientationchange", this.onDeviceReady, false);
 //        $(this.onDeviceReady);
 
-        document.addEventListener('online', function(){
-            $.each(self.figures, function (k, o) {
-                o.showAnimation = true;
-            });
-        }, false);
-        document.addEventListener('offline', function(){
-            $.each(self.figures, function (k, o) {
-                o.showAnimation = false;
-            });
-        }, false);
+//        document.addEventListener('online', function () {
+//            self.clear();
+//            $.each(self.figures, function (k, o) {
+//                o.showAnimation = true;
+//            });
+//            self.onDeviceReady();
+//        }, false);
+//        document.addEventListener('offline', function () {
+//            self.clear();
+//            $.each(self.figures, function (k, o) {
+//                o.showAnimation = false;
+//                o.onAnimationStop();
+//            });
+//            self.onDeviceReady();
+//        }, false);
+
+        $(window).resize(function(){
+            self.reDraw();
+        });
     }
 
-    this.onDeviceReady =  function() {
-//        console.log('onDeviceReady');
-        $('.canvas-text').each(function(){
+    this.reDraw = function () {
+        this.clear();
+        $.each(this.figures, function (k, o) {
+            o.onAnimationStop();
+        });
+        this.initScreen();
+        this.draw();
+    }
+    this.onDeviceReady = function (e) {
+//        console.log('onDeviceReady', e);
+        $('.canvas-text').each(function () {
             FastClick.attach(this);
         });
-        self.initScreen();
-        self.draw();
-//        self.drawDialog();
+        setTimeout(function(){
+            self.reDraw();
+        }, 200);
         self.mainTimer = setTimeout(self.mainTimerCb, self.REQ_TIME);
     }
 
@@ -79,16 +106,15 @@ var App = function() {
         $.ajax({
             dataType: "jsonp",
             url: 'http://s.equalteam.net/api/api.php',
-            success: function(allData){
-                $.each(allData, function(k, data){
+            success: function (allData) {
+                $.each(allData, function (k, data) {
                     //                console.log(data.name, dataNamesMap);
-                    if(self.dataNamesMap[data.name] != undefined) {
+                    if (self.dataNamesMap[data.name] != undefined) {
                         self.figures[self.dataNamesMap[data.name]].setValue(self.formatNumber(data.value));
-                        data.color = 'red';
                         self.figures[self.dataNamesMap[data.name]].setTextColor(data.color);
                         self.figures[self.dataNamesMap[data.name]].onDrawStop();
                     }
-                    if(self.alarmNamesMap[data.name] != undefined) {
+                    if (self.alarmNamesMap[data.name] != undefined) {
                         self.figures[self.alarmNamesMap[data.name]].setAlarmValue(data.value, data.name);
                     }
                 });
@@ -103,9 +129,9 @@ var App = function() {
         return 300;
     }
     this.getScale = function () {
-        var scale = ((window.innerWidth) / this.getOrigWidth());
-        if (this.getOrigHeight() * scale > (window.innerHeight)) {
-            scale = (window.innerHeight) / this.getOrigHeight();
+        var scale = ($(window).width() / this.getOrigWidth());
+        if (this.getOrigHeight() * scale > ($(window).height())) {
+            scale = ($(window).height()) / this.getOrigHeight();
         }
         return scale;
     }
@@ -119,10 +145,10 @@ var App = function() {
             width: this.canvas.width + 'px',
             height: this.canvas.height + 'px'
         });
-        if(this.canvas.height + 10 < window.innerHeight) {
-            var offset = Math.ceil((window.innerHeight - this.canvas.height - 2)/2);
+        if (this.canvas.height + 10 < window.innerHeight) {
+            var offset = Math.ceil((window.innerHeight - this.canvas.height - 2) / 2);
             $('#canvas-container').css({
-                'margin': offset+'px auto'
+                'margin': offset + 'px auto'
             });
         }
     }
@@ -143,7 +169,7 @@ var App = function() {
         var bbox = this.canvas.getBoundingClientRect();
         $('.canvas-dialog').css({
             width: Math.ceil(this.canvas.width / 2) + 'px',
-            marginLeft: '-'+Math.ceil(this.canvas.width / 4)+'px',
+            marginLeft: '-' + Math.ceil(this.canvas.width / 4) + 'px',
             //left: Math.ceil(bbox.left + this.canvas.width / 2 - $('.canvas-dialog').width() / 2) + 'px',
             top: Math.ceil(100 * scale) + 'px',
             maxWidth: Math.ceil(this.canvas.width / 2) + 'px',
