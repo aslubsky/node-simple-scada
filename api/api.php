@@ -38,6 +38,7 @@ foreach ($config->dataSources as $dsCfg) {
     $lastVal = array(
         'date' => date('Y-m-d H:i:s'),
         'source_id' => $dsCfg->id,
+        'name' => $dsCfg->name,
 //        'value' => (mt_rand(1200, 1300)/10).""
         'value' => '0'
     );
@@ -45,11 +46,10 @@ foreach ($config->dataSources as $dsCfg) {
     $date = $memcache->get('ds_d_'.$dsCfg->id);
     $value = $memcache->get('ds_v_'.$dsCfg->id);
     if($value !== false) {
-        $lastVa['date'] = $date;
-        $lastVa['value'] = $value;
+        $lastVal['date'] = $date;
+        $lastVal['value'] = $value;
     }
 
-    $lastVal['name'] = $dsCfg->name;
     $lastVal['color'] = '#D9D4D3';
     $res [] = $lastVal;
 }
