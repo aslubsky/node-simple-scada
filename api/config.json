@@ -6,6 +6,10 @@
         "password": "",
         "database": "scada_db"
     },
+    "memcached": {
+        "host": "localhost",
+        "port": 11211
+    },
     "dataSources": [
         {
             "id": 1,
